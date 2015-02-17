@@ -1,0 +1,96 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{infoBulle}[2015/02/17 info bulle par Yves ZUMBACH]
+
+\RequirePackage{calc}
+\RequirePackage[usenames, dvipsnames]{xcolor}
+\RequirePackage{mdframed}
+
+\DeclareOption{indent}{
+	\renewmdenv[
+		skipabove=4mm,
+		skipbelow=1mm,
+		innertopmargin=1mm,
+		innerbottommargin=1mm,
+		innerleftmargin=0mm,
+		innerrightmargin=0mm,
+		leftmargin=4mm,
+		rightline=false,
+		topline=false,
+		bottomline=false,
+		linewidth=1mm,
+		frametitlefont=\sffamily\bfseries
+	]{infoBulle}
+	\typeout{infoBulle is now indented}
+}
+
+\DeclareOption{noindent}{
+	\renewmdenv[
+		skipabove=4mm,
+		skipbelow=1mm,
+		innertopmargin=1mm,
+		innerbottommargin=1mm,
+		innerleftmargin=0mm,
+		innerrightmargin=0mm,
+		leftmargin=0mm,
+		rightline=false,
+		topline=false,
+		bottomline=false,
+		linewidth=1mm,
+		frametitlefont=\sffamily\bfseries
+	]{infoBulle}
+	\typeout{infoBulle is now desindented}
+}
+
+\DeclareOption*{%
+	\PackageWarning{infoBulle}{Unknown option: `\CurrentOption'}%
+}
+
+\ExecuteOptions{indent} % default options
+\ProcessOptions\relax
+
+
+%	Commandes infoBulle par Yves ZUMBACH
+%-----------------------------------------------------------------------
+
+%definition des couleurs
+\definecolor{image-blue}{RGB}{58, 115, 239}
+\definecolor{image-yellow}{RGB}{255, 165, 0}
+
+%Chemin des images
+\newcommand{\path}{images/}
+
+%environnement du corps de l’infoBulle
+\newmdenv[
+	default,
+	linewidth=0pt,
+]{content}
+
+%Couleur des lignes verticales en fonction du style d’infoBulle
+\mdfdefinestyle{normal}{linecolor=image-blue}
+\mdfdefinestyle{warning}{linecolor=image-yellow}
+\mdfdefinestyle{critical}{linecolor=red}
+
+%Formatage du titre
+\newcommand{\titleContent}[2]{
+	\hspace*{2mm}\begin{minipage}{.75cm}
+		\includegraphics[width=\linewidth]{\path #1}
+	\end{minipage}\hspace*{1mm}\begin{minipage}{\textwidth-1.05cm}
+			#2
+	\end{minipage}
+}
+
+%Squelette de la commande
+\newcommand{\infoBulleSkeleton}[4]{
+	\begin{infoBulle}[style=#1, frametitle=\titleContent{#2}{#3}]
+		\begin{content}
+			#4
+		\end{content}
+	\end{infoBulle}
+}
+
+%Specification de la commande en fonction de son type (normal, warning ou critical)
+\newcommand{\normalInfo}[2]{\infoBulleSkeleton{normal}{info.png}{#1}{#2}}
+\newcommand{\warningInfo}[2]{\infoBulleSkeleton{warning}{warning.png}{#1}{#2}}
+\newcommand{\criticalInfo}[2]{\infoBulleSkeleton{critical}{critical2.png}{#1}{#2}}
+
+\endinput
