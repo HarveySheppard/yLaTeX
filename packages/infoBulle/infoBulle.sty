@@ -71,7 +71,7 @@
 \mdfdefinestyle{critical}{linecolor=red}
 
 %Formatage du titre
-\newcommand{\titleContent}[2]{
+\newcommand{\@titleContent}[2]{
 	\hspace*{2mm}\begin{minipage}{.75cm}
 		\includegraphics[width=\linewidth]{\path #1}
 	\end{minipage}\hspace*{1mm}\begin{minipage}{\textwidth-1.05cm}
@@ -80,8 +80,9 @@
 }
 
 %Squelette de la commande
-\newcommand{\infoBulleSkeleton}[4]{
-	\begin{infoBulle}[style=#1, frametitle=\titleContent{#2}{#3}]
+\newcommand{\@infoBulleSkeleton}[4]{
+	\begin{infoBulle}[style=#1, frametitle=\@titleContent{#2}{#3}]
+		\vspace*{1mm} %empêche la minipage contenant l’image de voir sa partie inférieure masquée par le contenu de la bulle!
 		\begin{content}
 			#4
 		\end{content}
@@ -89,8 +90,8 @@
 }
 
 %Specification de la commande en fonction de son type (normal, warning ou critical)
-\newcommand{\normalInfo}[2]{\infoBulleSkeleton{normal}{info.png}{#1}{#2}}
-\newcommand{\warningInfo}[2]{\infoBulleSkeleton{warning}{warning.png}{#1}{#2}}
-\newcommand{\criticalInfo}[2]{\infoBulleSkeleton{critical}{critical2.png}{#1}{#2}}
+\newcommand{\normalInfo}[2]{\@infoBulleSkeleton{normal}{info.png}{#1}{#2}}
+\newcommand{\warningInfo}[2]{\@infoBulleSkeleton{warning}{warning.png}{#1}{#2}}
+\newcommand{\criticalInfo}[2]{\@infoBulleSkeleton{critical}{critical2.png}{#1}{#2}}
 
 \endinput
