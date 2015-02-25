@@ -1,8 +1,18 @@
 \documentclass[a4paper, 11pt]{article}
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
 \usepackage[francais]{babel}
-\usepackage{microtype} %améliore les espaces entre les mots et les lettres
+\usepackage{microtype} %améliore les espaces entre les mots et les lettres\usepackage{ifxetex}
+
+\ifxetex
+  \usepackage{fontspec}
+  \defaultfontfeatures{Ligatures=TeX} % To support LaTeX quoting style
+  \usepackage{xltxtra}
+  \setromanfont{Arial}
+  \setsansfont{Open Sans}
+  \usepackage[small,sf]{titlesec}
+\else
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\fi
 
 \usepackage{graphicx} % gère l'insertion d'image avec \includegraphics
 \usepackage{wrapfig} % pour pouvoir avoir du texte qui entoure une image
@@ -82,6 +92,7 @@
 %\setlength{\textheight}{23.7cm}
 \setlength{\footskip}{1.3cm}
 \usepackage[
+	dvips,
 	a4paper,
 	%width=15cm, %cohérent avec les valeurs de marges
 	%height=22cm,
