@@ -1,0 +1,273 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Basic configuration
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[a4paper, 10pt, oneside, fleqn]{report}
+\usepackage[no-math]{fontspec}
+
+\usepackage{polyglossia}
+\setdefaultlanguage{french}
+\setotherlanguages{english}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Various packages
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{microtype}
+\usepackage{calc}
+\usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
+\usepackage{setspace}
+\usepackage{tikz}
+
+\usepackage{infoBulle}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Layout
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[
+xetex,
+a4paper,
+ignoreheadfoot,
+left=3.5cm,
+right=2.7cm,
+top=3cm,
+bottom=3.5cm,
+nohead,
+marginparwidth=0cm,
+marginparsep=0mm
+]{geometry}
+\setlength{\skip\footins}{1cm}
+\setlength{\footnotesep}{2mm}
+\setlength{\parskip}{1ex}
+\setlength{\parindent}{0ex}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Colors
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\definecolor{lightGray}{RGB}{150, 150, 150}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Font
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\defaultfontfeatures{Ligatures=TeX}
+\frenchspacing
+% For source code
+\setmonofont{Source Code Pro Light}[
+	BoldFont=Source Code Pro,
+]
+% Normal font
+\setsansfont{Lato Light}[
+	Numbers=OldStyle,
+	BoldFont=Lato Regular,
+	ItalicFont=Lato Light Italic,
+	BoldItalicFont=Lato Italic
+]
+% Normal font
+\setmainfont{Lato Light}[
+	Numbers=OldStyle,
+	BoldFont=Lato Regular,
+	ItalicFont=Lato Light Italic,
+	BoldItalicFont=Lato Italic
+]
+% Font for section, subsection, subsubsection, etc
+\newfontfamily{\titlefont}{Lato Light}[
+	Numbers=OldStyle,
+	BoldFont=Lato Regular,
+	ItalicFont=Lato Light Italic,
+	BoldItalicFont=Lato Italic
+]
+% Font for chapter number
+\newfontfamily{\upperNumber}{Lato Light}[
+	BoldFont=Lato Regular,
+	ItalicFont=Lato Light Italic,
+	BoldItalicFont=Lato Italic
+]
+% Font for chapter title
+\newfontfamily{\chapterfont}{BIRTH OF A HERO}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Titling
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{titlesec}
+% Tiltling format (font size)
+\titleformat{\chapter}[display]
+	{}
+	{\titleBackground\thispagestyle{empty}\parbox{4cm}{\hfill\huge \chaptertitlename \hspace*{2mm}}}
+	{4pt}
+	{
+		\begin{minipage}[t]{4.7cm}
+			\mbox{}\\
+			\null\hfill\fontsize{6.5cm}{1ex}\selectfont\upperNumber{\color{White}\thechapter}
+		\end{minipage}
+		\hspace*{-5mm}
+		\begin{minipage}[t]{\textwidth-4cm}
+			\mbox{}\\
+			\vspace*{-1.1cm}
+			\begin{flushleft}
+				\begin{spacing}{5}
+					\fontsize{2cm}{1em}\selectfont\chapterfont
+	}[\end{spacing}\end{flushleft}\end{minipage}]
+
+\titleformat{name=\chapter, numberless}[display]
+	{}
+	{\titleBackground\thispagestyle{empty}}
+	{0pt}
+	{
+		\fontsize{2cm}{1em}\selectfont\chapterfont
+	}
+
+
+\titleformat*{\section}{\Huge\titlefont}
+\titleformat*{\subsection}{\huge\titlefont}
+\titleformat*{\subsubsection}{\LARGE\titlefont}
+
+%Titling spacing
+\titlespacing*{\chapter}{0mm}{0pt}{10pt}
+\titlespacing*{name=\chapter,numberless}{0pt}{10pt}{0pt} %starred version of chapter default: 0pt, 50pt, 40pt
+\titlespacing*{\section}{0mm}{4mm}{3mm}
+\titlespacing*{\subsection}{0mm}{3mm}{2mm}
+\titlespacing*{\subsubsection}{0mm}{2mm}{1.5mm}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		ToC and Mini-ToC
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{titletoc}
+\usepackage{framed}
+
+%		ToC
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newenvironment{tocChapterText}{
+	\def\FrameCommand{
+		\hspace*{5cm}
+	}
+	\MakeFramed{
+		\parshape 1 0cm .75\textwidth \relax\FrameRestore
+	}
+}{\endMakeFramed}
+\titlecontents{chapter}[0em]{\vspace*{1\baselineskip}}{
+	\parbox{4.1cm}{\hfill{\hypersetup{linkcolor=white}\fontsize{2.3cm}{1ex}\selectfont\color{White}\upperNumber\thecontentspage}\hspace*{3mm}}
+	\vspace*{-1.7cm}\tocChapterText{\large\chaptertitlename~\thecontentslabel}\\
+	\huge
+}{}{\endtocChapterText\vskip-5mm}
+
+%		Mini-ToC
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\makeatletter
+\newcommand{\printMiniToc}{
+	\vfill
+	\hspace*{3.3cm}\parbox[t]{\textwidth-4cm}{
+		\hspace*{-5mm}\raisebox{-1.5mm}{\includegraphics[width=.75cm]{\pathToInfoBulleImages tocInverted.png}}
+		\hspace*{5.5mm} {\huge{Sommaire}}
+		\vspace*{2mm}
+		\startcontents[chapters]
+		\hypersetup{linkcolor=black}
+		\begin{spacing}{1}
+			\printcontents[chapters]{p}{1}{\setcounter{tocdepth}{2}}
+		\end{spacing}
+	}
+	\vfill
+	\newpage
+}
+\makeatother
+
+%Redefining toc style so that it dont get indented in partialTocs
+\titlecontents{psection}[3em]
+{} {\large{\color{White}\bfseries\contentslabel{3.5em}}} {} {, \thecontentspage}
+
+\titlecontents{psubsection}[3em]
+{} {\large{\color{White}\bfseries\contentslabel{3.5em}}} {} {, \thecontentspage} %\contentslabel{4.2em} to right-align
+
+
+
+\newcommand{\titleBackground}{
+	\begin{tikzpicture}[remember picture, overlay]
+		\fill[fill=lightGray] (current page.south west) rectangle ++(7.5cm, \paperheight);
+	\end{tikzpicture}
+}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Links
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{hyperref}
+\hypersetup{
+	pdftoolbar=false,
+	pdfmenubar=true,
+	pdffitwindow=false,
+	pdfborder={1 1 0},
+	pdftitle={Travail de Maturité, Réalisation d'un jeu vidéo, par Yves ZUMBACH},
+	pdfauthor={Yves ZUMBACH},
+	pdfsubject={Réalisation pratique d'un jeu vidéo},
+	pdfcreator=LaTeX,
+	pdfkeywords={{video game}{Travail de maturité}},
+	colorlinks=true,
+	linkcolor=blue,
+	linktoc=all,
+	urlcolor=blue,
+	citecolor=blue,
+	filecolor=blue
+}
+
+
+
+
+\begin{document}
+	
+	
+	\titleBackground
+	{\hypersetup{linkcolor=black}
+		\setcounter{tocdepth}{0}
+		\begingroup
+			\let\clearpage\relax
+		
+			\tableofcontents
+		\endgroup
+	}
+	\newpage
+	
+	
+	\chapter{Introduction}
+	\printMiniToc
+	\section{Introduction}
+	\section{motivation}
+	\section{Logiciel}
+	\subsection{Libres}
+	\subsection{Propriétaires}
+	
+	\chapter{Création d'un univers}
+	\printMiniToc
+	\section{Introd}
+	\section{motivation}
+	\section{Logiciel}
+	\subsection{Libres}
+	\subsection{Propriétaires}
+	\section{Introd}
+	\section{motivation}
+	\section{Logiciel}
+	\subsection{Libres}
+	\subsection{Propriétaires}
+	
+	\chapter[Scénarioet level design]{Scénario\\et level design}	
+	
+	\chapter[Gameplay, ou la façon de jouer]{Gameplay,\\ou la façon de jouer}
+	
+	\chapter[Scénario et level design]{Scénario\\et level design}
+
+	\chapter[Gameplay, ou la façon de jouer]{Gameplay,\\ou la façon de jouer}
+	
+	\chapter[Scénario et level design]{Scénario\\et level design}
+	
+	\chapter[Gameplay, ou la façon de jouer]{Gameplay,\\ou la façon de jouer}
+	
+	\chapter[Scénario et level design]{Scénario\\et level design} 
+
+\end{document}
