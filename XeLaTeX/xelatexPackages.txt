@@ -83,7 +83,7 @@
 	a4paper,
 	ignoreheadfoot,
 	left=3.5cm,
-	right=2.7cm,
+	right=3.5cm,
 	top=3cm,
 	bottom=3.5cm,
 	nohead,
