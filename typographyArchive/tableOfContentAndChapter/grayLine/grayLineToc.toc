@@ -23,4 +23,5 @@
 \contentsline {chapter}{\numberline {7}Scénario et level design}{10}{chapter.7}
 \contentsline {chapter}{\numberline {8}Gameplay, ou la façon de jouer}{11}{chapter.8}
 \contentsline {chapter}{\numberline {9}Scénario et level design}{12}{chapter.9}
+\contentsline {chapter}{\numberline {10}Scénario et level design}{13}{chapter.10}
 \contentsfinish 

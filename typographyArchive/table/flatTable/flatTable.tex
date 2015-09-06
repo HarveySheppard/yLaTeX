@@ -7,14 +7,7 @@
 \usepackage{calc}
 \usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
 \usepackage{microtype}
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%		Don't copy
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage{csquotes}
-\newcommand{\anglicisme}[1]{\textenglish{\textit{#1}}}
 
 
 
@@ -77,7 +70,7 @@ BoldItalicFont=Lato Italic
 \usepackage{tabu}
 \usepackage{longtable}
 
-\definecolor{tableHeader}{RGB}{127, 12, 0}
+\definecolor{tableHeader}{RGB}{211, 47, 0}
 \definecolor{tableLineOne}{RGB}{245, 245, 245}
 \definecolor{tableLineTwo}{RGB}{224, 224, 224}
 
@@ -92,29 +85,14 @@ BoldItalicFont=Lato Italic
 	\tabulinesep = ^4mm_3mm
 	
 	
-\begin{table}
-	\newlength{\tableLength}
-	\setlength{\tableLength}{\textwidth+2cm}
-	\hspace{-1.9cm}\begin{tabu} to \tableLength {l X X X}
-		\rowfont{\bfseries\sffamily\leavevmode\color{white}}
-		\rowcolor{tableHeader}
-		Esprit & Description & Mots-clé & Apparence\\
-		Leo & Il est la destruction renouvelatrice, à la fois créateur et destructeur & Massif, sans distinction, abrupte, rapide, mort génératrice de vie & Golem, de pierre et de lave en bas, de pierre et d'eau en haut, avec un duvet de plante sur les épaules\\
-		Tamund & Il est l'intelligence aveugle, l'évolution lente & Évolution, lent, ciblé, mort des plus faibles & Grand séquoia aveugle\\
-		Tia & Elle est la vivacité sauvage et profite parfois sans pitié & Sauvage, vif, rapide, profiteur, sans-pitié, survie du plus adapté et mort des plus faibles & Écureuil avec des runes sur le dos\\
-	\end{tabu}
-	\caption{title}
-	\end{table}
-	
-	
 	\begin{table}[ht!]
-		\begin{tabu} to \textwidth {X X[1.2] X[1.2]}
+		\begin{tabu} to \textwidth {l X X[1.2] X[1.2] l }
 			\rowfont{\bfseries\sffamily\leavevmode\color{white}}
 			\rowcolor{tableHeader}
-			Ressource & Comment en gagner & Comment en perdre\\
-			Argent & Compléter des quêtes,\newline Dans les coffres & Achats\\
-			Énergie verte & Planter une graine,\newline Se régénère avec le temps & Utiliser la violence,\newline Lancer un sort\\
-			Coefficient de naturalité & Faire preuve de naturalité,\newline Compléter des sous-quêtes & Utiliser la violence\\
+			& Ressource & Comment en gagner & Comment en perdre & \\
+			& Argent & Compléter des quêtes,\newline Dans les coffres & Achats & \\
+			& Énergie verte & Planter une graine,\newline Se régénère avec le temps & Utiliser la violence,\newline Lancer un sort & \\
+			& Coefficient de naturalité & Faire preuve de naturalité,\newline Compléter des sous-quêtes & Utiliser la violence & \\
 		\end{tabu}
 		\caption{La gestion des ressources}
 	\end{table}
@@ -146,9 +124,9 @@ BoldItalicFont=Lato Italic
 		%
 		Screenshot & Anglicisme signifiant \enquote{capture d'écran}; autrement dit, une photo de ce qui s'affiche à l'écran.\\
 		%
-		Semi open-world & De l'anglais, \enquote{monde semi-ouvert}. C'est un niveau ou type de jeu dans lequel le joueur est libre de ses mouvements. Cependant des éléments du décor limitent la taille de l'univers. On trouvera, par exemple, des îles (la mer est l'élément bloquant), des villes fortifiées (les murailles sont les éléments bloquants) ou encore une maison dont on ne peut sortir. Les niveaux de type \anglicisme{alley} désigne exactement la même chose mais semi open-world ou open-world sont des termes que l'on peut entendre en français. Voir également la définition de \enquote{Open-world}\\
+		Semi open-world & De l'anglais, \enquote{monde semi-ouvert}. C'est un niveau ou type de jeu dans lequel le joueur est libre de ses mouvements. Cependant des éléments du décor limitent la taille de l'univers. On trouvera, par exemple, des îles (la mer est l'élément bloquant), des villes fortifiées (les murailles sont les éléments bloquants) ou encore une maison dont on ne peut sortir. Les niveaux de type alley désigne exactement la même chose mais semi open-world ou open-world sont des termes que l'on peut entendre en français. Voir également la définition de \enquote{Open-world}\\
 		%
-		Succès & Traduction de \anglicisme{achievement}, ce sont des récompenses honorifiques attribuées au joueur à l'accomplissement d'un tâche donnée, d'objectifs supplémentaires, etc.\\
+		Succès & Traduction de achievement, ce sont des récompenses honorifiques attribuées au joueur à l'accomplissement d'un tâche donnée, d'objectifs supplémentaires, etc.\\
 		%
 		Story-telling & Anglicisme; décrit l'art de raconter une histoire efficacement. Cela inclut par exemple: le point de vue narratif, l'intrigue, les personnages mais aussi l'intonation, les gestes, etc. Dans le cadre d'un jeu vidéo, cela décrira les techniques narratives, les libertés laissées au joueur, etc.\\
 		%
