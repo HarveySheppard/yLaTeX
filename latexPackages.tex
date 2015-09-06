@@ -1,0 +1,138 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Global definition
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[a4paper, 11pt]{article}
+\usepackage[francais]{babel}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Basic packages
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{microtype} % improve spacings in text
+\usepackage{graphicx} % images with \includegraphics
+\usepackage{wrapfig} % text around image
+\usepackage{csquotes} % quote \enquote{text}
+%\usepackage[usenames,dvipsnames,svgnames,table]{xcolor} % lots of colors
+%\usepackage{amsmath, amsfonts, amssymb} % activate if you are doing some serious maths
+%\usepackage[squaren,Gray]{SIunits} % correct typesetting of units
+%\usepackage{calc} % make calculation (\textwidth- 2in)
+%\usepackage{setspace} % \begin{spacing}{factor}
+%\usepackage{listings} % code coloring
+%\usepackage{verbatim} % easily cite LaTeX code \begin{verbatim} et \begin{comment}
+%\usepackage[normalem]{ulem} % allow underlining (\uline)
+%\usepackage{appendix} % Advanced gesture of appendices
+%\usepackage{blindtext} % lorem ipsum... command: \blindtext
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Metadata and links
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{hyperref} % also add the \url{} command
+\hypersetup{
+	%pdftoolbar=false,
+	%pdfmenubar=true,
+	%pdffitwindow=false,
+	%pdftitle={},
+	%pdfsubject={Your title},
+	%pdfkeywords={{keyword 1}{keyword 2}},
+	pdfborder={1 1 0},
+	pdfauthor={Your name},
+	pdfcreator=LaTeX,
+	colorlinks=true,
+	linkcolor=blue,
+	linktoc=all,
+	urlcolor=blue,
+	citecolor=blue,
+	filecolor=blue
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Tables
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{booktabs} % way better tables (commands added: \toprule, \midrule, \cmidrule, \bottomrule)
+%\renewcommand{\arraystretch}{1.2} % add more space to table line
+%\usepackage{tabularx} % defined width tables (\begin{tabularx}{width}{columns})
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Bibliography
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\usepackage[backend=biber]{biblatex} % use \printbibliography where you want to print it
+%\addbibresource{mabiblio.bib}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Index
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\usepackage{makeidx} % creates indexes: \printindex to print, \index{word} to add a word to the index
+%\makeindex
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Tikz
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\usepackage{tikz} % figures creation
+%\usetikzlibrary{arrows, shapes}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Layout
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[
+	dvips,
+	a4paper,
+	ignoreheadfoot,
+	vcentering,
+	hmargin=3cm,
+	vmargin=3.8cm
+]{geometry}
+
+\setlength{\footskip}{1.3cm}
+\setlength{\headsep}{.8cm} %Distance entre le header et le texte
+\setlength{\headheight}{13.6pt} %hauteur du header
+\setlength{\parskip}{1em} %espace en dessus du paragraphe (entre paragraphes)
+\setlength{\parindent}{0pt}  %la longeur de l'alinéa au début des paragraphes
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Headers
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\usepackage{fancyhdr} % pour les headers personnalisés
+%\pagestyle{fancy}
+%\renewcommand{\headrulewidth}{0pt}
+%\fancyhead[L]{\leftmark}
+%\fancyhead[R]{Your \textsc{Name}}
+%\fancyfoot[C]{\thepage}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Fonts
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{lmodern}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Document title
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\title{}
+\author{Your \textsc{Name}}
+\date{}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Document
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\maketitle
+
+{\hypersetup{linkcolor=black}
+\tableofcontents}
+\newpage
+
+
+\end{document}
+
+

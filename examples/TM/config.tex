@@ -1,0 +1,414 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Basic configuration
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[a4paper, 10pt, oneside, fleqn]{report}
+\usepackage[no-math]{fontspec}
+
+\usepackage{polyglossia}
+\setdefaultlanguage{french}
+\setotherlanguages{english}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Various packages
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{metalogo} % typeset xelatex!
+\usepackage{microtype}
+\usepackage{graphicx}
+\usepackage{subfig}
+\usepackage{wrapfig}
+\usepackage{float}
+\usepackage[german=swiss]{csquotes}
+\usepackage{calc}
+\usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
+% \usepackage{fancyhdr}
+\usepackage{amsmath, amsfonts, amssymb}
+\usepackage{setspace}
+\usepackage{appendix}
+\usepackage{siunitx}
+\usepackage{nameref} % pour pouvoir citer le titre des chapitres avec \nameref{ref}
+
+\usepackage{mdframed}
+\usepackage{listings}
+
+% My packages
+\usepackage{infoBulle}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Colors
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\definecolor{mainColor}{RGB}{150, 150, 150} % a sort of light gray
+\definecolor{mainColor}{RGB}{211, 47, 47} % some dark red
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Font
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\defaultfontfeatures{Ligatures=TeX}
+\frenchspacing
+% For source code
+\setmonofont{Source Code Pro Light}[
+	BoldFont=Source Code Pro,
+]
+% Normal font
+\setsansfont{Lato Light}[
+	Numbers=OldStyle,
+	BoldFont=Lato Regular,
+	ItalicFont=Lato Light Italic,
+	BoldItalicFont=Lato Italic
+]
+% Normal font
+\setmainfont{Lato Light}[
+	Numbers=OldStyle,
+	BoldFont=Lato Regular,
+	ItalicFont=Lato Light Italic,
+	BoldItalicFont=Lato Italic
+]
+% Font for section, subsection, subsubsection, etc
+\newfontfamily{\titlefont}{Lato Light}[
+	Numbers=OldStyle,
+	BoldFont=Lato Regular,
+	ItalicFont=Lato Light Italic,
+	BoldItalicFont=Lato Italic
+]
+% Font for chapter number
+\newfontfamily{\upperNumber}{Lato Light}[
+	BoldFont=Lato Regular,
+	ItalicFont=Lato Light Italic,
+	BoldItalicFont=Lato Italic
+]
+% Font for chapter title
+\newfontfamily{\chapterfont}{BIRTH OF A HERO}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Layout
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[
+	xetex,
+	a4paper,
+	ignoreheadfoot,
+	left=3.5cm,
+	right=2.7cm,
+	top=3cm,
+	bottom=3.5cm,
+	nohead,
+	marginparwidth=0cm,
+	marginparsep=0mm
+]{geometry}
+\setlength{\skip\footins}{1cm}
+\setlength{\footnotesep}{2mm}
+\setlength{\parskip}{1ex}
+\setlength{\parindent}{0ex}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Titling
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{titlesec}
+% Tiltling format (font size)
+\titleformat{\chapter}[display]
+{}
+{\titleBackground\thispagestyle{empty}\parbox{4cm}{\hfill\huge \chaptertitlename \hspace*{2mm}}}
+{4pt}
+{
+	\begin{minipage}[t]{4.7cm}
+		\mbox{}\\
+		\null\hfill\fontsize{6.5cm}{1ex}\selectfont\upperNumber{\color{White}\thechapter}
+	\end{minipage}
+	\hspace*{-5mm}
+	\begin{minipage}[t]{\textwidth-4cm}
+		\mbox{}\\
+		\vspace*{-1.1cm}
+		\begin{flushleft}
+			\begin{spacing}{5}
+				\fontsize{2cm}{1em}\selectfont\chapterfont
+			}[\end{spacing}\end{flushleft}\end{minipage}]
+
+\titleformat{name=\chapter, numberless}[display]
+{}
+{\titleBackground\thispagestyle{empty}}
+{0pt}
+{
+	\fontsize{2cm}{1em}\selectfont\chapterfont
+}
+
+
+\titleformat*{\section}{\Huge\titlefont}
+\titleformat*{\subsection}{\huge\titlefont}
+\titleformat*{\subsubsection}{\LARGE\titlefont}
+
+%Titling spacing
+\titlespacing*{\chapter}{0mm}{0pt}{10pt}
+\titlespacing*{name=\chapter,numberless}{0pt}{10pt}{0pt} %starred version of chapter default: 0pt, 50pt, 40pt
+\titlespacing*{\section}{0mm}{4mm}{3mm}
+\titlespacing*{\subsection}{0mm}{3mm}{2mm}
+\titlespacing*{\subsubsection}{0mm}{2mm}{1.5mm}
+
+% Title number in margin
+\makeatletter
+\def\@seccntformat#1{\llap{\csname the#1\endcsname\hspace{3mm}}}
+\makeatother
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		ToC and Mini-ToC
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{titletoc}
+\usepackage{framed}
+
+%		ToC
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newenvironment{tocChapterText}{
+	\def\FrameCommand{
+		\hspace*{5cm}
+	}
+	\MakeFramed{
+		\parshape 1 0cm .75\textwidth \relax\FrameRestore
+	}
+}{\endMakeFramed}
+\titlecontents{chapter}[0em]{\vspace*{1\baselineskip}}{
+	\parbox{4.1cm}{\hfill{\hypersetup{linkcolor=white}\fontsize{2.3cm}{1ex}\selectfont\color{White}\upperNumber\thecontentspage}\hspace*{3mm}}
+	\vspace*{-1.7cm}\tocChapterText{\large\chaptertitlename~\thecontentslabel}\\
+	\huge
+}{}{\endtocChapterText\vskip-5mm}
+
+%		Mini-ToC
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\makeatletter
+\newcommand{\printMiniToc}{
+	\vfill
+	\hspace*{3.3cm}\parbox[t]{\textwidth-4cm}{
+		\hspace*{-5mm}\raisebox{-1.5mm}{\includegraphics[width=.75cm]{\pathToInfoBulleImages tocInverted.png}}
+		\hspace*{5.5mm} {\huge{Sommaire}}
+		\vspace*{2mm}
+		\startcontents[chapters]
+		\hypersetup{linkcolor=black}
+		\begin{spacing}{1}
+			\printcontents[chapters]{p}{1}{\setcounter{tocdepth}{2}}
+		\end{spacing}
+	}
+	\vfill
+	\newpage
+}
+\makeatother
+
+%Redefining toc style so that it dont get indented in partialTocs
+\titlecontents{psection}[3em]
+{} {\large{\color{White}\upperNumber\bfseries\contentslabel{3.5em}}} {} {, \thecontentspage}
+
+\titlecontents{psubsection}[3em]
+{} {\large{\color{White}\bfseries\upperNumber\contentslabel{3.5em}}} {} {, \thecontentspage} %\contentslabel{4.2em} to right-align
+
+
+
+\newcommand{\titleBackground}{
+	\begin{tikzpicture}[remember picture, overlay]
+	\fill[fill=mainColor] (current page.south west) rectangle ++(7.5cm, \paperheight);
+	\end{tikzpicture}
+}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		TikZ
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{tikz}
+\usetikzlibrary{fit,positioning,decorations.pathreplacing,matrix} % Graph at beginning of chapter Realisation technique
+\usetikzlibrary{arrows}
+\usetikzlibrary{shapes}
+% 3d with tikz (\begin{tikzpicture}[x={(\xx cm,\xy cm)},y={(\yx cm,\yy cm)},z={(\zx cm,\zy cm)},])
+\newcommand{\xangle}{0}
+\newcommand{\yangle}{90}
+\newcommand{\zangle}{225}
+\newcommand{\xlength}{1}
+\newcommand{\ylength}{1}
+\newcommand{\zlength}{.5}
+\pgfmathsetmacro{\xx}{\xlength*cos(\xangle)}
+\pgfmathsetmacro{\xy}{\xlength*sin(\xangle)}
+\pgfmathsetmacro{\yx}{\ylength*cos(\yangle)}
+\pgfmathsetmacro{\yy}{\ylength*sin(\yangle)}
+\pgfmathsetmacro{\zx}{\zlength*cos(\zangle)}
+\pgfmathsetmacro{\zy}{\zlength*sin(\zangle)}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Coding environment (redefining lstlisting)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\codeTitle}[2]{Code}
+\newcommand{\codeTitleContent}{\hspace*{3mm}\begin{minipage}{.75cm}
+		\includegraphics[width=\linewidth]{\pathToInfoBulleImages code2.png}
+	\end{minipage}\hspace*{1mm}\begin{minipage}{\textwidth-1.05cm}
+	{\sffamily\Large \codeTitle}
+\end{minipage}}
+
+\renewcommand*{\lstlistlistingname}{Liste des codes}
+\BeforeBeginEnvironment{lstlisting}{ %ce code met tous les lstlistings dans un mdframed
+	\begin{mdframed}[
+		linecolor=Gray,
+		backgroundcolor=light-gray,
+		skipabove=4mm,
+		skipbelow=0mm,
+		innertopmargin=2mm,
+		innerbottommargin=0mm,
+		innerleftmargin=0mm,
+		innerrightmargin=10pt,
+		leftmargin=0mm,
+		rightline=false,
+		topline=false,
+		bottomline=false,
+		linewidth=1mm
+		]
+		\codeTitleContent
+		\vspace*{-2mm}
+	}
+	\AfterEndEnvironment{lstlisting}{
+	\end{mdframed}
+}
+
+\renewcommand\lstlistingname{Code}
+\lstset{
+	language=Python,
+	numbers=left,
+	numbersep= 7mm,
+	numberstyle=\color{Black},
+	stepnumber=1,
+	tabsize=3,
+	breakatwhitespace=false,
+	breaklines=true,
+	captionpos=b,
+	basicstyle=\color{Black}\ttfamily,
+	commentstyle=\color{LimeGreen},
+	keywordstyle=\color{BurntOrange}\bfseries,
+	stringstyle=\color{WildStrawberry},
+	keywords={var, func, extends},
+	frame=leftline,
+	framesep=0mm,
+	xleftmargin=3mm,% marge ajouté à gauche du tableau (à configurer en dernier pour l'alignement global du tableau)
+	framesep=2mm, %distance texte bord du cadre (limite de la background color)
+	framerule=0mm,
+	abovecaptionskip=5mm,
+	aboveskip=\baselineskip,
+	belowskip=\baselineskip
+}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Tables and Captions
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%		Captions
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{caption}
+\usepackage{varwidth} %pour pouvoir faire des captions centrées avec retour à la ligne
+\DeclareCaptionFormat{myformat}{
+	\begin{varwidth}{\linewidth}%
+		\centering
+		#1#2#3
+	\end{varwidth}
+} % \captionsetup{format=myformat}
+
+%		Tables
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{array}
+\usepackage{tabu}
+\usepackage{longtable}
+
+\definecolor{tableLineOne}{RGB}{245, 245, 245}
+\definecolor{tableLineTwo}{RGB}{224, 224, 224}
+% End of table commands at the bottom of that file
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Footnotes
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[perpage]{footmisc} % les footnotes ne sont plus resetées chaque chapitre
+
+\usepackage{footnote}% Thoses commands allow to use footnotes and footfullcite inside figures
+\makesavenoteenv[figureWithNotes]{figure}
+\makesavenoteenv[tableWithNotes]{table}
+%\makesavenoteenv{tabular}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Links
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{hyperref}
+\hypersetup{
+	pdftoolbar=false,
+	pdfmenubar=true,
+	pdffitwindow=false,
+	pdfborder={1 1 0},
+	pdftitle={Travail de Maturité, Réalisation d'un jeu vidéo, par Yves ZUMBACH},
+	pdfauthor={Yves ZUMBACH},
+	pdfsubject={Réalisation pratique d'un jeu vidéo},
+	pdfcreator=LaTeX,
+	pdfkeywords={{video game}{Travail de maturité}},
+	colorlinks=true,
+	linkcolor=blue,
+	linktoc=all,
+	urlcolor=blue,
+	citecolor=blue,
+	filecolor=blue
+}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Bibliography
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[
+	sorting=none,
+	defernumbers=true,
+	isbn=false,
+	backend=biber
+]{biblatex}
+\addbibresource{./Bibliographie/TM.bib}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Itemize and consort
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\labelitemi{---}
+\usepackage{enumitem}
+\setlist[itemize]{nosep}
+\setlist[description]{nosep}
+\setlist[enumerate]{nosep}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		My commands
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\futurPlan}[1]{\textsl{#1}}
+\newcommand{\nomUnivers}{Éluria}
+\newcommand{\nomNaturels}{Teluran}
+\newcommand{\nomJeu}{{\fontspec{Great Vibes}Eluria's Chronicles}}
+\newcommand{\nomVille}{Murtos}
+\newcommand{\definition}{\hyperref[chap:vocabulaire]{*}}
+\newcommand{\anglicisme}[1]{\textenglish{\textit{#1}}}
+
+
+
+
+\begin{document}
+	
+	\everyrow{\tabucline[.4mm  white]{}}
+	\taburowcolors[2] 2{tableLineOne .. tableLineTwo}
+	\tabulinesep = ^4mm_3mm
+	
+	
+	
+	

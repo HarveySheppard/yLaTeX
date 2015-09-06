@@ -12,7 +12,7 @@ Of course, you need to compile that file with XeLaTeX. If you are using MiKTex o
 
 
 ##This config file typo
-This config use the `bigGrayBand` typo for titles and table of content and the `flatTable` typo for table that you can find in this repo under the `/typographyArchive/` folder.
+This config use the `bigGrayStrip` typo for titles and table of content and the `flatTable` typo for table that you can find in this repo under the `/typographyArchive/` folder.
 
 For every table that you create, insert the following line at the beginning of the first table line:
 
@@ -21,7 +21,8 @@ For every table that you create, insert the following line at the beginning of t
 	\rowfont{\bfseries\sffamily\leavevmode\color{white}}
 	\rowcolor{mainColor}
 	my text & in the & first line\\
-...
+	...
+\end{tabu}
 ```
 
 If you don't like the typo, simply delete the "Colors", "Titling", "Toc and Mini-ToC", "Tikz" and "Table" sections as well as the three lines of code inside the document environment. 
