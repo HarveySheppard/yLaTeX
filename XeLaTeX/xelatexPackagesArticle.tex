@@ -1,0 +1,213 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Basic configuration
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[a4paper, 11pt, oneside, fleqn]{article}
+\usepackage[no-math]{fontspec}
+
+\usepackage{polyglossia}
+\setdefaultlanguage{french}
+\setotherlanguages{english}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Various packages
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{metalogo} % typeset xelatex!
+\usepackage{microtype}
+\usepackage{graphicx}
+\usepackage{wrapfig}
+\usepackage[german=swiss]{csquotes}
+\usepackage{calc}
+\usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
+\usepackage{amsmath, amsfonts, amssymb}
+\usepackage{appendix}
+\usepackage{setspace}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Colors
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\definecolor{mainColor}{RGB}{150, 150, 150} % a sort of light gray
+\definecolor{mainColor}{RGB}{211, 47, 47} % some dark red
+
+\newcommand{\inColor}[1]{{\bfseries\color{mainColor}#1}}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Font
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\defaultfontfeatures{Ligatures=TeX}
+\frenchspacing
+% For source code
+\setmonofont{Source Code Pro Light}[
+	BoldFont=Source Code Pro,
+]
+% Normal font
+\setsansfont{Lato Light}[
+	Numbers=OldStyle,
+	BoldFont=Lato Regular,
+	ItalicFont=Lato Light Italic,
+	BoldItalicFont=Lato Italic
+]
+% Normal font
+\setmainfont{Lato Light}[
+	Numbers=OldStyle,
+	BoldFont=Lato Regular,
+	ItalicFont=Lato Light Italic,
+	BoldItalicFont=Lato Italic
+]
+% Font for section, subsection, subsubsection, etc
+\newfontfamily{\titlefont}{Lato Light}[
+	Numbers=OldStyle,
+	BoldFont=Lato Regular,
+	ItalicFont=Lato Light Italic,
+	BoldItalicFont=Lato Italic
+]
+% Font for chapter number
+\newfontfamily{\upperNumber}{Lato Light}[
+	BoldFont=Lato Regular,
+	ItalicFont=Lato Light Italic,
+	BoldItalicFont=Lato Italic
+]
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Layout
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[
+	xetex,
+	a4paper,
+	ignoreheadfoot,
+	left=3.5cm,
+	right=3.5cm,
+	top=3.5cm,
+	bottom=3.5cm,
+	nohead,
+	marginparwidth=0cm,
+	marginparsep=0mm
+]{geometry}
+\setlength{\skip\footins}{1cm}
+\setlength{\footnotesep}{2mm}
+\setlength{\parskip}{1ex}
+\setlength{\parindent}{0ex}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Titling
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{titlesec}
+% Tiltling format (font size)
+\titleformat*{\section}{\Huge\titlefont}
+\titleformat*{\subsection}{\huge\titlefont}
+\titleformat*{\subsubsection}{\LARGE\titlefont}
+
+%Titling spacing
+\titlespacing*{\section}{0mm}{4mm}{3mm}
+\titlespacing*{\subsection}{0mm}{3mm}{2mm}
+\titlespacing*{\subsubsection}{0mm}{2mm}{1.5mm}
+
+% Title number in margin
+\makeatletter
+\def\@seccntformat#1{\llap{\csname the#1\endcsname\hspace{3mm}}}
+\makeatother
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Tables
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{array}
+\usepackage{tabu}
+\usepackage{longtable}
+
+\definecolor{tableLineOne}{RGB}{245, 245, 245}
+\definecolor{tableLineTwo}{RGB}{224, 224, 224}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Links
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{hyperref}
+\hypersetup{
+	pdftoolbar=false,
+	pdfmenubar=true,
+	pdffitwindow=false,
+	pdfborder={1 1 0},
+	pdftitle={Title},
+	pdfauthor={Your name},
+	pdfsubject={},
+	pdfcreator=LaTeX,
+	pdfkeywords={{keyword 1}{keyword 2}},
+	colorlinks=true,
+	linkcolor=blue,
+	linktoc=all,
+	urlcolor=blue,
+	citecolor=blue,
+	filecolor=blue
+}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Bibliography
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\usepackage[
+%	sorting=none,
+%	defernumbers=true,
+%	isbn=false,
+%	backend=biber
+%]{biblatex}
+%\addbibresource{./biblio.bib}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Itemize and consort
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\labelitemi{---}
+\usepackage{enumitem}
+\setlist[itemize]{nosep}
+\setlist[description]{nosep}
+\setlist[enumerate]{nosep}
+
+
+
+
+\begin{document}
+	\everyrow{\tabucline[.4mm  white]{}}
+	\taburowcolors[2] 2{tableLineOne .. tableLineTwo}
+	\tabulinesep = ^4mm_3mm
+	
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Title
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\begin{center}
+		{\fontsize{.6cm}{1em}\selectfont\color{mainColor}
+			Subtitle
+		} \\[1em]
+		\begin{spacing}{3}
+			\inColor{\fontsize{1.3cm}{1em}\selectfont
+				Title
+			}
+		\end{spacing}
+		\vspace*{-3mm}
+		author, date
+		\\[3em]
+	\end{center}
+	
+	
+	
+	{
+		\hypersetup{linkcolor=black}
+		\tableofcontents
+	}
+	
+
+\end{document}

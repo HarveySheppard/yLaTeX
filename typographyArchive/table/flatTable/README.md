@@ -5,7 +5,6 @@ This preamble defines some flat table typo.
 You can easily change the lines colors by changing those three lines:
 
 ```
-\definecolor{tableHeader}{RGB}{211, 47, 0}
 \definecolor{tableLineOne}{RGB}{245, 245, 245}
 \definecolor{tableLineTwo}{RGB}{224, 224, 224}
 ```
@@ -23,7 +22,7 @@ or
 ```
 
 
-Before the first row, add: `\rowfont{\bfseries\sffamily\leavevmode\color{white}} \rowcolor{tableHeader}`. It will colorize it to the header color and put the text in white.
+Before the first row, add: `\rowfont{\bfseries\sffamily\leavevmode\color{white}} \rowcolor{mainColor}`. It will colorize it to the header color and put the text in white.
 
 
 Example:
@@ -31,7 +30,7 @@ Example:
 ```
 \begin{tabu} to \textwidth {l X X[1.2] X[1.2] l}
 			\rowfont{\bfseries\sffamily\leavevmode\color{white}}
-			\rowcolor{tableHeader}
+			\rowcolor{mainColor}
 			& Ressource & Comment en gagner & Comment en perdre & \\
 			& Argent & Compléter des quêtes,\newline Dans les coffres & Achats & \\
 			& Énergie verte & Planter une graine,\newline Se régénère avec le temps & Utiliser la violence,\newline Lancer un sort & \\
