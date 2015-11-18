@@ -5,8 +5,8 @@
 \usepackage[no-math]{fontspec}
 
 \usepackage{polyglossia}
-\setdefaultlanguage{french}
-\setotherlanguages{english}
+%\setdefaultlanguage{french}
+\setdefaultlanguage{english}
 
 
 
@@ -31,6 +31,8 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\definecolor{mainColor}{RGB}{150, 150, 150} % a sort of light gray
 \definecolor{mainColor}{RGB}{211, 47, 47} % some dark red
+
+\newcommand{\inColor}[1]{{\bfseries\color{mainColor}#1}}
 
 
 
@@ -280,6 +282,7 @@
 \setlist[enumerate]{nosep}
 
 
+\newcommand{\myTitle}{\inColor{\fontsize{1.3cm}{1em}\selectfont Your title}}
 
 
 \begin{document}
@@ -287,6 +290,29 @@
 	\everyrow{\tabucline[.4mm  white]{}}
 	\taburowcolors[2] 2{tableLineOne .. tableLineTwo}
 	\tabulinesep = ^4mm_3mm
+	
+	
+	\hfill
+	\begin{minipage}{\widthof{\myTitle}}
+		{\fontsize{.6cm}{1em}\selectfont\color{mainColor}
+			Subtitle
+		}
+		\begin{spacing}{3}
+			\myTitle
+		\end{spacing}
+		\vspace*{-5mm}
+		\hfill by Author
+	\end{minipage}
+	
+	\newpage
+	
+	
+	
+	{\hypersetup{linkcolor=black}
+		\setcounter{tocdepth}{0}
+		\tableofcontents
+	}
+	\newpage
 	
 	
 	
