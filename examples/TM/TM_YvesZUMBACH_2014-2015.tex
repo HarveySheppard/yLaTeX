@@ -2,12 +2,8 @@
 
 % Couverture
 \begin{tikzpicture}[remember picture, overlay]
-	\node at (current page.center) {\includegraphics{images/couverture.png}};
+	\node at (current page.center) {\includegraphics{images/couverture_avecMarges.png}};
 \end{tikzpicture}
-
-\clearpage
-\null
-\newpage
 
 
 \input{./chapter/000_FrontMatter.tex}
@@ -18,6 +14,17 @@
 	\tableofcontents
 }
 \newpage
+
+
+
+\titleformat{name=\chapter, numberless}[display]
+{}
+{\titleBackground\thispagestyle{empty}}
+{0pt}
+{
+	\hspace*{4.4cm}\fontsize{2cm}{1em}\selectfont\chapterfont
+}
+\titlespacing*{name=\chapter,numberless}{0pt}{10pt}{2cm} %starred version of chapter default: 0pt, 50pt, 40pt
 
 
 \chapter{Introduction}
@@ -37,6 +44,8 @@
 %\chapter{Musique maestro!}
 %\input{./chapter/04_Son.tex}
 
+\includepdf[pages={1,2}]{./images/typoNature.pdf}
+
 \chapter{Réalisation technique}
 \input{./chapter/04_Technique.tex}
 
@@ -55,30 +64,6 @@
 \renewcommand{\thecontentspage}{Annexe}
 \input{./chapter/999_BackMatter}
 
-
-\titleformat{name=\chapter, numberless}[display]
-{}
-{}
-{0pt}
-{
-	\fontsize{2cm}{1em}\selectfont\chapterfont
-}
-
-\printbibliography[notkeyword=image]
-
-\printbibliography[keyword=image, title={Iconographie}]
-
-%\printindex
-%\newpage
-
-\listoffigures
-
-\listoftables
-
-\begingroup
-\let\clearpage\relax
-\lstlistoflistings
-\endgroup
 \end{document}
 
 

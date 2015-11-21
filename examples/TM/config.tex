@@ -1,7 +1,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%		Basic configuration
+% Basic configuration
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\documentclass[a4paper, 10pt, oneside, fleqn]{report}
+\documentclass[a4paper, 10pt, oneside, fleqn, openright]{report}
 \usepackage[no-math]{fontspec}
 
 \usepackage{polyglossia}
@@ -11,7 +11,7 @@
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%		Various packages
+% Various packages
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage{metalogo} % typeset xelatex!
 \usepackage{microtype}
@@ -22,12 +22,14 @@
 \usepackage[german=swiss]{csquotes}
 \usepackage{calc}
 \usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
+\usepackage{pdfpages}
 % \usepackage{fancyhdr}
 \usepackage{amsmath, amsfonts, amssymb}
 \usepackage{setspace}
 \usepackage{appendix}
 \usepackage{siunitx}
 \usepackage{nameref} % pour pouvoir citer le titre des chapitres avec \nameref{ref}
+\usepackage{floatpag}
 
 \usepackage{mdframed}
 \usepackage{listings}
@@ -37,7 +39,7 @@
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%		Colors
+% Colors
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\definecolor{mainColor}{RGB}{150, 150, 150} % a sort of light gray
 \definecolor{mainColor}{RGB}{211, 47, 47} % some dark red
@@ -45,7 +47,7 @@
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%		Font
+% Font
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \defaultfontfeatures{Ligatures=TeX}
 \frenchspacing
@@ -86,16 +88,16 @@
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%		Layout
+% Layout
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage[
 	xetex,
-	a4paper,
+	papersize={216mm, 303mm},
 	ignoreheadfoot,
-	left=3.5cm,
-	right=2.7cm,
-	top=3cm,
-	bottom=3.5cm,
+	left=3.8cm,
+	right=3cm,
+	top=3.3cm,
+	bottom=3.8cm,
 	nohead,
 	marginparwidth=0cm,
 	marginparsep=0mm
@@ -108,7 +110,7 @@
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%		Titling
+% Titling
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage{titlesec}
 % Tiltling format (font size)
@@ -128,7 +130,8 @@
 		\begin{flushleft}
 			\begin{spacing}{5}
 				\fontsize{2cm}{1em}\selectfont\chapterfont
-			}[\end{spacing}\end{flushleft}\end{minipage}]
+}
+[\end{spacing}\end{flushleft}\end{minipage}]
 
 \titleformat{name=\chapter, numberless}[display]
 {}
@@ -145,25 +148,25 @@
 
 %Titling spacing
 \titlespacing*{\chapter}{0mm}{0pt}{10pt}
-\titlespacing*{name=\chapter,numberless}{0pt}{10pt}{0pt} %starred version of chapter default: 0pt, 50pt, 40pt
+\titlespacing*{name=\chapter,numberless}{0pt}{10pt}{2mm} %starred version of chapter default: 0pt, 50pt, 40pt
 \titlespacing*{\section}{0mm}{4mm}{3mm}
 \titlespacing*{\subsection}{0mm}{3mm}{2mm}
 \titlespacing*{\subsubsection}{0mm}{2mm}{1.5mm}
 
 % Title number in margin
 \makeatletter
-\def\@seccntformat#1{\llap{\csname the#1\endcsname\hspace{3mm}}}
+\def\@seccntformat#1{\llap{\csname the#1\endcsname\hspace{3mm}}\hspace*{-2pt}}
 \makeatother
 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%		ToC and Mini-ToC
+% ToC and Mini-ToC
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage{titletoc}
 \usepackage{framed}
 
-%		ToC
+% ToC
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newenvironment{tocChapterText}{
 	\def\FrameCommand{
@@ -179,7 +182,7 @@
 	\huge
 }{}{\endtocChapterText\vskip-5mm}
 
-%		Mini-ToC
+% Mini-ToC
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \makeatletter
 \newcommand{\printMiniToc}{
@@ -210,14 +213,14 @@
 
 \newcommand{\titleBackground}{
 	\begin{tikzpicture}[remember picture, overlay]
-	\fill[fill=mainColor] (current page.south west) rectangle ++(7.5cm, \paperheight);
+	\fill[fill=mainColor] (current page.south west) rectangle ++(7.8cm, \paperheight);
 	\end{tikzpicture}
 }
 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%		TikZ
+% TikZ
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage{tikz}
 \usetikzlibrary{fit,positioning,decorations.pathreplacing,matrix} % Graph at beginning of chapter Realisation technique
@@ -240,7 +243,7 @@
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%		Coding environment (redefining lstlisting)
+% Coding environment (redefining lstlisting)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newcommand{\codeTitle}[2]{Code}
 \newcommand{\codeTitleContent}{\hspace*{3mm}\begin{minipage}{.75cm}
@@ -302,10 +305,10 @@
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%		Tables and Captions
+% Tables and Captions
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%		Captions
+% Captions
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage{caption}
 \usepackage{varwidth} %pour pouvoir faire des captions centrées avec retour à la ligne
@@ -316,7 +319,7 @@
 	\end{varwidth}
 } % \captionsetup{format=myformat}
 
-%		Tables
+% Tables
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage{array}
 \usepackage{tabu}
@@ -329,7 +332,7 @@
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%		Footnotes
+% Footnotes
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage[perpage]{footmisc} % les footnotes ne sont plus resetées chaque chapitre
 
@@ -342,9 +345,9 @@
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%		Links
+% Links
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\usepackage{hyperref}
+\PassOptionsToPackage{hyphens}{url}\usepackage{hyperref}
 \hypersetup{
 	pdftoolbar=false,
 	pdfmenubar=true,
@@ -366,20 +369,19 @@
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%		Bibliography
+% Bibliography
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage[
 	sorting=none,
-	defernumbers=true,
+%	defernumbers=true,
 	isbn=false,
 	backend=biber
 ]{biblatex}
 \addbibresource{./Bibliographie/TM.bib}
 
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%		Itemize and consort
+% Itemize and consort
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \def\labelitemi{---}
 \usepackage{enumitem}
@@ -390,17 +392,52 @@
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%		My commands
+% Parskip in minipages
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newlength{\currentparskip}
+\setlength{\currentparskip}{\parskip}
+%In minipage, only call \setlength{\parskip}{\currentparskip} to have normal space between par
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% My commands
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newcommand{\futurPlan}[1]{\textsl{#1}}
 \newcommand{\nomUnivers}{Éluria}
 \newcommand{\nomNaturels}{Teluran}
-\newcommand{\nomJeu}{{\fontspec{Great Vibes}Eluria's Chronicles}}
+\newcommand{\nomJeu}{{\fontspec{Great Vibes}\fontsize{12pt}{1ex}\selectfont Eluria's Chronicles}}
 \newcommand{\nomVille}{Murtos}
 \newcommand{\definition}{\hyperref[chap:vocabulaire]{*}}
 \newcommand{\anglicisme}[1]{\textenglish{\textit{#1}}}
+\newcommand{\descrPersoTitle}[2][2]{\vspace*{#1mm}{\LARGE\titlefont#2}\\[2mm]}
+\newlength{\myHorizontalTotalMargins}
 
+\setlength{\myHorizontalTotalMargins}{6mm} %6mm if paper is a4 + 3mm on each border, 0mm if true a4
 
+\newenvironment{note}{
+	\begin{mdframed}[
+		linecolor=Grey,
+		backgroundcolor=White,
+		skipabove=0mm,
+		skipbelow=0mm,
+		innertopmargin=1mm,
+		innerbottommargin=1mm,
+		innerleftmargin=2mm,
+		innerrightmargin=0mm,
+		leftmargin=0mm,
+		rightline=false,
+		topline=false,
+		bottomline=false,
+		linewidth=1mm
+		]
+		\begingroup
+		\itshape
+}
+{
+	\endgroup
+	\end{mdframed}
+}
 
 
 \begin{document}
