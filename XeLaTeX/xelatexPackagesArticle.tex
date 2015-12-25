@@ -178,6 +178,9 @@
 
 
 
+\newcommand{\myTitle}{\inColor{\fontsize{1.3cm}{1em}\selectfont Your title}}
+
+
 
 \begin{document}
 	\everyrow{\tabucline[.4mm  white]{}}
@@ -189,17 +192,18 @@
 %		Title
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	\begin{center}
-		{\fontsize{.6cm}{1em}\selectfont\color{mainColor}
-			Subtitle
-		} \\[1em]
-		\begin{spacing}{3}
-			\inColor{\fontsize{1.3cm}{1em}\selectfont
-				Title
+		\begin{minipage}{\widthof{\myTitle}}
+			{\fontsize{.6cm}{1em}\selectfont\color{mainColor}
+				Subtitle
 			}
-		\end{spacing}
-		\vspace*{-3mm}
-		author, date
-		\\[3em]
+			\begin{spacing}{3}
+				\myTitle
+			\end{spacing}
+			\vspace*{-10mm}
+			\begin{flushright}
+				By author, date
+			\end{flushright}
+		\end{minipage}
 	\end{center}
 	
 	
