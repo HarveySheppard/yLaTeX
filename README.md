@@ -12,13 +12,4 @@ This is the default packages inclusion file that I use for my LaTeX documents. T
 ## Copyright
 Copyright 2015 Yves Zumbach
 
-This work may be distributed and/or modified under the conditions of the LaTeX Project Public License, either version 1.3 of this license or (at your option) any later version.
-The latest version of this license is in http://www.latex-project.org/lppl.txt
-and version 1.3 or later is part of all distributions of LaTeX version 2005/12/01 or later.
-This work has the LPPL maintenance status `maintained'.
-
-The Current Maintainer of this work is Yves Zumbach
-
-This work consists of the files contained in this repository.
-
-The complete license can be found in the file lppl-1-3c.pdf.
+<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">Creative Commons Attribution-NonCommercial 4.0 International License</a>.
