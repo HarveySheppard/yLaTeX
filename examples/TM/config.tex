@@ -92,12 +92,12 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage[
 	xetex,
-	papersize={216mm, 303mm},
+	a4paper,
 	ignoreheadfoot,
-	left=3.8cm,
-	right=3cm,
-	top=3.3cm,
-	bottom=3.8cm,
+	left=3.5cm,
+	right=2.7cm,
+	top=3cm,
+	bottom=3.5cm,
 	nohead,
 	marginparwidth=0cm,
 	marginparsep=0mm
@@ -213,7 +213,7 @@
 
 \newcommand{\titleBackground}{
 	\begin{tikzpicture}[remember picture, overlay]
-	\fill[fill=mainColor] (current page.south west) rectangle ++(7.8cm, \paperheight);
+	\fill[fill=mainColor] (current page.south west) rectangle ++(7.5cm, \paperheight);
 	\end{tikzpicture}
 }
 
@@ -245,8 +245,8 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Coding environment (redefining lstlisting)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newcommand{\codeTitle}[2]{Code}
-\newcommand{\codeTitleContent}{\hspace*{3mm}\begin{minipage}{.75cm}
+\renewcommand{\codeTitle}[2]{Code}
+\renewcommand{\codeTitleContent}{\hspace*{3mm}\begin{minipage}{.75cm}
 		\includegraphics[width=\linewidth]{\pathToInfoBulleImages code2.png}
 	\end{minipage}\hspace*{1mm}\begin{minipage}{\textwidth-1.05cm}
 	{\sffamily\Large \codeTitle}
@@ -412,9 +412,7 @@
 \newcommand{\anglicisme}[1]{\textenglish{\textit{#1}}}
 \newcommand{\descrPersoTitle}[2][2]{\vspace*{#1mm}{\LARGE\titlefont#2}\\[2mm]}
 \newlength{\myHorizontalTotalMargins}
-
-\setlength{\myHorizontalTotalMargins}{6mm} %6mm if paper is a4 + 3mm on each border, 0mm if true a4
-
+\setlength{\myHorizontalTotalMargins}{0mm} %6mm if paper is a4 + 3mm on each border, 0mm if true a4
 \newenvironment{note}{
 	\begin{mdframed}[
 		linecolor=Grey,
