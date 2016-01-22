@@ -1,4 +1,4 @@
-# LaTeX
+# yLaTeX
 
 I will put in this repo some LaTeX packages inclusions that I used, typo and packages that I made, etc. I hope it will be helpful.
 
@@ -20,4 +20,4 @@ The Current Maintainer of this work is Yves Zumbach.
 
 This work consists of the files in this repository.
 
-For commercial use of this Work or a Derived or Compiled Work (as defined in the LPPL v1.3c), contact me before at thib1235[at]gmail.com
+**For commercial use of this Work or a Derived or Compiled Work (as defined in the LPPL v1.3c), contact me before at thib1235[at]gmail.com**
