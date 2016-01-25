@@ -6,8 +6,10 @@ I wrote as well one or two tutos in the wiki so don't hesitate to read them.
 
 If you ever have a suggestion or question, simply ask! I will be glad to answer.
 
-## latexPackages.tex
-This is the default packages inclusion file that I use for my LaTeX documents. The comments explain clearly (at least I hope) what the packages do.
+## DefaultConfiguration
+This folder contains the packages that I use as default configuration for nearly all my TeX and consort documents.
+
+**Note that, as I now only use XeLaTeX, the LaTeX packages might be somewhat outdated. And one thing is sure: the XeLaTeX packages do produce much better visual results!**
 
 ## Copyright
 Copyright 2015 Yves Zumbach

@@ -18,3 +18,6 @@ The commands name's tell the importance of the information.
 ```
 
 To use that package you will need to install it manually. For more instructions on how to install custom packages, see my article in the wiki of this repository or some other LaTeX documentation around the Web.
+
+## Further Documentation and commands showcase
+For further documentation or showcase, please look at the Documentation
