@@ -1,0 +1,157 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		InfoBulle Package
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{infoBulle}[2015/02/17 info bulle par Yves ZUMBACH]
+
+\RequirePackage{calc}
+\RequirePackage[usenames,dvipsnames,svgnames,table]{xcolor}
+\RequirePackage{mdframed}
+\RequirePackage{listings}
+
+\DeclareOption{francais}{
+	\renewcommand*{\lstlistlistingname}{Liste des codes}
+}
+
+\DeclareOption*{%
+	\PackageWarning{infoBulle}{Unknown option: `\CurrentOption'}%
+}
+
+\ProcessOptions\relax
+
+\PackageWarning{infoBulle}{For commercial use of this Work or a Derived or Compiled Work (as defined in the LPPL v1.3c), contact me before at thib1235[at]gmail.com}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Basic configuration
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% infoBulle colors
+\definecolor{light-gray}{gray}{0.92}
+\definecolor{image-blue}{RGB}{58, 115, 239}
+\definecolor{image-yellow}{RGB}{255, 165, 0}
+\definecolor{darkRed}{RGB}{211, 47, 47}
+
+% infoBulle basic configuration
+\newmdenv[
+	skipabove=\baselineskip,
+	skipbelow=.4\baselineskip,
+	innertopmargin=1mm,
+	innerbottommargin=\baselineskip,
+	innerleftmargin=4mm,
+	innerrightmargin=4mm,
+	leftmargin=0mm,
+	rightmargin=0mm,
+	rightline=false,
+	topline=false,
+	bottomline=false,
+	linewidth=1mm,
+	backgroundcolor=light-gray,
+	frametitlefont=\sffamily,
+	frametitlealignment={\hspace*{-2mm}}
+]{infoBulle}
+
+% Vertical lines color
+\mdfdefinestyle{normal}{linecolor=image-blue}
+\mdfdefinestyle{warning}{linecolor=image-yellow}
+\mdfdefinestyle{critical}{linecolor=darkRed}
+\mdfdefinestyle{code}{linecolor=Gray}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Package Commands
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\pathToInfoBulleImages}{images/}
+
+% Title content
+\newcommand{\@titleContent}[2]{
+	\begin{minipage}{.75cm}
+		\@afterindentfalse\@afterheading
+		\raisebox{2mm}{\includegraphics[width=\linewidth]{\pathToInfoBulleImages #1}}
+	\end{minipage}\hspace*{1mm}\begin{minipage}{\textwidth-1.05cm}
+			{\Large #2}
+	\end{minipage}
+}
+
+% infoBulle skeleton
+\newenvironment{@infoBulleSkeletonEnv}[3]{
+	\begin{infoBulle}[style=#1, frametitle=\@titleContent{#2}{#3}]
+		\vspace*{-1mm}
+	}{
+\end{infoBulle}
+}
+\newcommand{\@infoBulleSkeleton}[4]{
+	\begin{@infoBulleSkeletonEnv}{#1}{#2}{#3}
+		#4
+	\end{@infoBulleSkeletonEnv}
+}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		User commands: infoBulles
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\normalInfo}[2]{\@infoBulleSkeleton{normal}{info.png}{#1}{#2}}
+\newcommand{\warningInfo}[2]{\@infoBulleSkeleton{warning}{warning.png}{#1}{#2}}
+\newcommand{\criticalInfo}[2]{\@infoBulleSkeleton{critical}{critical2DarkRed.png}{#1}{#2}}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		User commands: source code
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\@codeTitle}{Title unchanged}
+\newcommand{\codeTitle}[1]{\renewcommand{\@codeTitle}{#1}}
+
+\lstnewenvironment{yCode}[1][Python]
+{
+	\lstset{
+		language=#1,
+		numbers=left,
+		numbersep=7mm,
+		numberstyle=\color{Black},
+		stepnumber=1,
+		tabsize=3,
+		breakatwhitespace=false,
+		breaklines=true,
+		captionpos=b,
+		basicstyle=\color{Black}\ttfamily,
+		commentstyle=\color{LimeGreen},
+		keywordstyle=\color{BurntOrange}\bfseries,
+		stringstyle=\color{WildStrawberry},
+		keywords={var, func, extends},
+		frame=leftline,
+		framesep=0mm,
+		xleftmargin=0mm,% marge ajouté à gauche du tableau (à configurer en dernier pour l'alignement global du tableau)
+		framesep=0mm, %distance texte bord du cadre (limite de la background color)
+		framerule=0mm,
+		abovecaptionskip=5mm,
+		aboveskip=\baselineskip,
+		belowskip=\baselineskip
+	}
+}
+{}
+
+\BeforeBeginEnvironment{yCode}{
+	\begin{@infoBulleSkeletonEnv}{code}{code2.png}{\@codeTitle}
+}
+
+\AfterEndEnvironment{yCode}{
+	\end{@infoBulleSkeletonEnv}
+}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Icons
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\criticalIcon}{
+	\begin{tikzpicture}
+		
+	\end{tikzpicture}
+}
+
+
+\endinput

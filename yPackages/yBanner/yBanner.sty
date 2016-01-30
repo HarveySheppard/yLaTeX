@@ -1,0 +1,62 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		yBanner Package
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{yBanner}[2016/01/29 This package provides facilities to draw banners.]
+
+
+%% Fallback
+\DeclareOption*{
+	\PackageWarning{yBanner}{Unknown option '\CurrentOption'}
+}
+
+%% Process given options
+\ProcessOptions\relax
+
+\RequirePackage{xparse}
+\RequirePackage{tikz}
+\usetikzlibrary{fit}
+
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,main,foreground}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Banner Command
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareDocumentCommand{\yBanner}{O{5cm} O{.3cm} O{.8cm} O{1cm} O{mainColor!95!Black} m}
+{ % bannerMinWidth endingsVerticalDrop endingsInnerWidth endingsOuterWidth bannerText
+	\begin{tikzpicture}
+		\begin{pgfonlayer}{foreground}
+			% Text
+			\draw[White] (0, 0) node[inner sep = 3mm] (text) {#6};
+		\end{pgfonlayer}
+		% Recatangle
+		\node[rectangle, fill=mainColor, minimum width=#1, fit={(text.north west) (text.south east)}] (rectangle) {};
+		% Left Triangle
+		\coordinate[xshift=#3] (leftTriangleInnerTop) at (rectangle.south west);
+		\coordinate[xshift=#3, yshift=-#2] (leftTriangleInnerBottom) at (rectangle.south west);
+		\path[fill=mainColor!85!Black] (rectangle.south west) -- (leftTriangleInnerTop) -- (leftTriangleInnerBottom) -- cycle;
+		% Right Triangle
+		\coordinate[xshift=-#3] (rightTriangleInnerTop) at (rectangle.south east);
+		\coordinate[xshift=-#3, yshift=-#2] (rightTriangleInnerBottom) at (rectangle.south east);
+		\path[fill=mainColor!85!Black] (rectangle.south east) -- (rightTriangleInnerTop) -- (rightTriangleInnerBottom) -- cycle;
+		\begin{pgfonlayer}{background}
+			% Left banner ending
+			\coordinate[xshift=-#4, yshift=-#2] (leftEndingTopLeft) at (rectangle.north west);
+			\coordinate[xshift=#3, yshift=-#2] (leftEndingTopRight) at (rectangle.north west);
+			\coordinate[xshift=-#4, yshift=-#2] (leftEndingBottomLeft) at (rectangle.south west);
+			\path[fill=#5] (leftEndingTopLeft) -- (leftEndingTopRight) -- (leftTriangleInnerBottom) -- (leftEndingBottomLeft) -- cycle;
+			% Right banner ending
+			\coordinate[xshift=#4, yshift=-#2] (rightEndingTopRight) at (rectangle.north east);
+			\coordinate[xshift=-#3, yshift=-#2] (rightEndingTopLeft) at (rectangle.north east);
+			\coordinate[xshift=#4, yshift=-#2] (rightEndingBottomRight) at (rectangle.south east);
+			\path[fill=#5] (rightEndingTopLeft) -- (rightEndingTopRight) -- (rightEndingBottomRight) -- (rightTriangleInnerBottom) -- cycle;
+		\end{pgfonlayer}
+	\end{tikzpicture}
+}
+
+
+\endinput

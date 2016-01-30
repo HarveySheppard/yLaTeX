@@ -1,10 +1,24 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		InfoBulle Package
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{infoBulle}[2015/02/17 info bulle par Yves ZUMBACH]
+\ProvidesPackage{infoBulle}[2015/02/17 The infoBulle package typeset flat informationnal boxes. by Yves ZUMBACH]
 
+\RequirePackage{fontspec}
 \RequirePackage{calc}
-\RequirePackage[usenames,dvipsnames,svgnames,table]{xcolor}
+\RequirePackage[usenames,dvipsnames,svgnames]{xcolor}
+\RequirePackage{fontawesome}
 \RequirePackage{mdframed}
 \RequirePackage{listings}
+\RequirePackage{xparse}
+\RequirePackage{tikz}
+
+
+\newif\ifyMarginIcon
+\yMarginIconfalse
+\DeclareOption{marginIcons}{
+	\yMarginIcontrue
+}
 
 \DeclareOption{francais}{
 	\renewcommand*{\lstlistlistingname}{Liste des codes}
@@ -18,19 +32,34 @@
 
 \PackageWarning{infoBulle}{For commercial use of this Work or a Derived or Compiled Work (as defined in the LPPL v1.3c), contact me before at thib1235[at]gmail.com}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% infoBulle
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Font configuration
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newfontfamily{\FA}{fontawesome-webfont.ttf}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Basic configuration
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% infoBulle colors
 \definecolor{light-gray}{gray}{0.92}
-\definecolor{image-blue}{RGB}{58, 115, 239}
-\definecolor{image-yellow}{RGB}{255, 165, 0}
-\definecolor{darkRed}{RGB}{211, 47, 47}
 
+\definecolor{criticalColor}{RGB}{211, 47, 47}
+\definecolor{questionColor}{RGB}{156, 39, 176}
+\definecolor{informationColor}{RGB}{139, 195, 74}
+\definecolor{checkColor}{RGB}{3, 169, 244}
+\definecolor{warningColor}{RGB}{255, 165, 0}
+\definecolor{additionColor}{RGB}{63, 81, 181}
+\colorlet{codeColor}{Grey}
+
+% infoBulle basic configuration
 \newmdenv[
 	skipabove=\baselineskip,
 	skipbelow=.4\baselineskip,
-	innertopmargin=1mm,
+	innertopmargin=6mm,
 	innerbottommargin=\baselineskip,
 	innerleftmargin=4mm,
 	innerrightmargin=4mm,
@@ -42,53 +71,73 @@
 	linewidth=1mm,
 	backgroundcolor=light-gray,
 	frametitlefont=\sffamily,
-	frametitlealignment={\hspace*{-2mm}}
+	frametitlebelowskip=0mm,
+	frametitleaboveskip=4mm,
 ]{infoBulle}
 
-% Vertical lines color
-\mdfdefinestyle{normal}{linecolor=image-blue}
-\mdfdefinestyle{warning}{linecolor=image-yellow}
-\mdfdefinestyle{critical}{linecolor=darkRed}
-\mdfdefinestyle{code}{linecolor=Gray}
 
-\newcommand{\pathToInfoBulleImages}{images/}
 
-%Formatage du titre
-\newcommand{\@titleContent}[2]{
-	\begin{minipage}{.75cm}
-		\@afterindentfalse\@afterheading
-		\raisebox{2mm}{\includegraphics[width=\linewidth]{\pathToInfoBulleImages #1}}
-	\end{minipage}\hspace*{1mm}\begin{minipage}{\textwidth-1.05cm}
-			{\Large #2}
-	\end{minipage}
-}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Package Commands
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Title content
+\newcommand{\iconStyle}{\fontsize{.8cm}{.96cm}}
+\newlength{\yIconHorizontalOffset}
+\setlength{\yIconHorizontalOffset}{1cm}
+\ifyMarginIcon
+	\newcommand{\@titleContent}[3]{%
+		\llap{\raisebox{-1mm}{\color{#1}\iconStyle#2\hspace*{\yIconHorizontalOffset}}}%
+		\mbox{}%
+		\Large#3\par
+	}
+\else
+	\newcommand{\@titleContent}[3]{%		
+		\@afterindentfalse\@afterheading%
+		\mbox{}%
+		\parbox[t][0pt]{.75cm}{%
+			\@afterindentfalse\@afterheading%
+			\mbox{}%
+			\raisebox{-1mm}{\color{#1}\iconStyle#2}%
+		}~%
+		\parbox[t]{\linewidth-.75cm}{%
+				\mbox{}%
+				\Large#3%
+		}%
+	}
+\fi
 
 % infoBulle skeleton
-\newenvironment{@infoBulleSkeletonEnv}[3]{
-	\begin{infoBulle}[style=#1, frametitle=\@titleContent{#2}{#3}]
+\NewDocumentEnvironment{@infoBulleSkeletonEnv}{m m m}{
+	\begin{infoBulle}[linecolor=#1, frametitle=\@titleContent{#1}{#2}{#3}]
 		\vspace*{-1mm}
 	}{
 \end{infoBulle}
 }
-\newcommand{\@infoBulleSkeleton}[4]{
+\DeclareDocumentCommand{\@infoBulleSkeleton}{m m m +m}{
 	\begin{@infoBulleSkeletonEnv}{#1}{#2}{#3}
 		#4
 	\end{@infoBulleSkeletonEnv}
 }
 
-%Specification de la commande en fonction de son type (normal, warning ou critical)
-\newcommand{\normalInfo}[2]{\@infoBulleSkeleton{normal}{info.png}{#1}{#2}}
-\newcommand{\warningInfo}[2]{\@infoBulleSkeleton{warning}{warning.png}{#1}{#2}}
-\newcommand{\criticalInfo}[2]{\@infoBulleSkeleton{critical}{critical2DarkRed.png}{#1}{#2}}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Coding environment (redefining lstlisting)
+%		User commands: infoBulles
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newcommand{\@codeTitle}{Title unchanged}
-\newcommand{\codeTitle}[1]{\renewcommand{\@codeTitle}{#1}}
+\DeclareDocumentCommand{\infoInfo}{m +m}{\@infoBulleSkeleton{informationColor}{\faInfoCircle}{#1}{#2}}
+\DeclareDocumentCommand{\warningInfo}{m +m}{\@infoBulleSkeleton{warningColor}{\faExclamationCircle}{#1}{#2}}
+\DeclareDocumentCommand{\criticalInfo}{m +m}{\@infoBulleSkeleton{criticalColor}{\faTimesCircle}{#1}{#2}}
+\DeclareDocumentCommand{\checkInfo}{m +m}{\@infoBulleSkeleton{checkColor}{\faCheckCircle}{#1}{#2}}
+\DeclareDocumentCommand{\questionInfo}{m +m}{\@infoBulleSkeleton{questionColor}{\faQuestionCircle}{#1}{#2}}
 
-\lstnewenvironment{yCode}[1][Python]
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		User commands: codeInfo (code listing)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\lstnewenvironment{CodeInfo}[1][Python]
 {
+	\noindent\minipage{\linewidth}
 	\lstset{
 		language=#1,
 		numbers=left,
@@ -99,6 +148,7 @@
 		breakatwhitespace=false,
 		breaklines=true,
 		captionpos=b,
+		showstringspaces=false,
 		basicstyle=\color{Black}\ttfamily,
 		commentstyle=\color{LimeGreen},
 		keywordstyle=\color{BurntOrange}\bfseries,
@@ -109,21 +159,43 @@
 		xleftmargin=0mm,% marge ajouté à gauche du tableau (à configurer en dernier pour l'alignement global du tableau)
 		framesep=0mm, %distance texte bord du cadre (limite de la background color)
 		framerule=0mm,
-		abovecaptionskip=5mm,
-		aboveskip=\baselineskip,
-		belowskip=\baselineskip
+		abovecaptionskip=3mm,
+		aboveskip=0pt,
+		belowskip=0pt
 	}
 }
-{}
+{\endminipage}
 
-\BeforeBeginEnvironment{yCode}{
-	\begin{@infoBulleSkeletonEnv}{code}{code2.png}{\@codeTitle}
-}
-
-\AfterEndEnvironment{yCode}{
+\NewDocumentCommand{\codeInfo}{m o O{Python} +v}{
+	\begin{@infoBulleSkeletonEnv}{codeColor}{\codeLogo}{#1}
+		\IfNoValueTF{#2}{}{
+			\lstset{caption=#2}
+		}
+		\begin{CodeInfo}[#3]^^J%
+			#4^^J
+		\end{CodeInfo}
 	\end{@infoBulleSkeletonEnv}
 }
+\newcommand{\codeInfoProcessor}[1]{
+	\def\ProcessedArgument{#1}
+}
 
+\NewDocumentCommand{\test}{v}{
+	\begin{lstlisting}^^J
+		#1^^J
+	\end{lstlisting}
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Logos
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\codeLogo}{%
+	\begin{tikzpicture}[inner sep=0mm]%
+	\fill[Grey] (0,0) circle (.35cm);
+	\draw (0,0) node {\fontsize{.4cm}{.48cm}\color{White}\faCode};
+	\end{tikzpicture}
+}
 
 
 \endinput

@@ -1,0 +1,295 @@
+% !TeX spellcheck = en_GB
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Basic configuration
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[a4paper, 11pt, oneside, fleqn]{article}
+\usepackage[no-math]{fontspec}
+
+\usepackage{polyglossia}
+\setdefaultlanguage{french}
+\setotherlanguages{english}
+
+\typeout{For commercial use of this Work or a Derived or Compiled Work (as defined in the LPPL v1.3c), contact me before at thib1235[at]gmail.com}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Various packages
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{metalogo} % typeset xelatex!
+\usepackage{microtype}
+\usepackage{graphicx}
+\usepackage{wrapfig}
+\usepackage[german=swiss]{csquotes}
+\usepackage{calc}
+\usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
+\usepackage{amsmath, amsfonts, amssymb}
+\usepackage{appendix}
+\usepackage{setspace}
+\usepackage{infoBulle}
+\usepackage{lipsum}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Colors
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\definecolor{mainColor}{RGB}{150, 150, 150} % a sort of light gray
+\definecolor{mainColor}{RGB}{211, 47, 47} % some dark red
+
+\newcommand{\inColor}[1]{{\bfseries\color{mainColor}#1}}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Font
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\defaultfontfeatures{Ligatures=TeX}
+\frenchspacing
+% For source code
+\setmonofont{Source Code Pro Light}[
+BoldFont=Source Code Pro,
+]
+% Normal font
+\setsansfont{Lato Light}[
+Numbers=OldStyle,
+BoldFont=Lato Regular,
+ItalicFont=Lato Light Italic,
+BoldItalicFont=Lato Italic
+]
+% Normal font
+\setmainfont{Lato Light}[
+Numbers=OldStyle,
+BoldFont=Lato Regular,
+ItalicFont=Lato Light Italic,
+BoldItalicFont=Lato Italic
+]
+% Font for section, subsection, subsubsection, etc
+\newfontfamily{\titlefont}{Lato Light}[
+Numbers=OldStyle,
+BoldFont=Lato Regular,
+ItalicFont=Lato Light Italic,
+BoldItalicFont=Lato Italic
+]
+% Font for chapter number
+\newfontfamily{\upperNumber}{Lato Light}[
+BoldFont=Lato Regular,
+ItalicFont=Lato Light Italic,
+BoldItalicFont=Lato Italic
+]
+
+\newfontfamily{\FA}{fontawesome-webfont.ttf}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Layout
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[
+xetex,
+a4paper,
+ignoreheadfoot,
+left=3.5cm,
+right=3.5cm,
+top=3.5cm,
+bottom=3.5cm,
+nohead,
+marginparwidth=0cm,
+marginparsep=0mm
+]{geometry}
+\setlength{\skip\footins}{1cm}
+\setlength{\footnotesep}{2mm}
+\setlength{\parskip}{1ex}
+\setlength{\parindent}{0ex}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Titling
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{titlesec}
+% Tiltling format (font size)
+\titleformat*{\section}{\Huge\titlefont}
+\titleformat*{\subsection}{\huge\titlefont}
+\titleformat*{\subsubsection}{\LARGE\titlefont}
+
+%Titling spacing
+\titlespacing*{\section}{0mm}{4mm}{3mm}
+\titlespacing*{\subsection}{0mm}{3mm}{2mm}
+\titlespacing*{\subsubsection}{0mm}{2mm}{1.5mm}
+
+% Title number in margin
+\makeatletter
+\def\@seccntformat#1{\llap{\csname the#1\endcsname\hspace{3mm}}}
+\makeatother
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Tables
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{array}
+\usepackage{tabu}
+\usepackage{longtable}
+
+\definecolor{tableLineOne}{RGB}{245, 245, 245}
+\definecolor{tableLineTwo}{RGB}{224, 224, 224}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Links
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{hyperref}
+\hypersetup{
+	pdftoolbar=false,
+	pdfmenubar=true,
+	pdffitwindow=false,
+	pdfborder={1 1 0},
+	pdftitle={Title},
+	pdfauthor={Your name},
+	pdfsubject={},
+	pdfcreator=LaTeX,
+	pdfkeywords={{keyword 1}{keyword 2}},
+	colorlinks=true,
+	linkcolor=blue,
+	linktoc=all,
+	urlcolor=blue,
+	citecolor=blue,
+	filecolor=blue
+}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Bibliography
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\usepackage[
+%	sorting=none,
+%	defernumbers=true,
+%	isbn=false,
+%	backend=biber
+%]{biblatex}
+%\addbibresource{./biblio.bib}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Itemize and consort
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\labelitemi{---}
+\usepackage{enumitem}
+\setlist[itemize]{nosep}
+\setlist[description]{nosep}
+\setlist[enumerate]{nosep}
+
+
+
+\newcommand{\myTitle}{\inColor{\fontsize{1.3cm}{1em}\selectfont InfoBulle Package}}
+
+
+
+\usepackage{infoBulle}
+
+\begin{document}
+
+
+\everyrow{\tabucline[.4mm  white]{}}
+\taburowcolors[2] 2{tableLineOne .. tableLineTwo}
+\tabulinesep = ^4mm_3mm
+
+
+\hfill
+\begin{minipage}{\widthof{\myTitle}}
+	{\fontsize{.6cm}{1em}\selectfont\color{mainColor}
+		Documentation
+	}
+	\begin{spacing}{3}
+		\myTitle
+	\end{spacing}
+	\vspace*{-10mm}
+	\begin{flushright}
+		Yves Zumbach, january 2016
+	\end{flushright}
+\end{minipage}
+
+\newpage
+
+\section{Preamble}
+This package is freely available under the \LaTeX\ Project Public Licence. For commercial use of this Work or a Derived or Compiled Work (as defined in the LPPL v1.3c), contact me before at thib1235[at]gmail.com
+
+\section{Include the package}
+\lstinline|\usepackage{infoBulle}|
+
+\section{Prerequisites}
+To use this package, you need to compile the document using it with \inColor{\XeLaTeX}. You also need the \inColor{fontawesome} package and font installed on your system.
+
+If you can't fit those requirements, use the previous versions of this package. However, note that lots of functionnalities were added thanks to the fontawesome package (which requires \XeLaTeX).
+
+
+\section{Defined commands}
+\subsection{infoBulles}
+This package mainly defines the following commands:
+\begin{itemize}
+	\item \verb|\infoInfo{<Title>}{<Text>}|
+	\item \verb|\warningInfo{<Title>}{<Text>}|
+	\item \verb|\criticalInfo{<Title>}{<Text>}|
+	\item \verb|\checkInfo{<Title>}{<Text>}|
+	\item \verb|\questionInfo{<Title>}{<Text>}|
+\end{itemize}
+
+Which results in this:
+\infoInfo{Title}{\lipsum[3]}
+\warningInfo{Title}{\lipsum[3]}
+\criticalInfo{Title}{\lipsum[3]}
+\checkInfo{Title}{\lipsum[3]}
+\questionInfo{Title}{\lipsum[3]}
+
+\subsection{Code listings}
+This package also implement an environment that typeset code listings: \\\verb|\codeInfo{<Title>}[<caption>][<language>]{<Code>}|. The caption and the language arguments are optionnal. \verb|<language>| is the language in which the listed code is written, as given in the list of supèported language in the listings package documentation.
+
+Which results in this:
+
+\codeInfo{Title}[This is a caption]{var a = "Hello world"
+while true:
+print(a)
+}
+
+For the moment, code indentation is not supported but I will find a solution to this little bug!
+
+\section{Customization}
+It is possible to define new infoBulle (here levelInfo) using the following syntax (before \verb|\begin{document}|):
+
+\begin{lstlisting}
+\makeatletter
+
+\definecolor{levelColor}{RGB}{23, 23, 23}
+
+\newcommand{\levelInfo}[2]
+{\@infoBulleSkeleton{levelColor}{<logo>}{#1}{#2}}
+
+\makeaatother
+\end{lstlisting}
+
+The \verb|\definecolor| command defines a new color that will be used for the line and logo color (passed as first argument to \verb|\@infoBulleSkeleton}|). The \verb|<logo>| argument should be a fontawesome command or a tikzpicture ($0.75cm \times 0.75cm$).
+
+Example:
+\begin{lstlisting}
+% Just pass a fontawesome icon
+\faTimesCircle
+\end{lstlisting}
+
+\begin{lstlisting}
+% Or a complete tikzpicture
+\newcommand{\codeLogo}{
+	\begin{tikzpicture}[inner sep=0mm] %remove white margin
+		\fill[Grey] (0,0) circle (.35cm); % logo background
+		\draw (0,0)
+			node {\fontsize{.4cm}{.48cm}\color{White}A};
+	\end{tikzpicture}
+}
+\end{lstlisting}
+
+\end{document}
+
+
