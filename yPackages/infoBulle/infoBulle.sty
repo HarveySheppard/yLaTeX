@@ -109,7 +109,8 @@
 % infoBulle skeleton
 \NewDocumentEnvironment{@infoBulleSkeletonEnv}{m m m}{
 	\begin{infoBulle}[linecolor=#1, frametitle=\@titleContent{#1}{#2}{#3}]
-		\vspace*{-1mm}
+		\setlength{\parindent}{0pt}
+		\setlength{\parskip}{\baselineskip}
 	}{
 \end{infoBulle}
 }
@@ -135,9 +136,8 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %		User commands: codeInfo (code listing)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\lstnewenvironment{CodeInfo}[1][Python]
+\lstnewenvironment{CodeInfoLst}[1][Python]
 {
-	\noindent\minipage{\linewidth}
 	\lstset{
 		language=#1,
 		numbers=left,
@@ -164,26 +164,25 @@
 		belowskip=0pt
 	}
 }
-{\endminipage}
+{}
 
-\NewDocumentCommand{\codeInfo}{m o O{Python} +v}{
+%\NewDocumentCommand{\codeInfo}{m o O{Python} +v}{
+%	\begin{@infoBulleSkeletonEnv}{codeColor}{\codeLogo}{#1}
+%		\IfNoValueTF{#2}{}{
+%			\lstset{caption=#2}
+%		}
+%		\begin{CodeInfoLst}[#3]^^J%
+%			#4^^J
+%		\end{CodeInfoLst}
+%	\end{@infoBulleSkeletonEnv}
+%}
+\NewDocumentEnvironment{CodeInfo}{m o}{
 	\begin{@infoBulleSkeletonEnv}{codeColor}{\codeLogo}{#1}
-		\IfNoValueTF{#2}{}{
-			\lstset{caption=#2}
-		}
-		\begin{CodeInfo}[#3]^^J%
-			#4^^J
-		\end{CodeInfo}
+	\IfNoValueTF{#2}{}{
+		\lstset{caption=#2}
+	}
+}{
 	\end{@infoBulleSkeletonEnv}
-}
-\newcommand{\codeInfoProcessor}[1]{
-	\def\ProcessedArgument{#1}
-}
-
-\NewDocumentCommand{\test}{v}{
-	\begin{lstlisting}^^J
-		#1^^J
-	\end{lstlisting}
 }
 
 

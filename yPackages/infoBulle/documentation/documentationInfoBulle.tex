@@ -246,16 +246,25 @@ Which results in this:
 \questionInfo{Title}{\lipsum[3]}
 
 \subsection{Code listings}
-This package also implement an environment that typeset code listings: \\\verb|\codeInfo{<Title>}[<caption>][<language>]{<Code>}|. The caption and the language arguments are optionnal. \verb|<language>| is the language in which the listed code is written, as given in the list of supèported language in the listings package documentation.
+This package also implement an environment that typeset code listings:
+\begin{lstlisting}
+\begin{CodeInfo}{<Title>}[<caption>]
+	\begin{CodeInfoLst}[<language>]
+var test = "my Code"
+	\end{CodeInfoLst}
+\end{CodeInfo}
+\end{lstlisting}
+
+The caption and the language arguments are optional. \verb|<language>| is the language in which the listed code is written, as given in the list of supported languages in the listings package documentation.
 
 Which results in this:
 
-\codeInfo{Title}[This is a caption]{var a = "Hello world"
-while true:
-print(a)
-}
 
-For the moment, code indentation is not supported but I will find a solution to this little bug!
+\begin{CodeInfo}{Titre}
+	\begin{CodeInfoLst}
+var test = "my Code"
+	\end{CodeInfoLst}
+\end{CodeInfo}
 
 \section{Customization}
 It is possible to define new infoBulle (here levelInfo) using the following syntax (before \verb|\begin{document}|):
