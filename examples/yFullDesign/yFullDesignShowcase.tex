@@ -1,0 +1,72 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Basic configuration
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[a4paper, 11pt, oneside, fleqn]{memoir}
+\usepackage[no-math]{fontspec}
+
+\usepackage{lipsum}
+\usepackage{polyglossia}
+\setdefaultlanguage{french}
+\setotherlanguages{english}
+
+\typeout{For commercial use of this Work or a Derived or Compiled Work (as defined in the LPPL v1.3c), contact me before at thib1235[at]gmail.com}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Font
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\defaultfontfeatures{Ligatures=TeX}
+\frenchspacing
+% For source code
+\setmonofont{Source Code Pro Light}[
+	BoldFont=Source Code Pro,
+]
+% Normal font
+\setsansfont{Lato Light}[
+	Numbers=OldStyle,
+	BoldFont=Lato Regular,
+	ItalicFont=Lato Light Italic,
+	BoldItalicFont=Lato Italic
+]
+% Normal font
+\setmainfont{Lato Light}[
+	Numbers=OldStyle,
+	BoldFont=Lato Regular,
+	ItalicFont=Lato Light Italic,
+	BoldItalicFont=Lato Italic
+]
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Layout
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[
+	xetex,
+	a4paper,
+	ignoreheadfoot,
+	left=3.5cm,
+	right=3.5cm,
+	top=3.5cm,
+	bottom=3.5cm,
+	nohead,
+	marginparwidth=0cm,
+	marginparsep=0mm
+]{geometry}
+\setlength{\skip\footins}{1cm}
+\setlength{\footnotesep}{2mm}
+\setlength{\parskip}{1ex}
+\setlength{\parindent}{0ex}
+
+
+\usepackage{yFullDesign}
+
+
+\begin{document}
+	
+	\fullPageTopImage{images/sunset.jpg}[Caption]
+	
+	\vspace*{1\baselineskip}
+	\lipsum[2-4]
+\end{document}
