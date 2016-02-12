@@ -2,7 +2,7 @@
 
 
 ## Showcase
-A showcase of this template can be seen in the [example directory](../../Example/yMemoir).
+A showcase of this template can be seen in the [example directory](../../example/yMemoir).
 
 ##Prerequisites
 You must compile this class with XeLaTeX for it to work properly.

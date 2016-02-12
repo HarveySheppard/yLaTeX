@@ -1,6 +1,9 @@
 #YInvoice
 **This work is my adaptation of the original [dapper-invoice](https://github.com/mkropat/dapper-invoice) class to which almost all credits are to be given.**
 
+##Showcase
+A showcase of this template ca be seen in the [example directory](../../examples/yInvoice).
+
 
 ##Default template
 Here is the default code one should write when using yInvoice:
@@ -27,6 +30,3 @@ Here is the default code one should write when using yInvoice:
         \vfill
         \textit{<Your name>}
     \end{document}
-
-##Showcase
-A showcase of this template ca be seen in the [example directory](../../Examples/yInvoice).

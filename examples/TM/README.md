@@ -1,0 +1,2 @@
+#TM
+I made this document mainly during the sommer 2015. It uses XeLaTeX, infoBulle (an old version of it at least), my XeLaTeX preamble, the flatTables , the bigGrayBand typo (in this case it is red...) and some other stuffs.
