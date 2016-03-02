@@ -1,0 +1,325 @@
+% !TeX spellcheck = en_US
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Basic configuration
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[a4paper, 11pt, oneside, fleqn]{article}
+\usepackage[no-math]{fontspec}
+
+\usepackage{polyglossia}
+\setdefaultlanguage{french}
+\setotherlanguages{english}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Various packages
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{metalogo}
+\usepackage{microtype}
+\usepackage{graphicx}
+\usepackage{wrapfig}
+\usepackage[german=swiss]{csquotes}
+\usepackage{calc}
+\usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
+\usepackage{amsmath, amsfonts, amssymb}
+\usepackage{appendix}
+\usepackage{setspace}
+\usepackage{listings}
+\lstset{
+	basicstyle=\ttfamily,
+	columns=fullflexible,
+	keepspaces=true,
+}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Colors
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\definecolor{mainColor}{RGB}{211, 47, 47}
+
+\newcommand{\inColor}[1]{{\bfseries\color{mainColor}#1}}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Layout
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[
+	xetex,
+	a4paper,
+	ignoreheadfoot,
+	left=3.5cm,
+	right=3.5cm,
+	top=3.5cm,
+	bottom=3.5cm,
+	nohead,
+	marginparwidth=0cm,
+	marginparsep=0mm
+]{geometry}
+\setlength{\skip\footins}{1cm}
+\setlength{\footnotesep}{2mm}
+\setlength{\parskip}{1ex}
+\setlength{\parindent}{0ex}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Tables
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{array}
+\usepackage{tabu}
+\usepackage{longtable}
+
+\definecolor{tableLineOne}{RGB}{245, 245, 245}
+\definecolor{tableLineTwo}{RGB}{224, 224, 224}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Links
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{hyperref}
+\hypersetup{
+	pdftoolbar=false,
+	pdfmenubar=true,
+	pdffitwindow=false,
+	pdfborder={1 1 0},
+	pdfcreator=LaTeX,
+	colorlinks=true,
+	linkcolor=blue,
+	linktoc=all,
+	urlcolor=blue,
+	citecolor=blue,
+	filecolor=blue
+}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Itemize and consort
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\labelitemi{---}
+\usepackage{enumitem}
+\setlist[itemize]{nosep}
+\setlist[description]{nosep}
+\setlist[enumerate]{nosep}
+
+
+
+\newcommand{\myTitle}{\inColor{\fontsize{1.3cm}{1em}\selectfont yReport}}
+
+
+
+\begin{document}
+	\everyrow{\tabucline[.4mm  white]{}}
+	\taburowcolors[2] 2{tableLineOne .. tableLineTwo}
+	\tabulinesep = ^4mm_3mm
+	
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Title
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\begin{flushleft}
+		\begin{minipage}{\widthof{\myTitle}}
+			{\fontsize{.6cm}{1em}\selectfont\color{mainColor}
+				Documentation
+			}
+			\begin{spacing}{3}
+				\myTitle
+			\end{spacing}
+			\vspace*{-10mm}
+			\begin{flushright}
+				Yves Zumbach
+			\end{flushright}
+		\end{minipage}
+	\end{flushleft}
+	
+	
+	\newpage
+	{
+		\hypersetup{linkcolor=black}
+		\tableofcontents
+	}
+	\newpage
+	
+	\section{Prerequisites}
+	You must compile this class with \XeLaTeX for it to work properly. You need to install the fonts that are in the \lstinline[breaklines]|fonts/| directory and finally to install the infoBulle package.
+	
+	\section{Class options}
+	\begin{itemize}
+		\item noColorBullet turns off the bullet coloration
+		\item frenchBullet(default) turns on French typography for bullets (noFrenchBullet makes the opposite)
+		\item french change the document settings to be in French
+		\item article makes the document lighter (remove chapter counting, etc.)
+		\item noHeaders disable the headers
+		\item portable (see \ref{sec:portable})
+	\end{itemize}
+	
+	\section{Page Layout}
+	\lstinline[breaklines]|\symmetricalPage| changes the margin so that the page is symmetrical (no more margin par, small margin left and right).
+	
+	\lstinline[breaklines]|\asymmetricalPage| does the opposite than \lstinline[breaklines]|\symmetricalPage| and restore the margin paragraph, the asymmetrical margins, etc.
+	
+	\section{Length Commands}
+	\lstinline[breaklines]|\wholeMargin| is the addition of the length of the margin paragraph and the marginparsep.
+	
+	\lstinline[breaklines]|\wholeWidth| is the addition of \lstinline[breaklines]|\wholeMargin| and the text width.
+	
+	\lstinline|\bigVerticalLineWidth| is the length of the vertical line used for chapter and marginpar backgrounding.
+	
+	\section{Font Commands}
+	Following commands change the current font to the one they describe:
+	\begin{lstlisting}
+\normalFont
+\titleFont % for title page
+\headingFont % section, subsection, subsubsection
+\chapterNumberFont
+\chapterFont
+\serifFont
+\sectionNumbers
+	\end{lstlisting}
+	
+	\section{Colors}
+	To change the document color, use following syntaxe: \lstinline[breaklines]|\definecolor{mainColor}{RGB}{<red>, <green>, <blue>}|
+	
+	Following colors might also be redefined as described above:
+	\begin{lstlisting}
+sectionNumbersColor
+subsectionNumbersColor
+lightGrey
+middleGrey
+darkGrey
+	\end{lstlisting}
+	
+	\lstinline[breaklines]|\isOddPage{<true>}{<false>}| is a command that check if a page is odd, execute <true> if it is the case, <false> otherwise.
+	
+	\section{Backgrounding Margin Paragraph}
+	To add a background color to the margin par, you can use \lstinline[breaklines]|\backgroundThisPageGrey| or \lstinline[breaklines]|\backgroundThisPageColor|. I recommend using the first one as it is more discrete.	
+	
+	\section{Titlepages}
+	I defined different titlepage format. Use:
+	\begin{lstlisting}
+\subtitle{<subtitle>}
+\title{<title>}
+\author{<author>}
+...
+\begin{document}
+\titleOne
+or
+\titleTwo[front/image/path.jpg][<image_dimen>]
+...
+	\end{lstlisting}
+	
+	Personally, I prefer \lstinline[breaklines]|\titleTwo|. Its two optional arguments are used as follows \lstinline[breaklines]|\includegraphics[<image_dimen>]{front/image/path.jpg}|. Note that \lstinline[breaklines]|\titleTwo| supports up to three lines title. More lines will overflow from the page. You can use \lstinline[breaklines]|\\| in the \lstinline[breaklines]|\title| command.
+	
+	\section{Lists}
+	Following environments should be used instead of the normal ones:
+	\begin{lstlisting}
+items (equivalent of itemize)
+enum (equivalent of enumerate)
+descr (equivalent to description)
+	\end{lstlisting}
+	
+	Inside \lstinline[breaklines]|descr|, please, use \lstinline[breaklines]|\itemColor{<item>}| instead of \lstinline[breaklines]|\item|.
+	
+	Note that these environments also exists for margin par: \lstinline[breaklines]|sideItems, sideEnum, sideDescr|.
+	
+	\section{Margin Notes and margin title}
+	To add some note in the margin, use the \lstinline[breaklines]|\sideNote{<note text>}| command. To make a margin title, use \lstinline[breaklines]|\sideTitle{title}|. Those title are just bigger. They are not numerated nor do they appear in the table of content.
+	
+	
+	\section{Figures}
+	\subsection{Body Figures}
+	All figure should be created using \lstinline[breaklines]|\begin{SCfigure}[][ht!]| (as a replacement of \lstinline[breaklines]|\begin{figure}|). The first argument should be left empty, the second is the float placement.
+	
+	\subsection{Side Figure}
+	\lstinline[breaklines]|\sideFigure[<caption>]{<figure>}| draw a table in the margin par. If you want the figure to spread to the margin paragraph width, use \lstinline[breaklines]|\includegraphics[width=\marginparwidth]{image/path.jpg}| when you include the figure.
+	
+	
+	\section{Tables}
+	\subsection{Body Table}
+	For body tables, use \lstinline[breaklines]|tabu| commands inside a \lstinline[breaklines]|SCtable| environment:
+	\begin{lstlisting}
+\begin{SCtable}[][ht!]
+	\begin{tabu}{<cols>}
+		\tableHeaderStyle
+		first & line & of & the table\\
+		other & lines & of & the & table\\
+	\end{tabu}
+	\caption{<caption text>}
+\end{SCtable}
+	\end{lstlisting}
+	If your table spreads across multiple pages, use the longtabu environment instead of tabu.
+	
+	For the table to spread to the text width: \lstinline[breaklines]|\begin{tabu} to \linewidth {<cols>}|. And then you will need to use X column in the table preamble (see tabu documentation).
+	
+	\subsection{Side Table}
+	\lstinline[breaklines]|\sideTable[<caption>]{<table>}|
+	
+	If you want the table to spread to the margin paragraph width, use \lstinline[breaklines]|\begin{tabu} to \marginparwidth {<cols>}|.
+	
+	\section{Full Width Element}
+	To make an element (generally a table or a figure) take the whole page (document body and margin paragraph), use the \lstinline[breaklines]|whole| environment. The content will be left or right aligned depending on the page being odd or even. If you want the content to be centered, use the \lstinline[breaklines]|centered| environment.
+	
+	Example:
+	\begin{lstlisting}
+\begin{figure}[ht!]
+	\begin{whole}
+		\includegraphics[width=\linewidth]{image/path.jpg}
+		\caption{<caption>}
+	\end{whole}
+\end{figure}
+	\end{lstlisting}
+
+	\section{Quotation}
+	For citations that fill the text width, use the \lstinline|\blockQuote[<author>]{<citation>}| command.
+	
+	For citation in the margin, use: \lstinline|\sideQuote[<author>]{<content>}|.
+	
+	Finally, for full width quotation, use \lstinline|\fullQuote[<author>]{<content}|.
+	
+	\section{Metadata}
+	After calling the yReport class, please call the
+	
+	\begin{lstlisting}
+\hypersetup{
+	pdftitle={<Title>},
+	pdfsubject={<Subject>},
+	pdfauthor={<Your name>},
+	pdfkeywords={{<keyword 1>}{<keyword 2>}},
+}
+	\end{lstlisting}
+	macro and fill it accordingly to your document.
+	
+	\section{Headers}
+	yReport defines some default headers. For them to work, please append the following code just before the \lstinline|\begin{document}| command:
+	\begin{lstlisting}
+\makeatletter
+\let\runauthor\@author
+\let\runtitle\@title
+\makeatother
+	\end{lstlisting}
+	To disable the headers, pass the \lstinline|noHeaders| option to the yReport class.
+	
+	
+	\section{Ornaments}
+	The yReport class does provide four ornaments:
+	
+	\begin{lstlisting}
+\ornamentOneTop
+\ornamentOneBottom
+\ornamentTwoTop
+\ornamentTwoBottom
+	\end{lstlisting}
+	
+	You can use them to mark the end of your chapter (although some say it does not match the overall design).
+
+	\section{Side Math}	
+	Math in margin par should be typeset without margin:
+	\begin{lstlisting}
+{\mathLeft
+\[your math\]}
+	\end{lstlisting}
+	
+\end{document}
