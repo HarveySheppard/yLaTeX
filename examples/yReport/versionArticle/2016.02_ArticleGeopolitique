@@ -1,0 +1,133 @@
+
+@video{Internetetmediassociauxlesgrandschiffresettendances2016_NoviusTV,
+  title = {Internet et médias sociaux : les grands chiffres et tendances 2016},
+  url = {https://www.youtube.com/watch?v=mge5q9FhFx4},
+  shorttitle = {Internet et médias sociaux},
+  abstract = {Vidéo réalisée par l'agence de communication digitale Novius. http://www.novius.com/
+
+Bientôt disponible en version Slideshare sur http://fr.slideshare.net/Novius},
+  timestamp = {2016-03-02T12:16:33Z},
+  director = {{Novius TV}},
+  urldate = {2016-03-02},
+  date = {2016-01-19},
+  keywords = {chiffres réseaux sociaux,digital trend,évolution réseaux sociaux,médias sociaux 2016,réseaux sociaux,réseaux sociaux monde,social media,socila media evolution}
+}
+
+@online{HistoryoftheInternet_,
+  title = {History of the {{Internet}}},
+  url = {http://www.newmedia.org/history-of-the-internet.html?page=4},
+  timestamp = {2016-03-02T12:16:42Z},
+  urldate = {2016-03-02},
+  file = {History of the Internet:C\:\\Users\\Yves Zumbach\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\ucn2l833.default\\zotero\\storage\\544TNSI6\\history-of-the-internet.html:}
+}
+
+@inreference{Internet_,
+  title = {Internet},
+  rights = {Creative Commons Attribution-ShareAlike License},
+  url = {https://fr.wikipedia.org/w/index.php?title=Internet&oldid=123719482},
+  abstract = {Internet est le réseau informatique mondial accessible au public. C'est un réseau de réseaux, sans centre névralgique, composé de millions de réseaux aussi bien publics que privés, universitaires, commerciaux et gouvernementaux, eux-mêmes regroupés, en 2014, en 47 000 réseaux autonomes. L'information est transmise par internet grâce à un ensemble standardisé de protocoles de transfert de données, qui permet l'élaboration d'applications et de services variés comme le courrier électronique, la messagerie instantanée, le pair-à-pair et le World Wide Web.
+L'internet ayant été popularisé par l'apparition du World Wide Web (WWW), les deux sont parfois confondus par le public non averti. Le World Wide Web n'est pourtant que l'une des applications d'internet.
+L'accès à internet peut être obtenu grâce à un fournisseur d'accès via divers moyens de communication électronique : soit filaire (réseau téléphonique commuté (bas débit), ADSL, fibre optique jusqu'au domicile), soit sans fil (WiMAX, par satellite, 3G+, 4G). Un utilisateur d'internet est désigné par le néologisme « internaute ».},
+  timestamp = {2016-03-02T12:16:47Z},
+  langid = {french},
+  booktitle = {Wikipédia},
+  urldate = {2016-03-02},
+  date = {2016-02-25},
+  file = {Snapshot:C\:\\Users\\Yves Zumbach\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\ucn2l833.default\\zotero\\storage\\8W4M8F38\\index.html:}
+}
+
+@online{Lemailenchiffres_+Arobase.org,
+  title = {L'e-mail en chiffres},
+  url = {http://www.arobase.org/actu/chiffres-email.htm},
+  abstract = {Etudes statistiques et enquêtes sur l'e-mail : nombre d'utilisateurs, volume quotidien, principales messageries, usages, etc. Réactualisé en permanence.},
+  timestamp = {2016-03-02T12:16:53Z},
+  titleaddon = {Arobase.org},
+  author = {{+Arobase.org}},
+  urldate = {2016-03-02},
+  year = {2014-09-13T11:29:34+00:00},
+  file = {Snapshot:C\:\\Users\\Yves Zumbach\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\ucn2l833.default\\zotero\\storage\\S26THX98\\chiffres-email.html:}
+}
+
+@inreference{Stuxnet_,
+  title = {Stuxnet},
+  rights = {Creative Commons Attribution-ShareAlike License},
+  url = {https://en.wikipedia.org/w/index.php?title=Stuxnet&oldid=707731964},
+  abstract = {Stuxnet is a malicious computer worm believed to be a jointly built American-Israeli cyber weapon. Although neither state has confirmed this openly, anonymous US officials speaking to the Washington Post claimed the worm was developed during the Obama administration to sabotage Iran’s nuclear program with what would seem like a long series of unfortunate accidents.
+Stuxnet specifically targets PLCs, which allow the automation of electromechanical processes such as those used to control machinery on factory assembly lines, amusement rides, or centrifuges for separating nuclear material. Exploiting four zero-day flaws, Stuxnet functions by targeting machines using the Microsoft Windows operating system and networks, then seeking out Siemens Step7 software. Stuxnet reportedly compromised Iranian PLCs, collecting information on industrial systems and causing the fast-spinning centrifuges to tear themselves apart. Stuxnet’s design and architecture are not domain-specific and it could be tailored as a platform for attacking modern SCADA and PLC systems (e.g., in automobile or power plants), the majority of which reside in Europe, Japan and the US. Stuxnet reportedly ruined almost one-fifth of Iran's nuclear centrifuges.
+Stuxnet has three modules: a worm that executes all routines related to the main payload of the attack; a link file that automatically executes the propagated copies of the worm; and a rootkit component responsible for hiding all malicious files and processes, preventing detection of the presence of Stuxnet.
+Stuxnet is typically introduced to the target environment via an infected USB flash drive. The worm then propagates across the network, scanning for Siemens Step7 software on computers controlling a PLC. In the absence of either criterion, Stuxnet becomes dormant inside the computer. If both the conditions are fulfilled, Stuxnet introduces the infected rootkit onto the PLC and Step7 software, modifying the codes and giving unexpected commands to the PLC while returning a loop of normal operations system values feedback to the users.
+In 2015, Kaspersky Labs' research findings on another highly sophisticated espionage platform created by what they called the Equation Group, noted that the group had used two of the same zero-day attacks used by Stuxnet, before they were used in Stuxnet, and their use in both programs was similar. The researchers reported that "the similar type of usage of both exploits together in different computer worms, at around the same time, indicates that the EQUATION group and the Stuxnet developers are either the same or working closely together".},
+  timestamp = {2016-03-09T16:25:15Z},
+  langid = {english},
+  booktitle = {Wikipedia, the free encyclopedia},
+  urldate = {2016-03-09},
+  date = {2016-03-01},
+  file = {Snapshot:C\:\\Users\\Yves Zumbach\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\ucn2l833.default\\zotero\\storage\\5U522XBJ\\index.html:}
+}
+
+@online{TheRealStoryofStuxnet_Kushner,
+  title = {The {{Real Story}} of {{Stuxnet}}},
+  url = {http://spectrum.ieee.org/telecom/security/the-real-story-of-stuxnet},
+  abstract = {How Kaspersky Lab tracked down the malware that stymied Iran’s nuclear-fuel enrichment program},
+  timestamp = {2016-03-09T19:37:16Z},
+  author = {Kushner, David},
+  urldate = {2016-03-09},
+  date = {2013-02-26},
+  file = {Snapshot:C\:\\Users\\Yves Zumbach\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\ucn2l833.default\\zotero\\storage\\SVRGK69I\\the-real-story-of-stuxnet.html:}
+}
+
+@artwork{DenialofServiceSecurityAwarenessPoster_,
+  title = {Denial of {{Service Security Awareness Poster}}},
+  url = {http://www.zazzle.co.uk/denial_of_service_security_awareness_poster-228064824589898045},
+  abstract = {\ensuremath{<}a href="http://mindfulsecurity.com"\ensuremath{>}MindfulSecurity.com\ensuremath{<}/a\ensuremath{>}  Raise awareness of information security threats with this great poster from our Highway of Threats collection. Why not buy a complete set for your office? Click the 'Customise' button to add or change images, and text if required.},
+  timestamp = {2016-03-12T12:25:33Z},
+  urldate = {2016-03-12},
+  keywords = {image},
+  file = {Snapshot:C\:\\Users\\Yves Zumbach\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\ucn2l833.default\\zotero\\storage\\HW58GZWN\\denial_of_service_security_awareness_poster-228064824589898045.html:}
+}
+
+@artwork{TheArtofHumanHacking_,
+  title = {The {{Art}} of {{Human Hacking}}},
+  url = {http://www.social-engineer.org/social-engineering/the-art-of-human-hacking/},
+  abstract = {In the book, Social Engineering: The Art of Human Hacking, author Christopher Hadnagy details the world’s first framework for social engineering. He meticulously picks apart the framework step-by-step and analyzing and then explaining each piece of the puzzle.},
+  timestamp = {2016-03-12T12:25:00Z},
+  urldate = {2016-03-12},
+  year = {2010-12-20T12:17:05+00:00},
+  keywords = {image},
+  file = {Snapshot:C\:\\Users\\Yves Zumbach\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\ucn2l833.default\\zotero\\storage\\7DJIAGGH\\the-art-of-human-hacking.html:}
+}
+
+@artwork{PlostedPoker2_plostedplo,
+  title = {Plosted.{{Poker}} 2},
+  url = {https://jman2008.wordpress.com/2013/02/13/plosted-poker-2/},
+  abstract = {Hack Facebook Poker For Just 25 U.S.D bay the program with new user .. ~(For Just 25 U.S.D)Email :Plosted@facebook.comWebsite :- www.PlostedPloHack.tkand thank you .. :)},
+  timestamp = {2016-03-12T12:25:22Z},
+  author = {{plostedplo}},
+  urldate = {2016-03-12},
+  year = {2013-02-13T18:24:08+00:00},
+  keywords = {image},
+  file = {Snapshot:C\:\\Users\\Yves Zumbach\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\ucn2l833.default\\zotero\\storage\\P2W3U5UE\\plosted-poker-2.html:}
+}
+
+@artwork{TheRealStoryofStuxnet_Kushnera,
+  title = {The {{Real Story}} of {{Stuxnet}}},
+  url = {http://spectrum.ieee.org/telecom/security/the-real-story-of-stuxnet},
+  abstract = {How Kaspersky Lab tracked down the malware that stymied Iran’s nuclear-fuel enrichment program},
+  timestamp = {2016-03-12T12:24:47Z},
+  author = {Kushner, David},
+  urldate = {2016-03-09},
+  date = {2013-02-26},
+  keywords = {image}
+}
+
+@artwork{AnonymousWallpaper_,
+  title = {Anonymous {{Wallpaper}}},
+  url = {http://www.chip.de/downloads/Anonymous-Wallpaper_55082812.html},
+  abstract = {Anonymous Wallpaper Deutsch: Die Angriffe des Hacker-Kollektivs Anonymous richten sich vor allem gegen eines: Ein kontrolliertes Netz - und wir bieten das passende Wallpaper-Pack dazu.},
+  timestamp = {2016-03-12T12:27:53Z},
+  urldate = {2016-03-12},
+  keywords = {image},
+  file = {Snapshot:C\:\\Users\\Yves Zumbach\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\ucn2l833.default\\zotero\\storage\\IWJUQF2T\\Anonymous-Wallpaper_55082812.html:}
+}
+
+

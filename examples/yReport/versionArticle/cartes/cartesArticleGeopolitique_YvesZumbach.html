@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="ISO-8859-1">
+		<title>Cartes, Géopolitique et Sécurité Informatique, Yves Zumbach</title>
+		<link href='https://fonts.googleapis.com/css?family=Fira+Sans:400,300,500' rel='stylesheet' type='text/css'>
+	</head>
+	<body style="font-family:'Fira Sans';font-weight:300; overflow:auto;">
+		<div style="width:600px;margin:0 auto;">
+			<h1 style="font-family:'Fira Sans';font-weight:400;">
+				Cartes sur la quantité d'ordinateurs dans le monde
+				et sur la pénétration d'Internet
+			</h1>
+			
+			<div style="margin-top:93px; float:left; width:300px; margin-left:-300px; text-align:right;">
+				<input type="button" value="Pénétration d'Internet" onclick="loadInternetPenetrationMap()"></br>
+				<input type="button" value="Ordinateurs personnels par pays" onclick="loadComputerPerCountryMap()"></br>
+				<input type="button" value="Ordinateurs personnels par personne" onclick="loadComputerPerCapitaMap()"></br>
+			</div>
+			<div id="galery">
+				<object data="http://www.nationmaster.com/country-info/stats/Media/Personal-computers/map" width="600" height=500 scrolling="no">
+				<embed src="http://www.nationmaster.com/country-info/stats/Media/Personal-computers/map" width="600" height="400"> </embed>
+					Error: Embedded data could not be displayed.
+				</object>
+			</div>
+			
+			<div style="margin-top: 0px; text-align:center;">
+				<a href='http://www.nationmaster.com/au'>Data from <strong>NationMaster</strong></a>
+			</div>
+		</div>
+		
+		<style>
+			input{
+				margin: 5px;
+				margin-left:0px;
+				margin-right:10px;
+				color:rgb(211, 47, 47);
+				padding:2mm;
+				background-color:rgb(240, 240, 240);
+				border:0px solid #ffcc00;
+				font-weight:bold;
+				cursor:pointer;
+			}
+		</style>
+		
+		<script>
+		function loadComputerPerCapitaMap(){
+			loadMap("http://www.nationmaster.com/country-info/stats/Media/Personal-computers/Per-capita/map");
+		}
+		function loadComputerPerCountryMap(){
+			loadMap("http://www.nationmaster.com/country-info/stats/Media/Personal-computers/map");
+		}
+		function loadInternetPenetrationMap(){
+			loadMap("http://www.nationmaster.com/country-info/stats/Media/Internet/Internet-penetration/map");
+		}
+		
+		function loadMap(url){
+			var newMap = document.createElement("object");
+			newMap.data = url;
+			newMap.width=600;
+			newMap.height=500;
+			newMap.scrolling="no";
+			
+			var newEmbed = document.createElement("embed");
+			newEmbed.src = url;
+			newEmbed.width=600;
+			newEmbed.height=500;
+			
+			var galery = document.getElementById("galery");
+			while (galery.firstChild) {
+				galery.removeChild(galery.firstChild);
+			}
+			
+			newMap.appendChild(newEmbed);
+			galery.appendChild(newMap);
+		}
+		</script>
+	</body>
+</html>

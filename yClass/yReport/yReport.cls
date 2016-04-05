@@ -35,26 +35,20 @@
 \newif\ifFrench
 \Frenchfalse
 \DeclareOption{french}{
-	\Frenchfalse
+	\Frenchtrue
+	\PassOptionsToClass{french}{report}
 }
 
 \newif\ifArticle
 \Articlefalse
 \DeclareOption{article}{
 	\Articletrue
-	\PassOptionsToClass{\CurrentOption}{report}
 }
 
 \newif\ifHeaders
 \Headerstrue
 \DeclareOption{noHeaders}{
 	\Headersfalse
-}
-
-\newif\ifPortable
-\Portablefalse
-\DeclareOption{portable}{
-	\Portabletrue
 }
 
 \DeclareOption*{
@@ -70,7 +64,11 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %		Basic settings, options processing
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\ifArticle
+\LoadClass[a4paper, 10pt, fleqn, openany, twoside]{article}
+\else
 \LoadClass[a4paper, 10pt, fleqn, openany, twoside]{report}
+\fi
 
 \RequirePackage{ifxetex}
 \ifxetex
@@ -101,6 +99,9 @@
 \RequirePackage{graphicx}
 \RequirePackage{wrapfig}
 \RequirePackage[autostyle=true]{csquotes}
+\ifFrench
+\setquotestyle[guillemets]{french}
+\fi
 \RequirePackage{calc}
 \RequirePackage[usenames,dvipsnames,svgnames,table]{xcolor}
 \RequirePackage{amsmath, amsfonts, amssymb}
@@ -109,10 +110,17 @@
 \RequirePackage{addlines}
 \RequirePackage{xparse}
 \RequirePackage{etoolbox}
+\RequirePackage{varwidth}
 \RequirePackage[marginIcons]{infoBulle}
 \RequirePackage{eso-pic}
 \RequirePackage{fancyhdr}
+\RequirePackage{lastpage}
 \RequirePackage{contour}
+\RequirePackage{marginfix}
+\RequirePackage{lettrine}
+\RequirePackage{zref-abspos}
+\RequirePackage{titletoc}
+\RequirePackage{mdframed}
 
 
 
@@ -120,32 +128,32 @@
 %		Layout
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \RequirePackage{changepage}
+\ifArticle\else
 \patchcmd{\part}{\thispagestyle{plain}}{\thispagestyle{empty}}{}{\errmessage{Cannot patch \string\part}}
+\fi
 
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{\baselineskip}
+\setlength{\marginparpush}{1.5\baselineskip}
 
 \RequirePackage[
 	xetex,
 	a4paper,
 %	showframe,
 	twoside,
-	top=20mm,
-	bottom=20mm,
+	top=27mm,
+	bottom=27mm,
 	inner=20mm,
 	outer=20mm,
-	includehead,
+	ignorehead,
 	ignorefoot,
 	includemp,
 	marginparwidth=52mm,
 	marginparsep=8mm,
-	headsep=10mm,
-	footskip=10mm,
+	headsep=7mm,
+	footskip=14mm,
+	headheight=12.2pt,
 ]{geometry}
-
-% No orphans
-\clubpenalty = 500 % penalty for a single line of a paragraph staying on the page before
-\widowpenalty = 1000 % penalty for a single line of a paragraph going to the page after
 
 % Commands for changing the page layout mid-document
 \newcommand{\symmetricalPage}{
@@ -167,6 +175,8 @@
 	\fancyhfoffset[OR, EL]{\marginparsep + \marginparwidth}
 }
 
+\setlength{\columnsep}{\marginparsep}
+
 % Saving some length as commands
 \newlength{\wholeMargin}
 \setlength{\wholeMargin}{\marginparwidth}
@@ -181,9 +191,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %		Font
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\ifPortable
-\defaultfontfeatures{Path = ./fonts/}
-\fi
 \defaultfontfeatures{Ligatures=TeX}
 \frenchspacing
 % For source code
@@ -205,13 +212,18 @@ ItalicFont=Fira Sans Light Italic,
 BoldItalicFont=Fira Sans Medium Italic
 ]
 \newfontfamily{\normalFont}{Fira Sans Light}
+\newfontfamily{\lightBoldFont}{Fira Sans}
+\newfontfamily{\heavyFont}{Fira Sans Heavy}
 \newfontfamily{\titleFont}{CanterLight}
-\newfontfamily{\headingFont}{Josefin Sans}
+\newfontfamily{\headingFontTest}{Fira Sans Book}
+\newcommand{\headingFont}{\headingFontTest}
 \newfontfamily{\chapterNumberFont}{Canter Bold 3D}%{London}%{DiamondsThinItalic}%Abril Fatface}
 \newfontfamily{\chapterFont}{CanterBold}
 \newfontfamily{\serifFont}{Vollkorn}
-\newfontfamily{\sectionNumbers}{Oswald Light}
+\newfontfamily{\sectionNumbers}{Oswald MediumItalic}
 \newfontfamily{\abril}{Abril Fatface}
+
+\usepackage{fontawesome}
 
 
 
@@ -219,6 +231,7 @@ BoldItalicFont=Fira Sans Medium Italic
 %		Colors
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \definecolor{mainColor}{RGB}{211, 47, 47}
+\colorlet{lightMainColor}{mainColor!80}
 \definecolor{secondColor}{RGB}{255, 193, 7}
 
 \definecolor{sectionNumbersColor}{gray}{.7}
@@ -237,36 +250,59 @@ BoldItalicFont=Fira Sans Medium Italic
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %		Utilities
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\DeclareDocumentCommand{\isOddPage}{mm}{
-	\strictpagechecktrue
-	\checkoddpage
+\DeclareDocumentCommand{\isOddPage}{mm}{%
+	\strictpagechecktrue%
+	\checkoddpage%
 	\ifoddpage%
-	#1
+	#1%
 	\else%
-	#2
+	#2%
 	\fi%
 }
-\DeclareDocumentCommand{\alignLeftOrRight}{O{} O{}}{
-	\strictpagechecktrue
-	\checkoddpage
+\DeclareDocumentCommand{\alignLeftOrRight}{O{} O{}}{%
+	\strictpagechecktrue%
+	\checkoddpage%
 	\ifoddpage%
-	\begin{FlushRight}
-		#1
+	\begin{FlushRight}%
+		#1%
 		\else%
-		\begin{FlushLeft}
-			#2
+		\begin{FlushLeft}%
+			#2%
 			\fi%
 		}
-		\DeclareDocumentCommand{\alignLeftOrRightEnd}{O{} O{}}{
-			\strictpagechecktrue
-			\checkoddpage
+		\DeclareDocumentCommand{\alignLeftOrRightEnd}{O{} O{}}{%
+			\strictpagechecktrue%
+			\checkoddpage%
 			\ifoddpage%
-		\end{FlushRight}
-		#1
+		\end{FlushRight}%
+		#1%
 		\else%
-	\end{FlushLeft}
-	#2
+	\end{FlushLeft}%
+	#2%
 	\fi%
+}
+\DeclareDocumentCommand{\alignLeftOrRightStandalone}{}{
+	\strictpagechecktrue%
+	\checkoddpage%
+	\ifoddpage%
+	\FlushRight%
+	\else%
+	\FlushLeft%
+	\fi%
+}
+\DeclareDocumentCommand{\alignLeftOrRightStandaloneInversed}{}{
+	\strictpagechecktrue%
+	\checkoddpage%
+	\ifoddpage%
+	\FlushLeft%
+	\else%
+	\FlushRight%
+	\fi%
+}
+\newcommand{\noHyphen}{\hyphenpenalty10000\exhyphenpenalty10000\righthyphenmin62\lefthyphenmin62}
+
+\newcommand{\emaillink}[1]{%
+	{\hypersetup{urlcolor=black}\href{mailto:#1}{#1}}%
 }
 
 
@@ -323,21 +359,28 @@ BoldItalicFont=Fira Sans Medium Italic
 \alignLeftOrRightEnd
 ]
 
+\ifArticle
+\renewcommand{\thesection}{\arabic{section}}
+\else
+\renewcommand{\thesection}{\arabic{chapter}.\arabic{section}}
+\fi
+
 \titleformat{\section}{}{%
 	\fontsize{1.6cm}{1.8cm}\sectionNumbers\color{sectionNumbersColor}%
-	\rlap{\hspace*{-3mm}\raisebox{-3mm}[0pt][0pt]{\ifArticle\else\arabic{chapter}.\fi\arabic{section}}}%
-}{0pt}{\Huge\headingFont}{}
+	\rlap{\hspace*{-3mm}\raisebox{-3mm}[1pt][1pt]{\thesection}}%
+}{-.8mm}{\Huge\headingFont}{}
 
 \titleformat{\subsection}{}{%
 	\fontsize{1cm}{1.2cm}\sectionNumbers\color{subsectionNumbersColor}%
-	\rlap{\hspace*{-2mm}\raisebox{-2mm}[0pt][0pt]{\ifArticle\else\arabic{chapter}.\fi\arabic{section}.\arabic{subsection}}}%
-}{0pt}{\huge\headingFont}{}
+	\rlap{\hspace*{-2mm}\raisebox{-2mm}[0pt][0pt]{\thesubsection}}%
+}{-.5mm}{\huge\headingFont}{}
 \titleformat*{\subsubsection}{\LARGE\headingFont}
 
 %Titling spacing: left before after [right]
 \titlespacing*{\chapter}{0mm}{3mm}{1cm}
 %\titlespacing*{name=\chapter,numberless}{0pt}{10pt}{0pt} %starred version of chapter default: 0pt, 50pt, 40pt
 \titlespacing*{\section}{0mm}{-1mm}{-4mm}
+\titlespacing*{name=\section, numberless}{0mm}{-1mm}{-3mm}
 \titlespacing*{\subsection}{0mm}{-1mm}{-3mm}
 \titlespacing*{\subsubsection}{0mm}{2mm}{1.5mm}
 
@@ -347,19 +390,25 @@ BoldItalicFont=Fira Sans Medium Italic
 %		Headers and footers
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagestyle{fancy}
+\ifArticle
+	\renewcommand{\leftmark}{\rightmark}
+\fi
 \fancypagestyle{yReport}{
 	\fancyhf{}
 	\ifHeaders
-	\fancyhead[RO]{\textit{\runauthor}, \leftmark\ \& \inColor{\textsc{\runtitle}}}
-	\fancyhead[LE]{\inColor{\textsc{\runtitle}} \& \leftmark, \textit{\runauthor}}
+		\fancyhead[RO]{{\renewcommand{\\}{ }\textit{\runauthor}, \leftmark\ \& \inColor{\textsc{\runtitle}}}}
+		\fancyhead[LE]{{\renewcommand{\\}{ }\inColor{\textsc{\runtitle}} \& \leftmark, \textit{\runauthor}}}
 	\fi
-	\fancyfoot[C]{\thepage}
+	\fancyfoot[C]{\thepage/{\hypersetup{linkcolor=Black}\pageref{LastPage}}}
 	\fancyhfoffset[OR, EL]{\marginparsep + \marginparwidth}
 	\renewcommand{\headrulewidth}{0pt}
 	\renewcommand{\footrulewidth}{0pt}
 }
 \pagestyle{yReport}
+\ifArticle\else
 \renewcommand{\chaptermark}[1]{\markboth{#1}{}}
+\fi
+\renewcommand{\sectionmark}[1]{\markright{#1}{}}
 \assignpagestyle{\chapter}{empty}
 \assignpagestyle{\part}{empty}
 
@@ -369,6 +418,8 @@ BoldItalicFont=Fira Sans Medium Italic
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \RequirePackage{tikz}
 \usetikzlibrary{fit}
+\usetikzlibrary{calc}
+\usetikzlibrary{matrix}
 
 \pgfdeclarelayer{bg}    % declare background layer
 \pgfsetlayers{bg,main}	% set the order of the layers (main is the standard layer)
@@ -401,8 +452,57 @@ BoldItalicFont=Fira Sans Medium Italic
 	\fi%
 }
 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Backgrounding commands
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Vertical lines
 \newcommand{\backgroundThisPageGrey}{\bigVerticalLine{bigVerticalLineGrey}}
 \newcommand{\backgroundThisPageColor}{\bigVerticalLine{mainColor}}
+
+% Entire page area
+\newcounter{background}[page]
+\renewcommand{\thebackground}{\arabic{page}-\arabic{background}}
+
+\newcommand{\backgroundAnchor}[1]{\leavevmode\zsavepos{background-#1}}
+
+\newlength{\backgroundInnerTopSpace}
+\DeclareDocumentCommand{\startBackground}{O{0mm} O{0mm} O{\thebackground}}{% space_before_begin space_after_begin counter
+	\setlength{\backgroundInnerTopSpace}{1em}\addtolength{\backgroundInnerTopSpace}{#2}%
+	\vspace*{#1}\newline%
+	\backgroundAnchor{begin-#3}\vspace*{\backgroundInnerTopSpace}\\%
+}
+
+\DeclareDocumentCommand{\startBackgroundPageTop}{O{\thebackground}}{\tikz[overlay, remember picture]{\node at(current page.north west){\backgroundAnchor{#1}};}}
+
+\newlength{\depthLength}
+\settodepth{\depthLength}{p}
+\newlength{\backgroundInnerBottomSpace}
+\newlength{\backgroundOuterBottomSpace}
+\DeclareDocumentCommand{\stopBackground}{O{0mm} O{0mm} O{\thebackground}}{% outer_space inner_space counter
+	\setlength{\backgroundInnerBottomSpace}{2\depthLength}\addtolength{\backgroundInnerBottomSpace}{#2}%
+	\vspace*{\backgroundInnerBottomSpace}%
+	\setlength{\backgroundOuterBottomSpace}{1em}\addtolength{\backgroundOuterBottomSpace}{#1}
+	\backgroundAnchor{end-#3}\vspace*{\backgroundOuterBottomSpace}
+}
+
+\DeclareDocumentCommand{\stopBackgroundPageBottom}{O{\thebackground}}{\tikz[overlay, remember picture]{\node at(current page.south east){\backgroundAnchor{#1}};}}
+
+\tikzset{background/.style = {fill=lightGrey}}
+\newcommand{\drawBackground}[1][\thebackground]{%
+	\leavevmode%
+	\stepcounter{background}%
+	\zsavepos{background-draw-#1}%
+	\begin{tikzpicture}[remember picture, overlay, inner sep=0mm]
+		\fill[background] let
+		\p1=(current page.west),
+		\p2=(current page.east) in
+		(\x1, \zposy{background-begin-#1}sp - \zposy{background-draw-#1}sp) rectangle
+		(\x2, \zposy{background-end-#1}sp   - \zposy{background-draw-#1}sp);
+	\end{tikzpicture}%
+	\ignorespaces
+}
 
 
 
@@ -410,6 +510,24 @@ BoldItalicFont=Fira Sans Medium Italic
 %		Date typesetting
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \RequirePackage{datetime}
+\ifFrench
+\newcommand{\monthThreeLetterName}{%
+	\ifcase\the\month
+	\or Jan% 1
+	\or Fév% 2
+	\or Mar% 3
+	\or Avr% 4
+	\or Mai% 5
+	\or Jui% 6
+	\or Jul% 7
+	\or Aou% 8
+	\or Sep% 9
+	\or Oct% 10
+	\or Nov% 11
+	\or Déc% 12
+	\fi
+}
+\else
 \newcommand{\monthThreeLetterName}{%
 	\ifcase\the\month
 	\or Jan% 1
@@ -426,6 +544,7 @@ BoldItalicFont=Fira Sans Medium Italic
 	\or Dec% 12
 	\fi
 }
+\fi
 \newdateformat{dayNumberOnTwoDigit}{\twodigit{\THEDAY}}
 
 
@@ -458,10 +577,15 @@ BoldItalicFont=Fira Sans Medium Italic
 	\newpage
 	\asymmetricalPage
 }
-\newcommand{\bigColoredTitleTwo}{{\fontsize{3cm}{3.6cm}\selectfont\chapterFont\runtitle}}
-\newcommand{\titleRule}{{\color{White}\rule{\linewidth}{1mm}}}
+
 \newlength{\titlepageHeaderHeight}
 \setlength{\titlepageHeaderHeight}{11cm}
+\newcommand\getwidthofnode[2]{%
+	\pgfextractx{#1}{\pgfpointanchor{#2}{east}}%
+	\pgfextractx{\pgf@xa}{\pgfpointanchor{#2}{west}}% \pgf@xa is a length defined by PGF for temporary storage. No need to create a new temporary length.
+	\addtolength{#1}{-\pgf@xa}%
+}
+\newlength{\titlepageTitleLength}
 \DeclareDocumentCommand{\titleTwo}{o o}{
 	\thispagestyle{empty}
 	\symmetricalPage
@@ -477,79 +601,57 @@ BoldItalicFont=Fira Sans Medium Italic
 		reset transform/.code={\pgftransformreset}
 	}
 	\begin{tikzpicture}[remember picture, overlay]
+		% some coordinates
 		\coordinate[yshift=-\titlepageHeaderHeight](rectangleEnd) at (current page.north east);
 		\coordinate[xshift=-4cm](dateCenter) at (rectangleEnd);
 		
+		% draw an image if one was provided
 		\IfValueT{#1}{\draw (current page.center)[yshift=-\titlepageHeaderHeight/2] node[align=center, inner sep=0mm, anchor=center] {\IfValueTF{#2}{\includegraphics[#2]{#1}}{\includegraphics[height=\paperheight-\titlepageHeaderHeight]{#1}}};}
 		
+		% red rectangle
 		\fill[mainColor] (current page.north west) rectangle (rectangleEnd) node[fitting node] (headerRectangle) {};
-		\node[text width=\linewidth, anchor=north west]{
-			\bigColoredTitleTwo\\[1mm] %3mm
-			{\color{White}\rule{\widthof{\bigColoredTitleTwo}}{1mm}}\\[5mm]
-			{
-				\fontsize{.6cm}{.72cm}\selectfont\color{White}
-				\hspace*{1.5mm}\@subtitle
-			}
-		};
 		
+		% title page text (title rule and subtitle)
+			% title
+		\draw (\leftmargin, -3.5cm) node[align=left, inner sep=0mm, anchor=south west, font=\fontsize{2.3cm}{1.8cm}\selectfont\chapterFont] (title) {
+			\hspace*{-.8mm}\begin{varwidth}{\textwidth}%
+				\FlushLeft%
+				\noHyphen\runtitle%
+			\end{varwidth}%
+		};
+			% rule
+		\getwidthofnode{\titlepageTitleLength}{title}
+		\node[inner xsep=0mm, text width=\titlepageTitleLength, anchor=north west, yshift=-2mm] (rule) at (title.south west) {
+			{\color{White}\rule{\linewidth}{.6mm}}
+		};
+			% author
+		\node[inner xsep=0mm, text width=\linewidth, anchor=north west, yshift=-2mm] (subtitle) at (rule.south west) {
+			{\fontsize{.6cm}{.72cm}\selectfont\color{White}
+				\@subtitle}% \runauthor
+			};
+		
+		% Date
 		\fill[mainColor] (dateCenter)[yshift=1mm] circle (1.8cm);
 		\fill[Black] (dateCenter)[yshift=1mm] circle (1.4cm); %, draw=Black, ultra thick
 		\draw[White](dateCenter) node[text width=1.3cm, align=center] (day) {\fontsize{1cm}{1.2cm}\selectfont\textbf{\dayNumberOnTwoDigit\today}};
 		\draw[White](dateCenter) node [node distance = .75cm, above of=day, text width=1.3cm, align=center](month) {\fontsize{.6cm}{1.2cm}\selectfont\textsc{\addfontfeatures{LetterSpace=15.0}\monthThreeLetterName}};
 		\draw[White](dateCenter) node[node distance = .65cm, below of=day, text width=1.3cm, align=center] (year) {\fontsize{.4cm}{1.2cm}\selectfont{\addfontfeatures{LetterSpace=20.0}\the\year} };
+		% author
+%		\node[anchor=south east] at ($(current page.south east)+(-6mm, 6mm)$) {\fontspec{Canter Light}\fontsize{10mm}{6mm}\color{White}\selectfont Yves Zumbach};
 	\end{tikzpicture}
 	\null
 	\vfill
-	\begin{tikzpicture}[overlay]
-		\draw (0,0) node[inner sep=4mm, anchor=west](author){\color{Black}\itshape\bfseries by \runauthor};
-		\coordinate[xshift=-\evensidemargin - 1in - \hoffset] (authorSouthMargin) at (author.south west);
-		\begin{pgfonlayer}{bg}
-			\node[fit=(authorSouthMargin)(author), fill=middleGrey]{};
-		\end{pgfonlayer}
-	\end{tikzpicture}
+	% author
+%	\begin{tikzpicture}
+%		\draw (0,0) node[inner sep=4mm, anchor=west](author){\color{Black}\itshape\bfseries by \runauthor};
+%		\coordinate[xshift=-\evensidemargin - 1in - \hoffset] (authorSouthMargin) at (author.south west);
+%		\begin{pgfonlayer}{bg}
+%			\node[fit=(authorSouthMargin)(author), fill=middleGrey]{};
+%		\end{pgfonlayer}
+%	\end{tikzpicture}
 	\newpage
 	\asymmetricalPage
 }
-%\newcommand{\bigColoredTitleTwo}{{\fontsize{3cm}{3.6cm}\selectfont\chapterFont\runtitle}}
-%\newcommand{\titleRule}{{\color{mainColor}\rule{\linewidth}{1mm}}}
-%\newcommand{\titleTwo}[3]{
-%	\thispagestyle{empty}
-%	\symmetricalPage
-%	\null
-%	\begin{tikzpicture}[remember picture, overlay]
-%	\coordinate[yshift=-5cm](rectangleEnd) at (current page.north east);
-%	\coordinate[xshift=-4cm](dateCenter) at (rectangleEnd);
-%	\fill[mainColor] (current page.north west) rectangle (rectangleEnd);
-%	\end{tikzpicture}
-%	\begin{tikzpicture}[remember picture, overlay]
-%	\fill[mainColor] (dateCenter)[yshift=1mm] circle (1.8cm);
-%	\fill[Black] (dateCenter)[yshift=1mm] circle (1.4cm); %, draw=Black, ultra thick
-%	\draw[White](dateCenter) node[text width=1.3cm, align=center] (day) {\fontsize{1cm}{1.2cm}\selectfont\textbf{\dayNumberOnTwoDigit\today}};
-%	\draw[White](dateCenter) node [node distance = .75cm, above of=day, text width=1.3cm, align=center](month) {\fontsize{.6cm}{1.2cm}\selectfont\textsc{\addfontfeatures{LetterSpace=15.0}\monthThreeLetterName}};
-%	\draw[White](dateCenter) node[node distance = .65cm, below of=day, text width=1.3cm, align=center] (year) {\fontsize{.4cm}{1.2cm}\selectfont{\addfontfeatures{LetterSpace=20.0}\the\year} };
-%	\end{tikzpicture}
-%	\vspace*{4cm}
-%	
-%	\titleRule
-%	
-%	%	\begin{Center}
-%	\bigColoredTitleTwo
-%	%	\end{Center}
-%	
-%	\titleRule
-%	
-%	{
-%		\fontsize{.6cm}{.72cm}\selectfont\fontspec{Fira Sans Book}\color{mainColor}
-%		\@subtitle
-%	}
-%	\hfill
-%	{
-%		\itshape\runauthor
-%	}
-%	\vfill
-%	\newpage
-%	\asymmetricalPage
-%}
 
 
 
@@ -607,14 +709,24 @@ BoldItalicFont=Fira Sans Medium Italic
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newcommand{\itemColor}[1]{\item[\llap{\inColor{#1}\hspace*{.75mm}}]}
 \newcommand{\listConfig}{
-	\setlength{\topsep}{\baselineskip} % amount of extra vertical space at top of list
-	\setlength{\partopsep}{0pt} % extra length at top if environment is preceded by a blank line (it should be a rubber length)
+	\setlength{\topsep}{0pt} % amount of extra vertical space at top of list
+	\setlength{\partopsep}{\baselineskip} % extra length at top if environment is preceded by a blank line (it should be a rubber length)
 	\setlength{\parsep}{\baselineskip} % amount of vertical space between paragraphs within an item
 	\setlength{\itemsep}{-\baselineskip} % amount of extra vertical space between items
 	\setlength{\leftmargin}{1cm} % horizontal distance between the left margins of the environment and the list; must be nonnegative
 	\setlength{\rightmargin}{0cm} % horizontal distance betwen the right margins of the enviroment and the list; must be nonnegative
 	\setlength{\itemindent}{0pt} % indentation of first line of an item; can be negative
 	\setlength{\labelsep}{2mm} % separation between end of the box containing the label and the text of the first line of an item
+}
+\newcommand{\sideListConfig}{
+	\setlength{\topsep}{-.5\baselineskip} % amount of extra vertical space at top of list
+	\setlength{\partopsep}{0pt} % extra length at top if environment is preceded by a blank line (it should be a rubber length)
+	\setlength{\parsep}{\baselineskip} % amount of vertical space between paragraphs within an item
+	\setlength{\itemsep}{-\baselineskip} % amount of extra vertical space between items
+	\setlength{\leftmargin}{8mm} % horizontal distance between the left margins of the environment and the list; must be nonnegative
+	\setlength{\rightmargin}{0cm} % horizontal distance betwen the right margins of the enviroment and the list; must be nonnegative
+	\setlength{\itemindent}{0pt} % indentation of first line of an item; can be negative
+	\setlength{\labelsep}{1ex} % separation between end of the box containing the label and the text of the first line of an item
 }
 
 % Enumeratable list
@@ -626,6 +738,17 @@ BoldItalicFont=Fira Sans Medium Italic
 			\arabic{enumi}
 		}{%
 		\listConfig
+		\usecounter{enumi}
+	}
+}{\end{list}}
+\newenvironment{sideEnum}{%
+	\begin{list}{
+			\ifColorBullet
+			\color{mainColor}
+			\fi
+			\arabic{enumi}
+		}{%
+		\sideListConfig
 		\usecounter{enumi}
 	}
 }{\end{list}}
@@ -645,12 +768,32 @@ BoldItalicFont=Fira Sans Medium Italic
 		\listConfig
 	}
 }{\end{list}}
+\newenvironment{sideItems}{%
+	\begin{list}{%
+			\ifColorBullet%
+			\color{mainColor}%
+			\fi%
+			\ifFrenchBullet%
+			\textbf{---}%
+			\else%
+			\textbullet%
+			\fi%
+		}{%
+			\sideListConfig
+		}
+}{\end{list}}
+
 \newenvironment{descr}{%
 	\begin{list}{}{%
 			\listConfig
 			\setlength{\itemsep}{0pt}
 	}
 }{\end{list}}
+\newenvironment{sideDescr}{%
+	\begingroup\begin{list}{}{%
+			\sideListConfig
+		}
+	}{\end{list}\endgroup}
 	
 	
 	
@@ -658,11 +801,9 @@ BoldItalicFont=Fira Sans Medium Italic
 %		Quotation
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newcommand{\quoteStart}{
-	\raisebox{-1.5cm}[0mm][0mm]{%
-		\fontsize{3cm}{0mm}\selectfont%
-		\color{middleGrey}%
-		{\fontspec{Lora Bold Italic}“}\hspace*{-6.5mm}%
-	}%
+	\fontsize{3cm}{0mm}\selectfont%
+	\color{middleGrey}%
+	{\fontspec{Lora Bold Italic}“}
 }
 \NewDocumentCommand{\blockQuote}{o m}{
 	\vskip \baselineskip
@@ -670,7 +811,7 @@ BoldItalicFont=Fira Sans Medium Italic
 		\mbox{}%
 		\setlength{\parindent}{0pt}%
 		\setlength{\parskip}{\baselineskip}%
-		\llap{\quoteStart}
+		\llap{\raisebox{-1.5cm}[0mm][0mm]{\quoteStart\hspace*{-16mm}}}
 		{\itshape#2}
 		\IfValueT{#1}{
 			\setlength{\parskip}{\baselineskip/2}%
@@ -684,19 +825,19 @@ BoldItalicFont=Fira Sans Medium Italic
 	\vskip \baselineskip
 }
 
-\DeclareDocumentCommand{\sideQuote}{o m}{
+\DeclareDocumentCommand{\sideQuote}{o m}{%
 	\marginElement{%
-		\llap{\quoteStart}%
-		{\itshape#2}
-		\IfValueT{#1}{
+		\llap{\raisebox{-1.8cm}[0mm][0mm]{\quoteStart\hspace*{-16mm}\isOddPage{}{\hspace*{-7mm}}}}%
+		{\itshape#2}%
+		\IfValueT{#1}{%
 			\setlength{\parskip}{\baselineskip/2}%
-			\begingroup\setlength\topsep{0pt}
-			\begin{flushright}
-				--- #1
-			\end{flushright}
-			\endgroup
-		}
-	}
+			\begingroup\setlength\topsep{0pt}%
+			\begin{flushright}%
+				--- #1%
+			\end{flushright}%
+			\endgroup%
+		}%
+	}%
 }
 	
 \DeclareDocumentCommand{\fullQuote}{o m}{
@@ -734,20 +875,34 @@ BoldItalicFont=Fira Sans Medium Italic
 }
 \strictpagecheck
 
-\RequirePackage[margincaption,outercaption]{sidecap}
-\sidecaptionvpos{figure}{t} 
-\sidecaptionvpos{table}{t}
+%\RequirePackage[margincaption,outercaption]{sidecap}
+%\sidecaptionvpos{figure}{t} 
+%\sidecaptionvpos{table}{t}
 
 
 \RequirePackage{caption}
-\DeclareCaptionLabelFormat{lineLabel}{\raisebox{-.3ex}{\tikz\fill[mainColor] (0,0) rectangle (1mm, \baselineskip);}\enspace#1 #2}
-\DeclareCaptionStyle{yReportCaptionStyle}{labelsep=quad, labelformat=lineLabel, singlelinecheck=false}
-\captionsetup[figure]{style=yReportCaptionStyle, justification=RaggedRight, position=bottom}
-\captionsetup[table]{style=yReportCaptionStyle, justification=RaggedRight, position=bottom}
+%\DeclareCaptionLabelFormat{yLabel}{\raisebox{-.3ex}{\tikz\fill[mainColor] (0,0) rectangle (1mm, \baselineskip);}\enspace#1 #2}
+%		\parshape=3
+%		2cm 6cm
+%		2cm 6cm
+%		0cm \linewidth
+%		{\normalsize\normalfont%
+%			\tikz{\node[inner sep=2mm, fill=lightGrey, text=mainColor, font=\bfseries]{#1 #2};}%
+%		}%
+\DeclareCaptionLabelFormat{yLabel}{%
+%\lettrine[lhang=0, lines=2, findent=.5em, nindent=0em ]{\normalsize\tikz{\node[anchor=west, inner sep=2mm, fill=lightGrey, font=\bfseries, text=mainColor] {#1 #2};}}{}%\\
+\tikz{\node[anchor=west, inner sep=2mm, fill=lightGrey, font=\bfseries, text=mainColor]{#1 #2};}
+}
+
+\DeclareDocumentCommand{\sideCaptionOf}{m m}{\marginnote{\captionof{#1}{#2}}}
+
+\DeclareCaptionStyle{yReportCaptionStyle}{labelsep=none, labelformat=yLabel, singlelinecheck=false}
+\captionsetup*[figure]{style=yReportCaptionStyle, justification=RaggedRight, position=bottom}
+\captionsetup*[table]{style=yReportCaptionStyle, justification=RaggedRight, position=bottom}
 
 \DeclareCaptionJustification{raggedouter}{\raggedouter}
-\captionsetup[SCtable]{style=yReportCaptionStyle, justification=raggedouter}
-\captionsetup[SCfigure]{style=yReportCaptionStyle, justification=raggedouter}
+\captionsetup*[SCtable]{style=yReportCaptionStyle, justification=raggedouter}
+\captionsetup*[SCfigure]{style=yReportCaptionStyle, justification=raggedouter}
 
 
 
@@ -759,20 +914,23 @@ BoldItalicFont=Fira Sans Medium Italic
 % The mark on the sidenote
 \DeclareDocumentCommand{\sideMark}{O{mainColor} m}{{\color{#1}\normalFont#2.{\:}}}
 
-\DeclareDocumentCommand{\marginElement}{m O{0}}{%
-	\marginnote{%
-		\strictpagechecktrue
-		\checkoddpage
+\DeclareDocumentCommand{\marginElement}{m}{%
+	\marginpar{%
+		\strictpagechecktrue%
+		\checkoddpage%
 		\ifoddpage%
 		\RaggedRight\footnotesize%
 		\else%
 		\RaggedLeft\footnotesize%
 		\fi%
 		#1%
-	}[#2\baselineskip]%
+	}\unskip%
 }%
 
-\DeclareDocumentCommand{\sideNote}{O{mainColor} m O{0}}{%
+\DeclareDocumentCommand{\sideTitle}{m}{{\lightBoldFont\large#1}}
+\DeclareDocumentCommand{\sideTitleColor}{m}{{\color{mainColor}\sideTitle{#1}}}
+
+\DeclareDocumentCommand{\sideNote}{O{mainColor} m}{%
 	{%
 		\hypersetup{linkcolor=mainColor}%
 		\normalFont%
@@ -783,12 +941,30 @@ BoldItalicFont=Fira Sans Medium Italic
 		\sideMark[#1]{\thefootnote}%
 		\ignorespaces%
 		#2%
-	}[#3]%
-	\unskip%
+	}%
 }%
 
-\RequirePackage{mparhack}
-% Sidetable (have to use marginpar since tabular doesn't work with marginnote)
+\DeclareDocumentCommand{\forcedSideNote}{O{mainColor} m}{%
+	{%
+		\hypersetup{linkcolor=mainColor}%
+		\normalFont%
+		\footnotemark%
+	}%
+	\ignorespaces%
+	\marginnote{
+		\strictpagechecktrue
+		\checkoddpage
+		\ifoddpage%
+		\RaggedRight\footnotesize%
+		\else%
+		\RaggedLeft\footnotesize%
+		\fi%
+		\sideMark[#1]{\thefootnote}%
+		\ignorespaces%
+		#2%
+	}%
+}
+
 \makeatletter
 \DeclareDocumentCommand{\sideTable}{o m}{%
 	\marginpar{%
@@ -802,7 +978,7 @@ BoldItalicFont=Fira Sans Medium Italic
 		\@afterindentfalse\@afterheading
 		\vspace*{6mm} % compensate the table space added above the first line by the gape command
 		#2
-		\captionsetup[table]{font={footnotesize}}
+		\captionsetup*[table]{font={footnotesize}}
 		\IfValueT{#1}{\captionof{table}{#1}}
 	}
 }	
@@ -819,7 +995,7 @@ BoldItalicFont=Fira Sans Medium Italic
 		\fi%
 		\@afterindentfalse\@afterheading%
 		#2%
-		\captionsetup[figure]{font={footnotesize}}%
+		\captionsetup*[figure]{font={footnotesize}}%
 		\IfValueT{#1}{\vspace*{-2mm}\captionof{figure}{#1}}
 	}
 }
@@ -832,17 +1008,11 @@ BoldItalicFont=Fira Sans Medium Italic
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newenvironment{whole}{%
 	\centering
-	\strictpagechecktrue
+	\blockmargin
 	\begin{adjustwidth*}{0em}{-\wholeMargin}
-		\strictpagechecktrue
-		\checkoddpage
-		\ifoddpage%
-		\RaggedRight
-		\else%
-		\RaggedLeft
-		\fi%
 }{%
 	\end{adjustwidth*}
+	\unblockmargin
 }
 
 % Centered environment
@@ -912,6 +1082,167 @@ BoldItalicFont=Fira Sans Medium Italic
 \clubpenalty=1000 %penalty for breaking after the first line of a par
 \widowpenalty=1000 %penalty for breaking before the last line of a par
 \brokenpenalty=700 %penalty for page breaking after hyphenated line
+\tolerance=500 %Allow LaTeX to break lines too often. It prevents line for overflowing in the margins
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		AuthorBlock
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareDocumentCommand{\authorBlockLine}{m m}{#1 \& #2\\}
+
+\DeclareDocumentCommand{\authorName}{m O{\faUser}}{
+	\authorBlockLine{}{\bfseries#1}%
+}
+\DeclareDocumentCommand{\authorAdressLineOne}{m O{\extraVerticalSpace\faHome}}{
+	\authorBlockLine{#2}{#1}%
+}
+\DeclareDocumentCommand{\authorAdressLineTwo}{m O{\phantom{\fontsize{2mm}{2mm}\faHome}}}{
+	\authorBlockLine{#2}{#1}%
+}
+\DeclareDocumentCommand{\authorAdressLineThree}{m O{\phantom{\fontsize{2mm}{2mm}\faHome}}}{
+	\authorBlockLine{#2}{#1}%
+}
+\DeclareDocumentCommand{\authorPhone}{m O{\extraVerticalSpace\fontsize{5mm}{4mm}\faMobile}}{
+	\authorBlockLine{#2}{#1}%
+}
+\DeclareDocumentCommand{\authorMail}{m O{\extraVerticalSpace\faEnvelopeO}}{
+	\authorBlockLine{#2}{\emaillink{#1}}%
+}
+\DeclareDocumentCommand{\authorWebsite}{m O{\extraVerticalSpace{\FA\symbol{"F245}}}}{
+	\authorBlockLine{#2}{\href{#1}{\color{Black}#1}}%
+}
+
+\newcommand{\authorBlockLineWidth}{1.8mm}
+\newcommand{\authorBlockLineLength}{8mm}
+\DeclareDocumentCommand{\authorBlock}{m O{inner sep=5mm}}{
+	\authorBlockSkeleton[
+	\begin{scope}[darkGrey, line width=\authorBlockLineWidth]
+		\draw ($(authorBlock.north east)+(-\authorBlockLineLength, 0)$) -- ++(\authorBlockLineLength, 0) -- ++(0, -\authorBlockLineLength);
+		\draw ($(authorBlock.south west)+(0, \authorBlockLineLength)$) -- ++(0, -\authorBlockLineLength) -- ++(\authorBlockLineLength, 0);
+		\draw ($(authorBlock.south east)+(-\authorBlockLineLength, 0)$) -- ++(\authorBlockLineLength, 0) -- ++(0, \authorBlockLineLength);
+	\end{scope}
+	\node[font=\fontsize{1.3cm}{1cm}, text=mainColor] (userIcon) at ($(authorBlock.north west)+(1mm, 0)$) {\faUser};
+	][#2][text=mainColor][]{#1}
+}
+
+% Arguments: 1afterCode 2matrixArgument 3columnOneCode 4columnTwoCode 5text
+\DeclareDocumentCommand{\authorBlockSkeleton}{O{} O{inner sep=5mm,} O{} O{} m}{
+	\begin{tikzpicture}
+	\matrix (authorBlock)[
+	matrix of nodes, ampersand replacement=\&,
+	nodes={inner ysep=.7mm, inner xsep=0mm, inner xsep=2mm, anchor=south west},
+	column 1/.style={nodes={anchor=south,#3}},%
+	column 2/.style={nodes={#4}},
+	#2
+	]{#5};
+	#1
+	\end{tikzpicture}
+}
+
+\newcommand{\extraVerticalSpace}{\rule{0pt}{2.5ex}}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Numbers typesetting
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareDocumentCommand{\bigNumber}{o m O{lightMainColor}}{% style line_color number
+	{\heavyFont\LARGE{#1#2}}\\{\color{#3}\rule{1.5cm}{2mm}}% \contourlength{.4pt}\contournumber{50}\contour{mainColor}
+}
+
+\DeclareDocumentCommand{\sideNumber}{O{mainColor} o m O{mainColor} m}{% sidenotemark_color number_style number line_color text
+	{%
+		\hypersetup{linkcolor=mainColor}%
+		\normalFont%
+		\footnotemark%
+	}%
+	\ignorespaces%
+	\marginElement{%
+		{\heavyFont\fontsize{1.2cm}{1.44cm}\selectfont\color{darkGrey}{#2#3}}\\%
+		{\color{#4}\rule{1.5cm}{2mm}}\\%
+		\sideMark[#1]{\thefootnote}
+		\ignorespaces%
+		#5%
+	}%
+}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Table of content
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\makeatletter
+%	\pretocmd{\@schapter}{\startcontents[chapter]}{}{} % uncomment to activate mini toc in frontmatter
+	\pretocmd{\@chapter}{\startcontents}{}{}
+\makeatother
+
+\apptocmd{\contentsline}{\par}{}{} % patching contentsline so that it works with partial ToC
+
+\titlecontents{partialsection}[0mm]% partial section style
+{\contentsmargin[4mm]{0mm}\fontspec{Fira Sans Book}\alignLeftOrRightStandaloneInversed}%
+{\isOddPage%
+	{\makebox[3.5mm]{\color{partialTocColor}$\blacktriangleright$\hfill}}%
+	{(p. \thecontentspage)}%
+\yTocSection}%
+{}{}[\vspace*{-1mm}]%
+\newcommand{\yTocSection}[1]{%
+	\isOddPage%
+		{#1\hspace*{1mm}(p. \thecontentspage)}%
+		{\hspace*{1mm}#1\makebox[3.5mm]{\hfill\color{partialTocColor}$\blacktriangleleft$}}%
+}
+
+\newcommand{\partialTocTitle}{%
+	En Bref%
+}
+
+\mdfdefinestyle{partialToc}{
+	skipabove=\baselineskip,
+	skipbelow=\baselineskip,
+	innertopmargin=4mm,
+	innerbottommargin=\baselineskip,
+	innerleftmargin=4mm,
+	innerrightmargin=4mm,
+	leftmargin=0mm,
+	rightmargin=0mm,
+	rightline=false,
+	topline=false,
+	bottomline=false,
+	leftline=false,
+	linewidth=1mm
+}
+\colorlet{partialTocColor}{White}
+\ifArticle
+	\mdfapptodefinestyle{partialToc}{
+		backgroundcolor=light-gray
+	}
+	\colorlet{partialTocColor}{mainColor}
+\else
+\fi
+\DeclareDocumentCommand{\printMarginPartialToc}{O{1} O{\partialTocTitle} o o}{%
+	\marginElement{%
+		\IfValueT{#3}{\vspace*{#3}}%
+		\ifArticle%
+		\begin{mdframed}[style=partialToc]%
+		\fi%
+			\alignLeftOrRightStandaloneInversed{\fontspec{Fira Sans Book}\Large #2}%\\
+			{\color{partialTocColor}\hfill\rule{\linewidth}{.5mm}}%
+			\vspace*{-2mm}%
+			\printcontents{partial}{1}{\setcounter{tocdepth}{#1}\hypersetup{linkcolor=black}}%
+			\ifArticle\else%
+			\vspace*{1mm}
+			{\color{partialTocColor}\hfill\rule{\linewidth}{.5mm}}%
+			\fi%
+		\ifArticle%
+		\end{mdframed}%
+		\fi%
+		\IfValueT{#4}{\vspace*{#4}}%
+	}
+}
+
+
+
+
 
 
 
