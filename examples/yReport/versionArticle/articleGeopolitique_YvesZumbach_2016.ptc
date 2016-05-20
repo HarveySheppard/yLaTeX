@@ -1,0 +1,16 @@
+\select@language {french}
+\ttl@starttoc {default@1}
+\contentsline {section}{\numberline {1}Introduction}{2}{section.1}
+\contentsline {section}{\numberline {2}État contre État}{2}{section.2}
+\contentsline {section}{\numberline {3}Individu contre État}{3}{section.3}
+\contentsline {section}{\numberline {4}Conclusion}{4}{section.4}
+\contentsline {section}{\numberline {A}Types d'attaques informatiques}{6}{Annexe.a.A}
+\contentsline {subsection}{\numberline {A.1}Déni de service (distribué)}{6}{subsection.a.A.1}
+\contentsline {subsection}{\numberline {A.2}Virus, vers et chevaux de Troie}{6}{subsection.a.A.2}
+\contentsline {subsection}{\numberline {A.3}Social Engineering}{7}{subsection.a.A.3}
+\contentsline {subsection}{\numberline {A.4}Pièces jointes corrompues}{7}{subsection.a.A.4}
+\contentsline {subsection}{\numberline {A.5}Man in the middle}{7}{subsection.a.A.5}
+\contentsline {subsection}{\numberline {A.6}Faille XSS (Cross Site Scripting)}{7}{subsection.a.A.6}
+\contentsline {subsection}{\numberline {A.7}Exploits et Zero-days}{7}{subsection.a.A.7}
+\contentsline {section}{\numberline {B}Red October}{9}{Annexe.a.B}
+\contentsfinish 

@@ -226,18 +226,37 @@ or
 	
 	Personally, I prefer \lstinline[breaklines]|\titleTwo|. Its two optional arguments are used as follows \lstinline[breaklines]|\includegraphics[<image_dimen>]{front/image/path.jpg}|. Note that \lstinline[breaklines]|\titleTwo| supports up to three lines title. More lines will overflow from the page. You can use \lstinline[breaklines]|\\| in the \lstinline[breaklines]|\title| command.
 	
-	\section{Author Informations}
+	\section{Author or Book Informations}
+	\subsection{Author Informations}
 	The \lstinline[breaklines]|\authorBlock{<infos>}| command typeset a block containing all author informations. It is intended to be put on the second (blank) page.
 	
 	<infos> should be replaced with one or more from the following commands:
 	\begin{lstlisting}[breaklines]
-		\authorName{<your name>}
-		\authorAdressLineOne{<adress line one>}
-		\authorAdressLineTwo{<adress line two>}
-		\authorAdressLineThree{<adress line three>}
-		\authorPhone{<phone number>}
-		\authorMail{<mail>}
-		\authorWebsite{<website>}
+\authorName{<your name>}
+\authorAdressLineOne{<adress line one>}
+\authorAdressLineTwo{<adress line two>}
+\authorAdressLineThree{<adress line three>}
+\authorPhone{<phone number>}
+\authorMail{<mail>}
+\authorWebsite{<website>}
+	\end{lstlisting}
+	
+	\subsection{Book Informations}
+	The \lstinline[breaklines]|\bookBlock{<infos>}| command typeset a block containing all author informations. It is intended to be put on the second (blank) page.
+	
+	<infos> should be replaced with one or more from the following commands:
+	\begin{lstlisting}[breaklines]
+\bookAuthor{<author>}
+\bookParution{<date>}
+\bookISBN{<number>}
+	\end{lstlisting}
+	
+	\subsection{Custom Line}
+	Creating your own lines is simple. Just call \lstinline[breaklines]|\blockLine{<icon>}{<texte>}|. This line will \textit{not} add extra vertical space above the line to separate it from the others. It will result in a spacing looking similar to the one above \lstinline|\authorAdressLineTwo|. If you want to add extra vertical space, add \lstinline|\extraVerticalSpace| inside <icon>. The icon itself can be pretty much anything: text, images, etc. However, until now I defined them using the fontAwesome font (a font containing icons). For unknown reasons, LaTeX sometimes doesn't recognise the commands defined by the fontawesome package which provide the icons. To solve that, simply call \lstinline[breaklines]|{\FA\symbol{"F19D}}| instead of the icon command. F19D is the hexadecimal code of the character you want to display. You can find such codes using font programs like NexusFont.
+	
+	Complete code:
+	\begin{lstlisting}
+\blockLine{\extraVerticalSpace{\FA\symbol{"F19D}}}{Collège Madame De Staël,}
 	\end{lstlisting}
 	
 	
