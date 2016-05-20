@@ -232,6 +232,7 @@ BoldItalicFont=Fira Sans Medium Italic
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \definecolor{mainColor}{RGB}{211, 47, 47}
 \colorlet{lightMainColor}{mainColor!80}
+\newcommand{\lightMainColor}{\colorlet{lightMainColor}{mainColor!80}\color{lightMainColor}}
 \definecolor{secondColor}{RGB}{255, 193, 7}
 
 \definecolor{sectionNumbersColor}{gray}{.7}
@@ -393,6 +394,13 @@ BoldItalicFont=Fira Sans Medium Italic
 \ifArticle
 	\renewcommand{\leftmark}{\rightmark}
 \fi
+\ifArticle\else
+	\renewcommand{\chaptermark}[1]{\markboth{#1}{}}
+\fi
+\renewcommand{\sectionmark}[1]{\markright{#1}{}}
+\renewcommand{\subsectionmark}[1]{\markright{#1}{}}
+\assignpagestyle{\chapter}{empty}
+\assignpagestyle{\part}{empty}
 \fancypagestyle{yReport}{
 	\fancyhf{}
 	\ifHeaders
@@ -405,12 +413,6 @@ BoldItalicFont=Fira Sans Medium Italic
 	\renewcommand{\footrulewidth}{0pt}
 }
 \pagestyle{yReport}
-\ifArticle\else
-\renewcommand{\chaptermark}[1]{\markboth{#1}{}}
-\fi
-\renewcommand{\sectionmark}[1]{\markright{#1}{}}
-\assignpagestyle{\chapter}{empty}
-\assignpagestyle{\part}{empty}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -474,7 +476,9 @@ BoldItalicFont=Fira Sans Medium Italic
 	\backgroundAnchor{begin-#3}\vspace*{\backgroundInnerTopSpace}\\%
 }
 
-\DeclareDocumentCommand{\startBackgroundPageTop}{O{\thebackground}}{\tikz[overlay, remember picture]{\node at(current page.north west){\backgroundAnchor{#1}};}}
+\DeclareDocumentCommand{\startBackgroundPageTop}{O{\thebackground}}{\begin{tikzpicture}[overlay, remember picture]%
+	\node at (current page.north west) {\backgroundAnchor{begin-#1}};
+\end{tikzpicture}}
 
 \newlength{\depthLength}
 \settodepth{\depthLength}{p}
@@ -487,7 +491,7 @@ BoldItalicFont=Fira Sans Medium Italic
 	\backgroundAnchor{end-#3}\vspace*{\backgroundOuterBottomSpace}
 }
 
-\DeclareDocumentCommand{\stopBackgroundPageBottom}{O{\thebackground}}{\tikz[overlay, remember picture]{\node at(current page.south east){\backgroundAnchor{#1}};}}
+\DeclareDocumentCommand{\stopBackgroundPageBottom}{O{\thebackground}}{\tikz[overlay, remember picture]{\node at (current page.south east) {\backgroundAnchor{end-#1}};}}
 
 \tikzset{background/.style = {fill=lightGrey}}
 \newcommand{\drawBackground}[1][\thebackground]{%
@@ -1089,66 +1093,83 @@ BoldItalicFont=Fira Sans Medium Italic
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %		AuthorBlock
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\DeclareDocumentCommand{\authorBlockLine}{m m}{#1 \& #2\\}
+\newcommand{\extraVerticalSpace}{\rule{0pt}{2.5ex}}
 
+\DeclareDocumentCommand{\blockLine}{m m}{#1 \& #2\\}
+
+% Author shortcuts
 \DeclareDocumentCommand{\authorName}{m O{\faUser}}{
-	\authorBlockLine{}{\bfseries#1}%
+	\blockLine{}{\bfseries#1}%
 }
 \DeclareDocumentCommand{\authorAdressLineOne}{m O{\extraVerticalSpace\faHome}}{
-	\authorBlockLine{#2}{#1}%
+	\blockLine{#2}{#1}%
 }
 \DeclareDocumentCommand{\authorAdressLineTwo}{m O{\phantom{\fontsize{2mm}{2mm}\faHome}}}{
-	\authorBlockLine{#2}{#1}%
+	\blockLine{#2}{#1}%
 }
 \DeclareDocumentCommand{\authorAdressLineThree}{m O{\phantom{\fontsize{2mm}{2mm}\faHome}}}{
-	\authorBlockLine{#2}{#1}%
+	\blockLine{#2}{#1}%
 }
 \DeclareDocumentCommand{\authorPhone}{m O{\extraVerticalSpace\fontsize{5mm}{4mm}\faMobile}}{
-	\authorBlockLine{#2}{#1}%
+	\blockLine{#2}{#1}%
 }
 \DeclareDocumentCommand{\authorMail}{m O{\extraVerticalSpace\faEnvelopeO}}{
-	\authorBlockLine{#2}{\emaillink{#1}}%
+	\blockLine{#2}{\emaillink{#1}}%
 }
 \DeclareDocumentCommand{\authorWebsite}{m O{\extraVerticalSpace{\FA\symbol{"F245}}}}{
-	\authorBlockLine{#2}{\href{#1}{\color{Black}#1}}%
+	\blockLine{#2}{\href{#1}{\color{Black}#1}}%
 }
 
-\newcommand{\authorBlockLineWidth}{1.8mm}
-\newcommand{\authorBlockLineLength}{8mm}
+% Book shortcuts
+\DeclareDocumentCommand{\bookAuthor}{m O{{\FA\symbol{"F040}}}}{
+	\blockLine{#2}{\bfseries#1}%
+}
+\DeclareDocumentCommand{\bookParution}{m O{\extraVerticalSpace\faCalendar}}{
+	\blockLine{#2}{#1}%
+}
+\DeclareDocumentCommand{\bookISBN}{m O{\extraVerticalSpace\textsc{isbn}}}{
+	\blockLine{#2}{#1}%
+}
+
+\newcommand{\blockLineWidth}{1.8mm}
+\newcommand{\blockLineLength}{8mm}
 \DeclareDocumentCommand{\authorBlock}{m O{inner sep=5mm}}{
-	\authorBlockSkeleton[
-	\begin{scope}[darkGrey, line width=\authorBlockLineWidth]
-		\draw ($(authorBlock.north east)+(-\authorBlockLineLength, 0)$) -- ++(\authorBlockLineLength, 0) -- ++(0, -\authorBlockLineLength);
-		\draw ($(authorBlock.south west)+(0, \authorBlockLineLength)$) -- ++(0, -\authorBlockLineLength) -- ++(\authorBlockLineLength, 0);
-		\draw ($(authorBlock.south east)+(-\authorBlockLineLength, 0)$) -- ++(\authorBlockLineLength, 0) -- ++(0, \authorBlockLineLength);
-	\end{scope}
-	\node[font=\fontsize{1.3cm}{1cm}, text=mainColor] (userIcon) at ($(authorBlock.north west)+(1mm, 0)$) {\faUser};
-	][#2][text=mainColor][]{#1}
+	\blockSkeleton[
+		\node[font=\fontsize{1.3cm}{1cm}, text=mainColor] (userIcon) at ($(authorBlock.north west)+(1mm, 0)$) {\faUser};
+	][#2]{#1}
+}
+\DeclareDocumentCommand{\bookBlock}{m O{inner sep=5mm}}{
+	\blockSkeleton[
+	\node[font=\fontsize{1.3cm}{1cm}, text=mainColor] (bookIcon) at ($(authorBlock.north west)+(1mm, 0)$) {\faBook};
+	][#2]{#1}
 }
 
 % Arguments: 1afterCode 2matrixArgument 3columnOneCode 4columnTwoCode 5text
-\DeclareDocumentCommand{\authorBlockSkeleton}{O{} O{inner sep=5mm,} O{} O{} m}{
+\DeclareDocumentCommand{\blockSkeleton}{O{} O{inner sep=5mm,} O{text=mainColor} O{} m}{
 	\begin{tikzpicture}
 	\matrix (authorBlock)[
-	matrix of nodes, ampersand replacement=\&,
-	nodes={inner ysep=.7mm, inner xsep=0mm, inner xsep=2mm, anchor=south west},
-	column 1/.style={nodes={anchor=south,#3}},%
-	column 2/.style={nodes={#4}},
-	#2
+		matrix of nodes, ampersand replacement=\&,
+		nodes={inner ysep=.7mm, inner xsep=0mm, inner xsep=2mm, anchor=south west},
+		column 1/.style={nodes={anchor=south,#3}},%
+		column 2/.style={nodes={#4}},
+		#2
 	]{#5};
+	\begin{scope}[darkGrey, line width=\blockLineWidth]
+		\draw ($(authorBlock.north east)+(-\blockLineLength, 0)$) -- ++(\blockLineLength, 0) -- ++(0, -\blockLineLength);
+		\draw ($(authorBlock.south west)+(0, \blockLineLength)$) -- ++(0, -\blockLineLength) -- ++(\blockLineLength, 0);
+		\draw ($(authorBlock.south east)+(-\blockLineLength, 0)$) -- ++(\blockLineLength, 0) -- ++(0, \blockLineLength);
+	\end{scope}
 	#1
 	\end{tikzpicture}
 }
-
-\newcommand{\extraVerticalSpace}{\rule{0pt}{2.5ex}}
 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %		Numbers typesetting
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\DeclareDocumentCommand{\bigNumber}{o m O{lightMainColor}}{% style line_color number
-	{\heavyFont\LARGE{#1#2}}\\{\color{#3}\rule{1.5cm}{2mm}}% \contourlength{.4pt}\contournumber{50}\contour{mainColor}
+\DeclareDocumentCommand{\bigNumber}{o m O{\lightMainColor}}{% style line_color number
+	{\heavyFont\LARGE{\IfValueT{#1}{#1}#2}}\\{#3\rule{1.5cm}{2mm}}% \contourlength{.4pt}\contournumber{50}\contour{mainColor}
 }
 
 \DeclareDocumentCommand{\sideNumber}{O{mainColor} o m O{mainColor} m}{% sidenotemark_color number_style number line_color text
@@ -1159,7 +1180,7 @@ BoldItalicFont=Fira Sans Medium Italic
 	}%
 	\ignorespaces%
 	\marginElement{%
-		{\heavyFont\fontsize{1.2cm}{1.44cm}\selectfont\color{darkGrey}{#2#3}}\\%
+		{\heavyFont\fontsize{1.2cm}{1.44cm}\selectfont\color{darkGrey}{\IfValueT{#2}{#2}#3}}\\%
 		{\color{#4}\rule{1.5cm}{2mm}}\\%
 		\sideMark[#1]{\thefootnote}
 		\ignorespaces%
@@ -1212,14 +1233,14 @@ BoldItalicFont=Fira Sans Medium Italic
 	linewidth=1mm
 }
 \colorlet{partialTocColor}{White}
-\ifArticle
+\DeclareDocumentCommand{\printMarginPartialToc}{O{1} O{\partialTocTitle} o o}{%
+	\ifArticle
 	\mdfapptodefinestyle{partialToc}{
 		backgroundcolor=light-gray
 	}
 	\colorlet{partialTocColor}{mainColor}
-\else
-\fi
-\DeclareDocumentCommand{\printMarginPartialToc}{O{1} O{\partialTocTitle} o o}{%
+	\else
+	\fi
 	\marginElement{%
 		\IfValueT{#3}{\vspace*{#3}}%
 		\ifArticle%
