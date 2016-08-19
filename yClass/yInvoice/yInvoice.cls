@@ -4,7 +4,7 @@
 
 % Based on the commands and typography from the dapper-invoice class by Michael Kropat
 
-\ProvidesClass{yMemoir}[2016/01/20 A memoir class with a modern look combined with a marginpar]
+\ProvidesClass{yInvoice}[2016/01/20 An invoice class with a modern flat look]
 \NeedsTeXFormat{LaTeX2e}
 
 % To handle key=value options in class definition
@@ -23,7 +23,7 @@
 \ifthenelse{\equal{\yInvoice@currency}{dollar}}{\newcommand{\currencysym}{\$}}{}
 \ifthenelse{\equal{\yInvoice@currency}{euro}}{\newcommand{\currencysym}{\euro}}{}
 \ifthenelse{\equal{\yInvoice@currency}{pound}}{\newcommand{\currencysym}{\textsterling}}{}
-\ifthenelse{\equal{\yInvoice@currency}{swissFranc}}{\newcommand{\currencysym}{.--}}{}
+\ifthenelse{\equal{\yInvoice@currency}{swissFranc}}{\newcommand{\currencysym}{CHF }}{}
 
 \DeclareOption*{
 	\ClassWarning{yInvoice}{Unknown option: \CurrentOption}
@@ -32,7 +32,7 @@
 \ProcessOptions\relax
 
 
-\LoadClass[a4paper, 10pt, oneside, fleqn]{article}
+\LoadClass[a4paper, 9pt, oneside, fleqn]{article}
 \RequirePackage[no-math]{fontspec}
 
 \RequirePackage{polyglossia}
@@ -46,7 +46,7 @@
 %		Various packages
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \RequirePackage{microtype}
-%\RequirePackage{graphicx}
+\RequirePackage{graphicx}
 \RequirePackage[german=swiss]{csquotes}
 \RequirePackage{calc}
 \RequirePackage[usenames,dvipsnames,svgnames,table]{xcolor}
@@ -100,7 +100,7 @@ BoldItalicFont=Fira Sans SemiBold Italic
 % Font for section, subsection, subsubsection, etc
 \newfontfamily{\josefin}{Josefin Sans}
 \newfontfamily{\abril}{Abril Fatface}
-\newfontfamily{\FA}{fontawesome-webfont.ttf}
+\newfontfamily{\FA}{FontAwesome_0.otf}
 
 
 
@@ -112,10 +112,10 @@ BoldItalicFont=Fira Sans SemiBold Italic
 %	showframe,
 	a4paper,
 	ignoreheadfoot,
-	left=2.5cm,
-	right=2.5cm,
-	top=2.5cm,
-	bottom=2.5cm,
+	left=2cm,
+	right=2cm,
+	top=3cm,
+	bottom=3cm,
 	nohead,
 	marginparwidth=0cm,
 	marginparsep=0mm
@@ -124,6 +124,8 @@ BoldItalicFont=Fira Sans SemiBold Italic
 \setlength{\footnotesep}{2mm}
 \setlength{\parskip}{1ex}
 \setlength{\parindent}{0ex}
+
+\pagestyle{empty}
 
 
 
@@ -148,17 +150,16 @@ BoldItalicFont=Fira Sans SemiBold Italic
 	pdfmenubar=true,
 	pdffitwindow=false,
 	pdfborder={1 1 0},
-	pdftitle={Title},
-	pdfauthor={Your name},
-	pdfsubject={},
 	pdfcreator=LaTeX,
-	pdfkeywords={{keyword 1}{keyword 2}},
 	colorlinks=true,
-	linkcolor=blue,
+	linkcolor=black,
 	linktoc=all,
-	urlcolor=blue,
-	citecolor=blue,
-	filecolor=blue
+	urlcolor=black,
+	citecolor=black,
+	filecolor=black
+}
+\newcommand{\emaillink}[1]{%
+	\href{mailto:#1}{#1}%
 }
 
 
@@ -272,7 +273,7 @@ BoldItalicFont=Fira Sans SemiBold Italic
 				& \yInvoice@yourAdressLineTwo\\
 				\ifdefempty{\yInvoice@yourAdressLineThree}{}{& \yInvoice@yourAdressLineThree\\}
 				\ifdefempty{\yInvoice@yourPhone}{}{\inLightGrey{\faMobile} & \yInvoice@yourPhone\\}
-				\ifdefempty{\yInvoice@yourMail}{}{\inLightGrey{\faEnvelopeO} & \yInvoice@yourMail\\}
+				\ifdefempty{\yInvoice@yourMail}{}{\inLightGrey{\faEnvelopeO} & \emaillink{\yInvoice@yourMail}\\}
 				\\
 				\inColor{Bank account} & \yInvoice@bankAdresse\\
 				\textsc{\inLightGrey{iban}}& \yInvoice@bankIban
@@ -289,7 +290,7 @@ BoldItalicFont=Fira Sans SemiBold Italic
 				\ifdefempty{\yInvoice@contact}{}{\\
 					\inColor{Contact} & \yInvoice@contact\\
 					\ifdefempty{\yInvoice@contactPhone}{}{\inLightGrey{\faMobile} & \yInvoice@contactPhone\\}
-					\ifdefempty{\yInvoice@contactMail}{}{\inLightGrey{\faEnvelopeO} & \yInvoice@contactMail\\}
+					\ifdefempty{\yInvoice@contactMail}{}{\inLightGrey{\faEnvelopeO} & \emaillink{\yInvoice@contactMail}\\}
 				}
 			\end{tabular}
 		}
@@ -323,19 +324,14 @@ BoldItalicFont=Fira Sans SemiBold Italic
 \RequirePackage{siunitx}
 \sisetup{round-integer-to-decimal, group-separator={'}}
 
-\newcommand{\formatPrice}[1]{
-	\ifthenelse{\equal{\yInvoice@currency}{swissFranc}}{
-		\formatNumber{#1}\currencysym
-	}{
+\newcommand{\formatPrice}[1]{{
 		\currencysym\formatNumber{#1}
 	}
 }
-\newcommand{\addCurrency}[1]{
-	\ifthenelse{\equal{\yInvoice@currency}{swissFranc}}{
-		#1\currencysym
-	}{
-	\currencysym#1
-}
+\newcommand{\addCurrency}[1]{%
+{%
+	\currencysym#1%
+}%
 }
 \newcommand{\formatNumber}[1]{
 	\num[group-separator={'}, group-minimum-digits=3, round-mode=places, round-precision=2]{#1}
@@ -346,10 +342,7 @@ BoldItalicFont=Fira Sans SemiBold Italic
 	\arrowbase\quad
 	\parbox{.4\textwidth}{
 		{
-			\fontsize{1cm}{1.2cm}\josefin\selectfont
-			\ifthenelse{\equal{\yInvoice@currency}{swissFranc}}{
-				\yInvoice@balancePrice\currencysym
-			}{
+			\fontsize{1cm}{1.2cm}\josefin\selectfont{
 				\currencysym\yInvoice@balancePrice
 			}
 		}\\[1mm]
@@ -383,25 +376,24 @@ BoldItalicFont=Fira Sans SemiBold Italic
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \RequirePackage{environ}
 \NewEnviron{costsDescription}[2]{
-	\begin{tabu} to \linewidth {lllXllll}
+	\begin{longtabu} to \linewidth {>{\raggedright}p{3cm} >{\raggedright}p{1.5cm} X[l] >{\raggedright}p{8mm} >{\raggedright}p{1.2cm} >{\raggedright}p{2cm}}
 		\rowfont{\bfseries\sffamily\leavevmode\color{white}}
 		\rowcolor{mainColor}
-		& Short name & Date & Description & Hours & Rate & Amount & \\
+		Short name & Date & Description & Hours & Rate & Amount\\
 \BODY
 		\summaryline{Total}{#1}
 		\summaryline{Paid}{#2}
 		\summaryline{Balance Due}{\yInvoice@balancePrice}
-	\end{tabu}
+	\end{longtabu}
 }
 
 
 \newcommand{\costEntry}[6]{
-	& #1 & #2 & #3 & #4 & \addCurrency{#5} & \addCurrency{#6} & \\
+	#1 & #2 & #3 & #4 & \addCurrency{#5} & \addCurrency{#6}\\
 }
 
-\newcommand{\summaryline}[2]{
-	\rowcolor{White}
-	& \multicolumn{5}{r}{\inColor{#1}} & \addCurrency{#2} & \\[-3mm]
+\DeclareExpandableDocumentCommand{\summaryline}{mm}{%
+	\multicolumn{5}{>{\cellcolor{White}}r}{\inColor{#1}} & \cellcolor{White}\addCurrency{#2}\\[-3mm]
 }
 
 
