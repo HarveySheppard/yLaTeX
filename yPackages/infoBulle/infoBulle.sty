@@ -37,7 +37,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %		Font configuration
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newfontfamily{\FA}{fontawesome-webfont.ttf}
+\newfontfamily{\FA}{FontAwesome}
 
 
 
@@ -55,11 +55,19 @@
 \definecolor{additionColor}{RGB}{63, 81, 181}
 \colorlet{codeColor}{Grey}
 
+\mdfdefinestyle{infoBulleFrametitleBelowSkip}{}
+
+\ifyMarginIcon\else
+\mdfapptodefinestyle{infoBulleFrametitleBelowSkip}{frametitlebelowskip=1mm}
+\fi
+
+
 % infoBulle basic configuration
-\newmdenv[
+\mdfdefinestyle{infoBulle}
+{
 	skipabove=\baselineskip,
-	skipbelow=.4\baselineskip,
-	innertopmargin=6mm,
+	skipbelow=0mm,
+	innertopmargin=4mm,
 	innerbottommargin=\baselineskip,
 	innerleftmargin=4mm,
 	innerrightmargin=4mm,
@@ -73,6 +81,10 @@
 	frametitlefont=\sffamily,
 	frametitlebelowskip=0mm,
 	frametitleaboveskip=4mm,
+	style=infoBulleFrametitleBelowSkip,
+}
+\newmdenv[
+	style=infoBulle,
 ]{infoBulle}
 
 
@@ -81,9 +93,10 @@
 %		Package Commands
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Title content
+\newcommand{\infoBulleTitleFormat}{\large}
 \newcommand{\iconStyle}{\fontsize{.8cm}{.96cm}}
 \newlength{\yIconHorizontalOffset}
-\setlength{\yIconHorizontalOffset}{1cm}
+\setlength{\yIconHorizontalOffset}{.73cm}
 \ifyMarginIcon
 	\newcommand{\@titleContent}[3]{%
 		\llap{\raisebox{-1mm}{\color{#1}\iconStyle#2\hspace*{\yIconHorizontalOffset}}}%
@@ -98,10 +111,10 @@
 			\@afterindentfalse\@afterheading%
 			\mbox{}%
 			\raisebox{-1mm}{\color{#1}\iconStyle#2}%
-		}~%
+		}\hspace*{2mm}%
 		\parbox[t]{\linewidth-.75cm}{%
 				\mbox{}%
-				\Large#3%
+				\infoBulleTitleFormat#3%
 		}%
 	}
 \fi
@@ -126,10 +139,34 @@
 %		User commands: infoBulles
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \DeclareDocumentCommand{\infoInfo}{m +m}{\@infoBulleSkeleton{informationColor}{\faInfoCircle}{#1}{#2}}
+\NewDocumentEnvironment{InfoInfo}{m}
+	{\begin{@infoBulleSkeletonEnv}{informationColor}{\faInfoCircle}{#1}}
+	{\end{@infoBulleSkeletonEnv}}
+
 \DeclareDocumentCommand{\warningInfo}{m +m}{\@infoBulleSkeleton{warningColor}{\faExclamationCircle}{#1}{#2}}
+\NewDocumentEnvironment{WarningInfo}{m}
+	{\begin{@infoBulleSkeletonEnv}{warningColor}{\faExclamationCircle}{#1}}
+	{\end{@infoBulleSkeletonEnv}}
+
 \DeclareDocumentCommand{\criticalInfo}{m +m}{\@infoBulleSkeleton{criticalColor}{\faTimesCircle}{#1}{#2}}
+\NewDocumentEnvironment{CriticalInfo}{m}
+	{\begin{@infoBulleSkeletonEnv}{criticalColor}{\faTimesCircle}{#1}}
+	{\end{@infoBulleSkeletonEnv}}
+
 \DeclareDocumentCommand{\checkInfo}{m +m}{\@infoBulleSkeleton{checkColor}{\faCheckCircle}{#1}{#2}}
+\NewDocumentEnvironment{CheckInfo}{m}
+	{\begin{@infoBulleSkeletonEnv}{checkColor}{\faCheckCircle}{#1}}
+	{\end{@infoBulleSkeletonEnv}}
+
 \DeclareDocumentCommand{\questionInfo}{m +m}{\@infoBulleSkeleton{questionColor}{\faQuestionCircle}{#1}{#2}}
+\NewDocumentEnvironment{QuestionInfo}{m}
+	{\begin{@infoBulleSkeletonEnv}{questionColor}{\faQuestionCircle}{#1}}
+	{\end{@infoBulleSkeletonEnv}}
+
+%\DeclareDocumentCommand{\exampleInfo}{m +m}{\@infoBulleSkeleton{questionColor}{\faQuestionCircle}{#1}{#2}}
+%\NewDocumentEnvironment{QuestionInfo}{m}
+%{\begin{@infoBulleSkeletonEnv}{questionColor}{\faQuestionCircle}{#1}}
+%	{\end{@infoBulleSkeletonEnv}}
 
 
 
@@ -139,7 +176,7 @@
 \lstnewenvironment{CodeInfoLst}[1][Python]
 {
 	\lstset{
-		language=#1,
+		language={#1},
 		numbers=left,
 		numbersep=7mm,
 		numberstyle=\color{Black},
@@ -166,16 +203,6 @@
 }
 {}
 
-%\NewDocumentCommand{\codeInfo}{m o O{Python} +v}{
-%	\begin{@infoBulleSkeletonEnv}{codeColor}{\codeLogo}{#1}
-%		\IfNoValueTF{#2}{}{
-%			\lstset{caption=#2}
-%		}
-%		\begin{CodeInfoLst}[#3]^^J%
-%			#4^^J
-%		\end{CodeInfoLst}
-%	\end{@infoBulleSkeletonEnv}
-%}
 \NewDocumentEnvironment{CodeInfo}{m o}{
 	\begin{@infoBulleSkeletonEnv}{codeColor}{\codeLogo}{#1}
 	\IfNoValueTF{#2}{}{
@@ -189,11 +216,14 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %		Logos
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newcommand{\codeLogo}{%
+\DeclareDocumentCommand{\infoBulleAbstractLogo}{O{Grey} m O{}}{%
 	\begin{tikzpicture}[inner sep=0mm]%
-	\fill[Grey] (0,0) circle (.35cm);
-	\draw (0,0) node {\fontsize{.4cm}{.48cm}\color{White}\faCode};
+		\fill[#1] (0,0) circle (.35cm);
+		\draw (0,0) node[text width=.7cm, align=center, font=\fontsize{.4cm}{.48cm}, #3] {#2};
 	\end{tikzpicture}
+}
+\newcommand{\codeLogo}{%
+	\infoBulleAbstractLogo{\color{White}\faCode}
 }
 
 
