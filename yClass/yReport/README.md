@@ -1,4 +1,4 @@
-#YMemoir
+# YMemoir
 
 This class aim to provide a beautiful class for LaTeX document, combining old typography (margin paragraph) with flat design.
 
