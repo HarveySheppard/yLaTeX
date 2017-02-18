@@ -1,0 +1,46 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Basic configuration
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass{memoir}
+
+\usepackage{lipsum}
+
+\usepackage{yMarginDesign}
+
+\usepackage{hyperref}
+
+
+\usepackage[%
+	a4paper,
+%	showframe,
+	twoside,
+	top=27mm,
+	bottom=27mm,
+	inner=20mm,
+	outer=20mm,
+	ignorehead,
+	ignorefoot,
+	includemp,
+	marginparwidth=52mm,
+	marginparsep=8mm,
+	headsep=7mm,
+	footskip=14mm,
+	headheight=12.2pt,
+]{geometry}
+\setlength{\marginparpush}{\baselineskip}
+
+\yMarginDesignConfiguration{%
+	color = red,
+}
+
+\begin{document}
+	
+	\lipsum[1]
+	\marginElement{\marginTitle{Margin Element}\lipsum[5]}
+	\lipsum[2]
+	
+	\marginNote{\marginTitle{Margin Note}\lipsum[1]}
+	\lipsum[3]
+	
+	
+\end{document}
