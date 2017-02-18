@@ -27,6 +27,10 @@
 % 
 % The Current Maintainer of this work is Yves Zumbach
 
+\NeedsTeXFormat{LaTeX2e}
+
+\ProvidesPackage{marginInfoBulle}[2017/02/18 An add-on for the infoBulle package that defines commands for infoBulles in the margin of a document]
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -60,14 +64,6 @@
 	frametitlebelowskip=1mm,
 	frametitleaboveskip=1mm,
 }
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%		Colors
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\definecolor{tipsColor}{RGB}{142, 68, 173}
 
 
 
@@ -145,15 +141,15 @@
 	{\marginInfoAbstract{\faQuestionCircle}{questionColor}{\GetTranslation{question}}{#2}{#3}}%
 }
 
-% marginExample
+% marginCheck
 %-------------------------------------------------------------------------------
-\NewTranslation{english}{example}{Example}
-\NewTranslation{french}{example}{Exemple}
-\NewTranslation{german}{example}{Beispiel}
-\DeclareDocumentCommand{\marginExample}{s o m}{%
+\NewTranslation{english}{check}{Example}
+\NewTranslation{french}{check}{Exemple}
+\NewTranslation{german}{check}{Beispiel}
+\DeclareDocumentCommand{\marginCheck}{s o m}{%
 	\IfBooleanTF{#1}
-	{\marginInfoAbstract*{\faCheckCircle}{checkColor}{\GetTranslation{example}}{#2}{#3}}
-	{\marginInfoAbstract{\faCheckCircle}{checkColor}{\GetTranslation{example}}{#2}{#3}}%
+	{\marginInfoAbstract*{\faCheckCircle}{checkColor}{\GetTranslation{check}}{#2}{#3}}
+	{\marginInfoAbstract{\faCheckCircle}{checkColor}{\GetTranslation{check}}{#2}{#3}}%
 }
 
 % marginWarning
@@ -166,3 +162,5 @@
 	{\marginInfoAbstract*{\faExclamationCircle}{warningColor}{\GetTranslation{warning}}{#2}{#3}}
 	{\marginInfoAbstract{\faExclamationCircle}{warningColor}{\GetTranslation{warning}}{#2}{#3}}%
 }
+
+\endinput
