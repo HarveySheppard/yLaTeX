@@ -1,6 +1,6 @@
 # infoBulle Documentation
 
-##Include the package
+## Include the package
 
 ```
 \usepackage{infoBulle}
@@ -9,7 +9,7 @@
 To use that package you will need to install it manually. For more instructions on how to install custom packages, see my article in the wiki of this repository or some other LaTeX documentation around the Web.
 
 ## Installation Procedure
-This package requires font awesome and XeLaTeX (or XeTeX) to work. InfoBulle, by default, is configured to work with the file `FontAwesome_0.otf`. If you installed the font under a different name, try adding the following code to your preambule:
+This package requires font awesome and XeLaTeX (or XeTeX) to work. InfoBulle, by default, is configured to work with the file `FontAwesome.otf`. If you installed the font under a different name, try adding the following code to your preambule:
 
 ```
 \newfontfamily{\FA}{yourFontAwesomeFileName.otf}

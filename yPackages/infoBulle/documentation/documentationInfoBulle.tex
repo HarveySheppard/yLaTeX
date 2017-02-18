@@ -78,8 +78,6 @@ ItalicFont=Lato Light Italic,
 BoldItalicFont=Lato Italic
 ]
 
-\newfontfamily{\FA}{fontawesome-webfont.ttf}
-
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -216,7 +214,7 @@ marginparsep=0mm
 \newpage
 
 \section{Preamble}
-This package is freely available under the \LaTeX\ Project Public Licence. For commercial use of this Work or a Derived or Compiled Work (as defined in the LPPL v1.3c), contact me before at thib1235[at]gmail.com
+This package is freely available under the \LaTeX\ Project Public Licence.
 
 \section{Include the package}
 \lstinline|\usepackage{infoBulle}|
@@ -236,6 +234,17 @@ This package mainly defines the following commands:
 	\item \verb|\criticalInfo{<Title>}{<Text>}|
 	\item \verb|\checkInfo{<Title>}{<Text>}|
 	\item \verb|\questionInfo{<Title>}{<Text>}|
+	\item \verb|\tipsInfo{<Title>}{<Text>}|
+\end{itemize}
+
+To each of the commadn described above, there exists a corresponding environment:
+\begin{itemize}
+	\item \verb|\begin{InfoInfo}{<Title>} <Text>\end{InfoInfo}|
+	\item \verb|\begin{WarningInfo}{<Title>} <Text>\end{WarningInfo}|
+	\item \verb|\begin{CriticalInfo}{<Title>} <Text>\end{CriticalInfo}|
+	\item \verb|\begin{CheckInfo}{<Title>} <Text>\end{CheckInfo}|
+	\item \verb|\begin{QuestionInfo}{<Title>} <Text>\end{QuestionInfo}|
+	\item \verb|\begin{TipsInfo}{<Title>} <Text>\end{TipsInfo}|
 \end{itemize}
 
 Which results in this:
@@ -244,6 +253,7 @@ Which results in this:
 \criticalInfo{Title}{\lipsum[3]}
 \checkInfo{Title}{\lipsum[3]}
 \questionInfo{Title}{\lipsum[3]}
+\tipsInfo{Title}{\lipsum[3]}
 
 \subsection{Code listings}
 This package also implement an environment that typeset code listings:
