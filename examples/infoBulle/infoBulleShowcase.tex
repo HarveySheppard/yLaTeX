@@ -1,4 +1,4 @@
-\documentclass{memoir}
+\documentclass{article}
 
 \usepackage{lipsum}
 
@@ -26,15 +26,21 @@
 \title{infoBulle Showcase}
 \author{Harvey Sheppard}
 
+%\infoBulleConfiguration{logo/shape = hexagon}
+
 \begin{document}
 	
 	\maketitle
+	
+	\section{Text InfoBulles}
+	
+	\infoInfo{\lipsum[2]}{\lipsum[2]}
 	
 	\questionInfo{Is this a question?}{\lipsum[2]}
 	
 	\checkInfo{What an Example}{\lipsum[2]}
 	
-	\warningInfo{Warning!}{\lipsum[2]}
+	\warningInfo{Warning!}{\lipsum[2]\lipsum[2]}
 	
 	\criticalInfo{Critical Info!}{\lipsum[2]}
 	
@@ -47,6 +53,50 @@ print "Hello World"
 		\end{CodeInfoLst}
 		\lipsum[2]
 	\end{CodeInfo}
+	
+	\section{Math InfoBulles}
+	
+	\begin{theorem}[Pythagoras]
+		Assuming we have a rectangle triangle with the hypotenuse named c. Then:
+		\[
+		a^2 + b^2 = c^2
+		\]
+	\end{theorem}
+	
+	\begin{lemma}[Pythagoras]
+		Assuming we have a rectangle triangle with the hypotenuse named c. Then:
+		\[
+		a^2 + b^2 = c^2
+		\]
+	\end{lemma}
+	
+	\begin{axiom}[Pythagoras]
+		Assuming we have a rectangle triangle with the hypotenuse named c. Then:
+		\[
+		a^2 + b^2 = c^2
+		\]
+	\end{axiom}
+	
+	\begin{proposition}[Pythagoras]
+		Assuming we have a rectangle triangle with the hypotenuse named c. Then:
+		\[
+		a^2 + b^2 = c^2
+		\]
+	\end{proposition}
+	
+	\begin{definition}[Pythagoras]
+		Assuming we have a rectangle triangle with the hypotenuse named c. Then:
+		\[
+		a^2 + b^2 = c^2
+		\]
+	\end{definition}
+	
+	\begin{corollary}[Pythagoras]
+		Assuming we have a rectangle triangle with the hypotenuse named c. Then:
+		\[
+		a^2 + b^2 = c^2
+		\]
+	\end{corollary}
 	
 	
 \end{document}

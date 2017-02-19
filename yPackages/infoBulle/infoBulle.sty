@@ -36,31 +36,73 @@
 %		Required Packages
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\RequirePackage{pgfopts}
 \RequirePackage{fontspec}
 \RequirePackage{calc}
 \RequirePackage[usenames,dvipsnames,svgnames]{xcolor}
+\RequirePackage{translations}
 \RequirePackage{fontawesome}
 \RequirePackage{mdframed}
 \RequirePackage{listings}
 \RequirePackage{xparse}
 \RequirePackage{tikz}
+\usetikzlibrary{calc}
+\RequirePackage{interfaces-base}
+\LoadInterface{pgfkeys}
 
 
-\newif\ifyMarginIcon
-\yMarginIconfalse
-\DeclareOption{marginIcons}{
-	\yMarginIcontrue
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Options
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Math InfoBulle Command
+%-------------------------------------------------------------------------------
+\newif\ifinfoBulleMath
+\pgfkeys{
+	/infoBulle/.cd,
+	mathInfoBulle/.true = {\infoBulleMathtrue},
+	mathInfoBulle/.false = {\infoBulleMathfalse},
+	mathInfoBulle = true,
 }
 
-\DeclareOption{francais}{
-	\renewcommand*{\lstlistlistingname}{Liste des codes}
+% Counter Reset
+%-------------------------------------------------------------------------------
+\pgfkeys{
+	/infoBulle/math/.cd,
+	counterReset/.store in=\infoBulle@mathCounterReset,
+	counterReset = section,
 }
 
-\DeclareOption*{%
-	\PackageWarning{infoBulle}{Unknown option: `\CurrentOption'}%
+% Margin Icon
+%-------------------------------------------------------------------------------
+\newif\ifinfoBulleMarginIcons
+\pgfkeys{
+	/infoBulle/.cd,
+	marginIcons/.true = {\infoBulleMarginIconstrue},
+	marginIcons/.false = {\infoBulleMarginIconsfalse},
+	marginIcons = false,
 }
 
-\ProcessOptions\relax
+% Icon Radius
+%-------------------------------------------------------------------------------
+\pgfkeys{
+	/infoBulle/icon/.cd,
+	radius/.store as dimen,
+	radius = 3.5mm,
+}
+
+% Icon Shape
+%-------------------------------------------------------------------------------
+\pgfkeys{
+	/infoBulle/icon/.cd,
+	shape/.is choice,
+	shape/round/.style = {/infoBulle/icon/radius = 3.5mm, /infoBulle/icon/shapeCommand/.code n args = {3}{\fill[##3] (##1) circle (##2);}},
+	shape/hexagon/.style = {/infoBulle/icon/radius = 4mm, /infoBulle/icon/shapeCommand/.code n args = {3}{\infoBulle@hexagon{##1}{##2}[##3, rotate=90];}},
+	shape/round,
+}
+
+\ProcessPgfPackageOptions{/infoBulle}
 
 
 
@@ -85,7 +127,18 @@
 \definecolor{checkColor}{RGB}{3, 169, 244}
 \definecolor{warningColor}{RGB}{255, 165, 0}
 \definecolor{tipsColor}{RGB}{142, 68, 173}
+\definecolor{mathematicalColor}{RGB}{230, 126, 34}
 \colorlet{codeColor}{Grey}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		TikZ Commands
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\DeclareDocumentCommand{\infoBulle@hexagon}{m m O{}}{
+	\fill [#3] ($ (#1) + (0:#2) $) -- ($ (#1) + (60:#2) $) -- ($ (#1) + (120:#2) $) -- ($ (#1) + (180:#2) $) -- ($ (#1) + (240:#2) $) -- ($ (#1) + (300:#2) $) -- cycle;
+}
 
 
 
@@ -95,9 +148,9 @@
 
 \mdfdefinestyle{infoBulleFrametitleBelowSkip}{}
 
-\ifyMarginIcon\else
-\mdfapptodefinestyle{infoBulleFrametitleBelowSkip}{frametitlebelowskip=1mm}
-\fi
+%\ifinfoBulleMarginIcons\else
+%\mdfapptodefinestyle{infoBulleFrametitleBelowSkip}{frametitlebelowskip=1mm}
+%\fi
 
 
 % infoBulle basic configuration
@@ -116,7 +169,6 @@
 	bottomline=false,
 	linewidth=1mm,
 	backgroundcolor=light-gray,
-	frametitlefont=\sffamily,
 	frametitlebelowskip=0mm,
 	frametitleaboveskip=4mm,
 	style=infoBulleFrametitleBelowSkip,
@@ -132,39 +184,55 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Title content
+%-------------------------------------------------------------------------------
 \newcommand{\infoBulleTitleFormat}{\large}
-\newcommand{\iconStyle}{\fontsize{.8cm}{.96cm}}
 \newlength{\yIconHorizontalOffset}
 \setlength{\yIconHorizontalOffset}{.73cm}
-\ifyMarginIcon
-	\newcommand{\@titleContent}[3]{%
-		\llap{\raisebox{-1mm}{\color{#1}\iconStyle#2\hspace*{\yIconHorizontalOffset}}}%
+% General Command
+\ifinfoBulleMarginIcons
+	\DeclareDocumentCommand{\@titleContent}{m m m}{%
+		\llap{#2\hspace*{\yIconHorizontalOffset}}%
 		\mbox{}%
-		\Large#3\par
+		\infoBulleTitleFormat#3%
 	}
 \else
-	\newcommand{\@titleContent}[3]{%		
+	\DeclareDocumentCommand{\@titleContent}{m m m}{%		
 		\@afterindentfalse\@afterheading%
 		\mbox{}%
-		\parbox[t][0pt]{.75cm}{%
+		\parbox[t][2\pgfkeysvalueof{/infoBulle/icon/radius}]{.75cm}{%
 			\@afterindentfalse\@afterheading%
 			\mbox{}%
-			\raisebox{-1mm}{\color{#1}\iconStyle#2}%
+			#2%
 		}\hspace*{2mm}%
-		\parbox[t]{\linewidth-.75cm}{%
+		\parbox[t]{\linewidth-.75cm-2mm}{%
 				\mbox{}%
 				\infoBulleTitleFormat#3%
 		}%
-	}
+	}%
 \fi
+% Command for titles n two part (one in bold, the other normal)
+% icon color, icon, title part one, title part two
+\DeclareDocumentCommand{\@titleContentTwoPart}{m m m m}{%
+	\@titleContent{#1}{#2}{#3\IfValueTF{#4}{~:\ {\normalfont#4}}{}}%
+}
+% Command for math title
+% icon color, icon, theorem sort (theorem, lemma, etc.), theorem counter, title
+\DeclareDocumentCommand{\@titleContentMath}{m m m}{%
+	\@titleContentTwoPart{mathematicalColor}{\mathematicalIcon}{#1 \arabic{\infoBulle@mathCounterReset}.#2}{#3}%
+}
 
 % infoBulle skeleton
+% The little mess with lengths allow to keep the same parindent and parskip inside the infoBulle (this is a little bug from mdframed)
+\newlength{\tempparindent}
+\newlength{\tempparskip}
 \NewDocumentEnvironment{@infoBulleSkeletonEnv}{m m m}{
-	\begin{infoBulle}[linecolor=#1, frametitle=\@titleContent{#1}{#2}{#3}]
-		\setlength{\parindent}{0pt}
-		\setlength{\parskip}{\baselineskip}
-	}{
-\end{infoBulle}
+	\setlength{\tempparindent}{\parindent}
+	\setlength{\tempparskip}{\parskip}
+	\begin{infoBulle}[linecolor=#1, frametitle=\@titleContent{#1}{#2}{#3}]%
+		\setlength{\parindent}{\tempparindent}%
+		\setlength{\parskip}{\tempparskip}%
+	}{%
+\end{infoBulle}%
 }
 \DeclareDocumentCommand{\@infoBulleSkeleton}{m m m +m}{
 	\begin{@infoBulleSkeletonEnv}{#1}{#2}{#3}
@@ -181,53 +249,74 @@
 
 % infoInfo
 %-------------------------------------------------------------------------------
-\DeclareDocumentCommand{\infoInfo}{m +m}{\@infoBulleSkeleton{informationColor}{\faInfoCircle}{#1}{#2}}
+\newcommand{\infoIcon}{%
+	\infoBulleAbstractIcon{informationColor}{\faInfo}
+}
+\DeclareDocumentCommand{\infoInfo}{m +m}{\@infoBulleSkeleton{informationColor}{\infoIcon}{#1}{#2}}
 \NewDocumentEnvironment{InfoInfo}{m}
-	{\begin{@infoBulleSkeletonEnv}{informationColor}{\faInfoCircle}{#1}}
+	{\begin{@infoBulleSkeletonEnv}{informationColor}{\infoIcon}{#1}}
 	{\end{@infoBulleSkeletonEnv}}
 
 
 % warningInfo
 %-------------------------------------------------------------------------------
-\DeclareDocumentCommand{\warningInfo}{m +m}{\@infoBulleSkeleton{warningColor}{\faExclamationCircle}{#1}{#2}}
+\newcommand{\warningIcon}{%
+	\infoBulleAbstractIcon{warningColor}{\faExclamation}
+}
+\DeclareDocumentCommand{\warningInfo}{m +m}{\@infoBulleSkeleton{warningColor}{\warningIcon}{#1}{#2}}
 \NewDocumentEnvironment{WarningInfo}{m}
-	{\begin{@infoBulleSkeletonEnv}{warningColor}{\faExclamationCircle}{#1}}
+	{\begin{@infoBulleSkeletonEnv}{warningColor}{\warningIcon}{#1}}
 	{\end{@infoBulleSkeletonEnv}}
 
 
 % criticalInfo
 %-------------------------------------------------------------------------------
-\DeclareDocumentCommand{\criticalInfo}{m +m}{\@infoBulleSkeleton{criticalColor}{\faTimesCircle}{#1}{#2}}
+\newcommand{\criticalIcon}{%
+	\infoBulleAbstractIcon{criticalColor}{\faTimes}
+}
+\DeclareDocumentCommand{\criticalInfo}{m +m}{\@infoBulleSkeleton{criticalColor}{\criticalIcon}{#1}{#2}}
 \NewDocumentEnvironment{CriticalInfo}{m}
-	{\begin{@infoBulleSkeletonEnv}{criticalColor}{\faTimesCircle}{#1}}
+	{\begin{@infoBulleSkeletonEnv}{criticalColor}{\criticalIcon}{#1}}
 	{\end{@infoBulleSkeletonEnv}}
 
 
 % checkInfo
 %-------------------------------------------------------------------------------
-\DeclareDocumentCommand{\checkInfo}{m +m}{\@infoBulleSkeleton{checkColor}{\faCheckCircle}{#1}{#2}}
+\newcommand{\checkIcon}{%
+	\infoBulleAbstractIcon{checkColor}{\faCheck}
+}
+\DeclareDocumentCommand{\checkInfo}{m +m}{\@infoBulleSkeleton{checkColor}{\checkIcon}{#1}{#2}}
 \NewDocumentEnvironment{CheckInfo}{m}
-	{\begin{@infoBulleSkeletonEnv}{checkColor}{\faCheckCircle}{#1}}
+	{\begin{@infoBulleSkeletonEnv}{checkColor}{\checkIcon}{#1}}
 	{\end{@infoBulleSkeletonEnv}}
 
 
 % questionInfo
 %-------------------------------------------------------------------------------
-\DeclareDocumentCommand{\questionInfo}{m +m}{\@infoBulleSkeleton{questionColor}{\faQuestionCircle}{#1}{#2}}
+\newcommand{\questionIcon}{%
+	\infoBulleAbstractIcon{questionColor}{\faQuestion}
+}
+\DeclareDocumentCommand{\questionInfo}{m +m}{\@infoBulleSkeleton{questionColor}{\questionIcon}{#1}{#2}}
 \NewDocumentEnvironment{QuestionInfo}{m}
-	{\begin{@infoBulleSkeletonEnv}{questionColor}{\faQuestionCircle}{#1}}
+	{\begin{@infoBulleSkeletonEnv}{questionColor}{\questionIcon}{#1}}
 	{\end{@infoBulleSkeletonEnv}}
 
 
 % tipsInfo
 %-------------------------------------------------------------------------------
-\DeclareDocumentCommand{\tipsInfo}{m +m}{\@infoBulleSkeleton{tipsColor}{\FA\symbol{"F0EB}}{#1}{#2}}
+\newcommand{\tipsIcon}{%
+	\infoBulleAbstractIcon{tipsColor}{\FA\symbol{"F0EB}}
+}
+\DeclareDocumentCommand{\tipsInfo}{m +m}{\@infoBulleSkeleton{tipsColor}{\tipsIcon}{#1}{#2}}
 \NewDocumentEnvironment{TipsInfo}{m}
-{\begin{@infoBulleSkeletonEnv}{tipsColor}{\FA\symbol{"F0EB}}{#1}}
+{\begin{@infoBulleSkeletonEnv}{tipsColor}{\tipsIcon}{#1}}
 	{\end{@infoBulleSkeletonEnv}}
 
 % codeInfo
 %-------------------------------------------------------------------------------
+\newcommand{\codeIcon}{%
+	\infoBulleAbstractIcon{Grey}{\faCode}
+}
 \lstnewenvironment{CodeInfoLst}[1][Python]
 {
 	\lstset{
@@ -259,7 +348,7 @@
 {}
 
 \NewDocumentEnvironment{CodeInfo}{m o}{
-	\begin{@infoBulleSkeletonEnv}{codeColor}{\codeLogo}{#1}
+	\begin{@infoBulleSkeletonEnv}{codeColor}{\codeIcon}{#1}
 	\IfNoValueTF{#2}{}{
 		\lstset{caption=#2}
 	}
@@ -270,18 +359,145 @@
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%		Logos
+%		User Math Commands
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\DeclareDocumentCommand{\infoBulleAbstractLogo}{O{Grey} m O{}}{%
-	\begin{tikzpicture}[inner sep=0mm]%
-		\fill[#1] (0,0) circle (.35cm);
-		\draw (0,0) node[text width=.7cm, align=center, font=\fontsize{.4cm}{.48cm}, #3] {#2};
+% Only declare the folowwing commands if the user wnats some infoBulle math
+\ifinfoBulleMath
+
+% Mathematical Icon
+%-------------------------------------------------------------------------------
+\newcommand{\mathematicalIcon}{%
+	\infoBulleAbstractIcon{mathematicalColor}{\fontsize{.6cm}{.72cm}\selectfont$\pi$}%
+}
+
+% Theorem commands
+%-------------------------------------------------------------------------------
+\NewTranslation{english}{theorem}{Theorem}
+\NewTranslation{french}{theorem}{Théorème}
+\NewTranslation{german}{theorem}{Lehrsatz}
+\newcounter{theorem}[\infoBulle@mathCounterReset]
+\NewDocumentEnvironment{theorem}{o}{%
+	\stepcounter{theorem}%
+	\begin{mdframed}[%
+		style=infoBulle,
+		linecolor=mathematicalColor,
+		frametitle=\@titleContentMath{\GetTranslation{theorem}}{\thetheorem}{#1}
+		]\relax%
+	}{%
+\end{mdframed}%
+}
+
+% Lemma commands
+%-------------------------------------------------------------------------------
+\NewTranslation{english}{lemma}{Lemma}
+\NewTranslation{french}{lemma}{Lemme}
+\NewTranslation{german}{lemma}{Lemma}
+\newcounter{lemma}[\infoBulle@mathCounterReset]
+\NewDocumentEnvironment{lemma}{o}{%
+	\stepcounter{lemma}%
+	\begin{mdframed}[%
+		style=infoBulle,
+		linecolor=mathematicalColor,
+		frametitle=\@titleContentMath{\GetTranslation{lemma}}{\thelemma}{#1}
+		]\relax%
+	}{%
+\end{mdframed}%
+}
+
+% Corollary commands
+%-------------------------------------------------------------------------------
+\NewTranslation{english}{corollary}{Corollary}
+\NewTranslation{french}{corollary}{Corollaire}
+\NewTranslation{german}{corollary}{Folge}
+\newcounter{corollary}[\infoBulle@mathCounterReset]
+\NewDocumentEnvironment{corollary}{o}{%
+	\stepcounter{corollary}%
+	\begin{mdframed}[%
+		style=infoBulle,
+		linecolor=mathematicalColor,
+		frametitle=\@titleContentMath{\GetTranslation{corollary}}{\thecorollary}{#1}
+		]\relax%
+	}{%
+\end{mdframed}%
+}
+
+% Definition commands
+%-------------------------------------------------------------------------------
+\NewTranslation{english}{definition}{Definition}
+\NewTranslation{french}{definition}{Définition}
+\NewTranslation{german}{definition}{Definition}
+\newcounter{definition}[\infoBulle@mathCounterReset]
+\NewDocumentEnvironment{definition}{o}{%
+	\stepcounter{definition}%
+	\begin{mdframed}[%
+		style=infoBulle,
+		linecolor=mathematicalColor,
+		frametitle=\@titleContentMath{\GetTranslation{definition}}{\thedefinition}{#1}
+		]\relax%
+	}{%
+\end{mdframed}%
+}
+
+% Axiom commands
+%-------------------------------------------------------------------------------
+\NewTranslation{english}{axiom}{Axiom}
+\NewTranslation{french}{axiom}{Axiome}
+\NewTranslation{german}{axiom}{Axiom}
+\newcounter{axiom}[\infoBulle@mathCounterReset]
+\NewDocumentEnvironment{axiom}{o}{%
+	\stepcounter{axiom}%
+	\begin{mdframed}[%
+		style=infoBulle,
+		linecolor=mathematicalColor,
+		frametitle=\@titleContentMath{\GetTranslation{axiom}}{\theaxiom}{#1}
+		]\relax%
+	}{%
+\end{mdframed}%
+}
+
+% Proposition commands
+%-------------------------------------------------------------------------------
+\NewTranslation{english}{proposition}{Proposition}
+\NewTranslation{french}{proposition}{Proposition}
+\NewTranslation{german}{proposition}{Vorschlag}
+\newcounter{proposition}[\infoBulle@mathCounterReset]
+\NewDocumentEnvironment{proposition}{o}{%
+	\stepcounter{proposition}%
+	\begin{mdframed}[%
+		style=infoBulle,
+		linecolor=mathematicalColor,
+		frametitle=\@titleContentMath{\GetTranslation{proposition}}{\theproposition}{#1}
+		]\relax%
+}{%
+	\end{mdframed}%
+}
+\fi
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Icons
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Normal Icons Command
+%-------------------------------------------------------------------------------
+\DeclareDocumentCommand{\infoBulleAbstractIcon}{m m O{text=light-gray}}{%
+	\begin{tikzpicture}[inner sep=0mm, baseline=(iconText.base)]%
+		\coordinate (iconCenter) at (0,0);
+		\pgfkeys{/infoBulle/icon/shapeCommand={iconCenter}{\pgfkeysvalueof{/infoBulle/icon/radius}}{#1}}
+		\draw (iconCenter) node[text width=.7cm, align=center, font=\fontsize{.4cm}{.48cm}, #3] (iconText) {#2};
 	\end{tikzpicture}
 }
-\newcommand{\codeLogo}{%
-	\infoBulleAbstractLogo{\color{White}\faCode}
-}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Configuration Command
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\DeclareDocumentCommand{\infoBulleConfiguration}{m}{\pgfkeys{/infoBulle/.cd, #1}}
+
 
 
 \endinput

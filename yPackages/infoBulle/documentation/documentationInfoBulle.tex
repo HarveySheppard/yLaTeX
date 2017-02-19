@@ -49,6 +49,7 @@
 % For source code
 \setmonofont{Source Code Pro Light}[
 BoldFont=Source Code Pro,
+Scale=MatchLowercase,
 ]
 % Normal font
 \setsansfont{Lato Light}[
@@ -308,6 +309,30 @@ Example:
 	\end{tikzpicture}
 }
 \end{lstlisting}
+
+\section{Maths}
+
+Also defined are commands to typeset math elements like theorem, lemma, etc:
+\begin{itemize}
+	\item \verb|\begin{theorem}[<title>]<text>\end{theorem}|
+	\item \verb|\begin{lemma}[<title>]<text>\end{lemma}|
+	\item \verb|\begin{axiom}[<title>]<text>\end{axiom}|
+	\item \verb|\begin{proposition}[<title>]<text>\end{proposition}|
+	\item \verb|\begin{definition}[<title>]<text>\end{definition}|
+	\item \verb|\begin{corollary}[<title>]<text>\end{corollary}|
+\end{itemize}
+
+\section{Package Options}
+All following options can be passed, separated by commas, as package options or as argument to the command \verb|\infoBulleConfiguration{<conf>}|.
+
+To make the icons hexagonal: \verb|icon/shape=hexagonal|
+
+To display the icons in the margin: \verb|marginIcons=true|
+
+To deactivate all the math environment (useful if you define yourself those environments and don't wish to use infoBulle design for them): \verb|mathInfoBulle=false|
+
+To make the math counters (i.e. theorem, lemma, axiom, etc. number) reset themselves each section/subsection/chapter/part/etc: \verb|mathCounterReset=section/subsection/etc.|
+
 
 \end{document}
 
