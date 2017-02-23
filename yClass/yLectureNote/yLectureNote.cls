@@ -1,10 +1,31 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%		yLectureNote class
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% Copyright Yves Zumbach 2016
-% Licenced under the LaTeX Project Public Licence
-% For commercial use of this Work or a Derived or Compiled Work (as defined in the LPPL v1.3c), contact me before at harveysheppard75[at]yandex[period]com
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%																			   %
+%																			   %
+%								yLectureNote								   %
+%																			   %
+%																			   %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+% Copyright Yves Zumbach 2017
+%-------------------------------------------------------------------------------
+
+% This work is distributed under the LPPL
+%-------------------------------------------------------------------------------
+
+% This work may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License, either version 1.3
+% of this license or (at your option) any later version.
+% The latest version of this license is in
+%   http://www.latex-project.org/lppl.txt
+% and version 1.3 or later is part of all distributions of LaTeX
+% version 2005/12/01 or later.
+%
+% This work has the LPPL maintenance status `maintained'.
+% 
+% The Current Maintainer of this work is Yves Zumbach
 
 % Based upon the uiothesis and report class
 
@@ -14,9 +35,10 @@
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %		Options
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \newif\ifFrenchBullet
 \FrenchBulletfalse
 \newif\ifFrench
@@ -47,16 +69,11 @@
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %		Basic settings, options processing
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\LoadClass[a4paper, 11pt, openany, oneside]{report}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\RequirePackage{ifxetex}
-\ifxetex
-\else
-	\ClassWarning{yLectureNote}{For this template to work properly, please compile it with XeLaTeX!}
-\fi
+\LoadClass[a4paper, 10pt, openany, oneside]{report}
 
 \RequirePackage[l2tabu, orthodox]{nag}
 \RequirePackage[no-math]{fontspec}
@@ -70,13 +87,12 @@
 	\setdefaultlanguage{german}
 \fi
 
-\ClassWarning{yLectureNote}{For commercial use of this Work or a Derived or Compiled Work (as defined in the LPPL v1.3c), contact me before at harveysheppard75[at]yandex[period]com}
 
 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %		Needed packages
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \RequirePackage[final=true,step=1]{microtype}
 \RequirePackage{graphicx}
 \RequirePackage{wrapfig}
@@ -86,13 +102,14 @@
 \fi
 \RequirePackage{calc}
 \RequirePackage[usenames,dvipsnames,svgnames,table]{xcolor}
-\RequirePackage{amsmath, amsfonts, amssymb, amsthm}
+\RequirePackage[fleqn]{amsmath}
+\mathindent=1em
+\RequirePackage{amsfonts, amssymb, amsthm}
 \RequirePackage{appendix}
 \RequirePackage{ragged2e}
 \RequirePackage{xparse}
 \RequirePackage{etoolbox}
 \RequirePackage{varwidth}
-\RequirePackage{infoBulle}
 \RequirePackage{eso-pic}
 \RequirePackage{fancyhdr}
 \RequirePackage{lastpage}
@@ -104,11 +121,19 @@
 \RequirePackage{mdframed}
 \RequirePackage{ifthen}
 
+% Those custom packages can all be found and downloaded at http://github.com/HarveySheppard/yLaTeX
+\RequirePackage{yMarginDesign}
+\RequirePackage{infoBulle}
+\RequirePackage{marginInfoBulle}
+\RequirePackage{yMainColor}
+\RequirePackage{yAuthorBlock}
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %		Layout
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \RequirePackage{changepage}
 
 \setlength{\parindent}{0pt}
@@ -116,7 +141,6 @@
 \setlength{\marginparpush}{\baselineskip}
 
 \RequirePackage[
-	xetex,
 	a4paper,
 %	showframe,
 	top=27mm,
@@ -163,25 +187,30 @@
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %		Penalties
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \clubpenalty=1000 %penalty for breaking after the first line of a par
 \widowpenalty=1000 %penalty for breaking before the last line of a par
 \brokenpenalty=700 %penalty for page breaking after hyphenated line
-\XeTeXlinebreakpenalty=1
+\ifxetex
+	\XeTeXlinebreakpenalty=1
+\fi
 \tolerance=500 %Allow LaTeX to break lines too often. It prevents line for overflowing in the margins
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %		Font
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \defaultfontfeatures{Ligatures=TeX}
 \frenchspacing
 % For source code
 \setmonofont{Source Code Pro Light}[
 	BoldFont=Source Code Pro,
+	Scale=MatchLowercase,
 ]
 % Normal font
 \setsansfont{Fira Sans Light}[
@@ -201,26 +230,28 @@
 \newfontfamily{\lightBoldFont}{Fira Sans}
 \newfontfamily{\heavyFont}{Fira Sans Heavy}
 \newfontfamily{\titleFont}{ShintiaScript}
-\newfontfamily{\chapterNumberFont}{Oswald BoldItalic}
+\newfontfamily{\chapterNumberFont}{Oswald-BoldItalic.ttf}
 \newfontfamily{\chapterFont}{ShintiaScript}
 \newfontfamily{\serifFont}{Vollkorn}
-\newfontfamily{\sectionNumbers}{Oswald MediumItalic}
+\newcommand{\sectionNumbers}{\subsectionNumbers\bfseries\selectfont}
+\newfontfamily{\subsectionNumbers}{Oswald RegularItalic}
 \newfontfamily{\abril}{Abril Fatface}
 
 \usepackage{fontawesome}
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %		Colors
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \definecolor{mainColor}{RGB}{211, 47, 47}
 \colorlet{lightMainColor}{mainColor!80}
 \newcommand{\lightMainColor}{\colorlet{lightMainColor}{mainColor!80}\color{lightMainColor}}
 \definecolor{secondColor}{RGB}{255, 193, 7}
 
-\definecolor{sectionNumbersColor}{gray}{.7}
-\definecolor{subsectionNumbersColor}{gray}{.75}
+\definecolor{sectionNumbersColor}{gray}{.8}
+\colorlet{subsectionNumbersColor}{sectionNumbersColor}
 
 \definecolor{lightGrey}{gray}{0.94}
 \definecolor{middleGrey}{gray}{.75}
@@ -231,31 +262,29 @@
 
 % Theoreme and blocs colors
 \definecolor{mathematicalColor}{RGB}{230, 126, 34}
-\definecolor{tipsColor}{RGB}{142, 68, 173}
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %		Utilities
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \newcommand{\noHyphen}{\hyphenpenalty10000\exhyphenpenalty10000\righthyphenmin62\lefthyphenmin62\tolerance=1\emergencystretch=\maxdimen\hbadness=10000}
 
-\newcommand{\emaillink}[1]{%
-	{\hypersetup{urlcolor=black}\href{mailto:#1}{#1}}%
-}
 
 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %		Titling
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \newlength{\subtitleRubberWidth}\setlength{\subtitleRubberWidth}{2cm}
 \newlength{\subtitleDefaultPadding}\setlength{\subtitleDefaultPadding}{2mm}
 \newlength{\subtitleRubberHeight}\setlength{\subtitleRubberHeight}{4.5cm}
 \RequirePackage{titlesec}
 \titleformat{\chapter}[block]
 {} % format
-{\begin{tikzpicture}%
+{%
+	\begin{tikzpicture}%
 		\node [font=\fontsize{1cm}{1.2cm}\selectfont] (chapterLabel) {\hspace{-.3ex}\chaptername};
 		\draw [xshift=-2mm, mainColor, ultra thick] (chapterLabel.south west) -- (chapterLabel.south east);
 	\end{tikzpicture}
@@ -279,7 +308,8 @@
 	\end{tikzpicture}%
 }
 {0pt} % sep
-{ % code before
+{% code before
+	\blockmargin%
 	\begin{adjustwidth}{-3mm}{-\wholeMargin}
 		\FlushLeft
 		\begingroup
@@ -288,6 +318,7 @@
 }[ % code after
 		\endgroup
 	\end{adjustwidth}
+	\unblockmargin%
 ]
 
 \titleformat{name=\chapter, numberless}[block]
@@ -305,31 +336,32 @@
 \end{adjustwidth}
 ]
 
-\titleformat{\section}{}{%
-	\hspace*{-3mm}\fontsize{1.3cm}{1.8cm}\sectionNumbers\color{sectionNumbersColor}%
+\titleformat{\section}{\huge}{%
+	\hspace*{-3mm}\fontsize{3ex}{3.6ex}\sectionNumbers\selectfont\color{sectionNumbersColor}%
 	\raisebox{-1mm}{\thesection}%
-}{-2mm}{\huge\fontspec{Fira Sans Medium}\selectfont}{}
+}{-3mm}{\fontspec{Fira Sans Medium}\selectfont}{}
 
-\titleformat{\subsection}{}{%
-	\hspace*{-3mm}\fontsize{.8cm}{1cm}\sectionNumbers\color{subsectionNumbersColor}%
+\titleformat{\subsection}{\LARGE}{%
+	\hspace*{-3mm}\fontsize{3ex}{3.6ex}\subsectionNumbers\selectfont\color{subsectionNumbersColor}%
 	\raisebox{-1mm}{\thesubsection}%
-}{-2mm}{\LARGE}{}
-\titleformat*{\subsubsection}{\LARGE\headingFont}
+}{-3mm}{}{}
+\titleformat*{\subsubsection}{\Large}
 
 %Titling spacing: left before after [right]
 \titlespacing*{\chapter}{0mm}{3mm}{1cm}
 %\titlespacing*{name=\chapter,numberless}{0pt}{10pt}{0pt} %starred version of chapter default: 0pt, 50pt, 40pt
-\titlespacing*{\section}{0mm}{3mm}{-2mm}
-\titlespacing*{name=\section, numberless}{0mm}{3mm}{-2mm}
-\titlespacing*{\subsection}{0mm}{2mm}{-1mm}
-\titlespacing*{\subsubsection}{0mm}{2mm}{1.5mm}
+\titlespacing*{\section}{0mm}{3mm}{0mm}
+\titlespacing*{name=\section, numberless}{0mm}{3mm}{0mm}
+\titlespacing*{\subsection}{0mm}{2mm}{0mm}
+\titlespacing*{\subsubsection}{0mm}{2mm}{0mm}
 
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %		Headers and footers
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \pagestyle{fancy}
 % Leftmark = chapter, rightmark = section
 \renewcommand{\chaptermark}[1]{\markboth{#1}{}}
@@ -358,9 +390,10 @@
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %		TikZ
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \RequirePackage{tikz}
 \usetikzlibrary{fit}
 \usetikzlibrary{calc}
@@ -371,9 +404,10 @@
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %		Title page
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \newcommand{\@subtitle}{}
 \newcommand{\subtitle}[1]{\renewcommand{\@subtitle}{#1}}
 \newcommand{\@professor}{}
@@ -473,9 +507,10 @@
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %		Tables
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \makeatletter
 \@namedef{ver@array.sty}{2008/09/09}
 \makeatother
@@ -496,9 +531,9 @@
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %		Hyper-references
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \RequirePackage{hyperref}
 \hypersetup{
 	pdftoolbar=false,
@@ -522,12 +557,12 @@
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %		Itemize and consort
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newcommand{\itemColor}[1]{\item[\llap{\inColor{#1}\hspace*{.75mm}}]}
 \RequirePackage{enumitem}
-\setlist{nosep}
+%\setlist{nosep}s
 \newcommand{\sideListConfig}{
 	\setlength{\rightmargin}{0cm} % horizontal distance betwen the right margins of the enviroment and the list; must be nonnegative
 	\setlength{\itemindent}{0pt} % indentation of first line of an item; can be negative
@@ -568,9 +603,9 @@
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %		Quotation
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newcommand{\quoteStart}{
 	\fontsize{3cm}{0mm}\selectfont%
 	\color{middleGrey}%
@@ -632,11 +667,11 @@
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %		Captions
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage{caption}
-\DeclareCaptionLabelFormat{yLabel}{
+\DeclareCaptionLabelFormat{yLabel}{%
 	\tikz{
 		\node[anchor=west, inner sep=2mm, fill=lightGrey, font=\bfseries, text=mainColor]{#1 #2};
 	}
@@ -653,83 +688,9 @@
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%		Margin elements
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\RequirePackage{marginnote}
-
-% The mark on the sidenote
-\DeclareDocumentCommand{\sideMark}{O{mainColor} m}{{\color{#1}\normalFont#2.{\:}}}
-
-\DeclareDocumentCommand{\marginElement}{m}{%
-	\marginpar{%
-		\mathLeft%
-		\RaggedRight%
-		\footnotesize%
-		#1%
-	}\unskip%
-}%
-
-\DeclareDocumentCommand{\sideTitle}{m}{{\color{mainColor}\lightBoldFont\large#1}\\}
-
-\DeclareDocumentCommand{\sideNote}{O{mainColor} m}{%
-	{%
-		\hypersetup{linkcolor=mainColor}%
-		\normalFont%
-		\footnotemark%
-	}%
-	\ignorespaces%
-	\marginElement{%
-		\sideMark[#1]{\thefootnote}%
-		\ignorespaces%
-		#2%
-	}%
-}%
-
-\DeclareDocumentCommand{\forcedSideNote}{O{mainColor} m}{%
-	{%
-		\hypersetup{linkcolor=mainColor}%
-		\normalFont%
-		\footnotemark%
-	}%
-	\ignorespaces%
-	\marginnote{
-		\RaggedRight\footnotesize%
-		\sideMark[#1]{\thefootnote}%
-		\ignorespaces%
-		#2%
-	}%
-}
-
-\makeatletter
-\DeclareDocumentCommand{\sideTable}{o m}{%
-	\marginpar{%
-		\RaggedRight\footnotesize%
-		\@afterindentfalse\@afterheading
-		\vspace*{6mm} % compensate the table space added above the first line by the gape command
-		#2
-		\captionsetup*[table]{font={footnotesize}}
-		\IfValueT{#1}{\captionof{table}{#1}}
-	}
-}
-
-% Sidefigure
-\DeclareDocumentCommand{\sideFigure}{o m}{%
-	\marginElement{%
-		\RaggedRight%
-		\@afterindentfalse\@afterheading%
-		#2%
-		\captionsetup*[figure]{font={footnotesize}}%
-		\IfValueT{#1}{\vspace*{-2mm}\captionof{figure}{#1}}
-	}
-}
-\makeatother
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %		Full width environment
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newenvironment{whole}{%
 	\blockmargin
 	\begin{adjustwidth}{0em}{-\wholeMargin}
@@ -740,9 +701,9 @@
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %		End-of-chapter ornament
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \DeclareDocumentCommand{\yOrnament}{O{} O{}}{
 	\begin{center}
@@ -758,93 +719,18 @@
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %		Math
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \makeatletter
 \newcommand{\mathLeft}{\@fleqntrue\@mathmargin\parindent}
 \makeatother
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%		AuthorBlock
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newcommand{\extraVerticalSpace}{\rule{0pt}{2.5ex}}
-
-\DeclareDocumentCommand{\blockLine}{m m}{#1 \& #2\\}
-
-% Author shortcuts
-\DeclareDocumentCommand{\authorName}{m O{\faUser}}{
-	\blockLine{}{\bfseries#1}%
-}
-\DeclareDocumentCommand{\authorAdressLineOne}{m O{\extraVerticalSpace\faHome}}{
-	\blockLine{#2}{#1}%
-}
-\DeclareDocumentCommand{\authorAdressLineTwo}{m O{\phantom{\fontsize{2mm}{2mm}\faHome}}}{
-	\blockLine{#2}{#1}%
-}
-\DeclareDocumentCommand{\authorAdressLineThree}{m O{\phantom{\fontsize{2mm}{2mm}\faHome}}}{
-	\blockLine{#2}{#1}%
-}
-\DeclareDocumentCommand{\authorPhone}{m O{\extraVerticalSpace\fontsize{5mm}{4mm}\faMobile}}{
-	\blockLine{#2}{#1}%
-}
-\DeclareDocumentCommand{\authorMail}{m O{\extraVerticalSpace\faEnvelopeO}}{
-	\blockLine{#2}{\emaillink{#1}}%
-}
-\DeclareDocumentCommand{\authorWebsite}{m O{\extraVerticalSpace{\FA\symbol{"F245}}}}{
-	\blockLine{#2}{\href{#1}{\color{Black}#1}}%
-}
-
-% Book shortcuts
-%\DeclareDocumentCommand{\bookAuthor}{m O{{\FA\symbol{"F040}}}}{
-%	\blockLine{#2}{\bfseries#1}%
-%}
-%\DeclareDocumentCommand{\bookParution}{m O{\extraVerticalSpace\faCalendar}}{
-%	\blockLine{#2}{#1}%
-%}
-%\DeclareDocumentCommand{\bookISBN}{m O{\extraVerticalSpace\textsc{isbn}}}{
-%	\blockLine{#2}{#1}%
-%}
-
-\newcommand{\blockLineWidth}{1.8mm}
-\newcommand{\blockLineLength}{8mm}
-\DeclareDocumentCommand{\authorBlock}{m O{inner sep=5mm}}{
-	\blockSkeleton[
-		\node[font=\fontsize{1.3cm}{1cm}, text=mainColor] (userIcon) at ($(authorBlock.north west)+(1mm, 0)$) {\faUser};
-	][#2]{#1}
-}
-%\DeclareDocumentCommand{\bookBlock}{m O{inner sep=5mm}}{
-%	\blockSkeleton[
-%	\node[font=\fontsize{1.3cm}{1cm}, text=mainColor] (bookIcon) at ($(authorBlock.north west)+(1mm, 0)$) {\faBook};
-%	][#2]{#1}
-%}
-
-% Arguments: 1afterCode 2matrixArgument 3columnOneCode 4columnTwoCode 5text
-\DeclareDocumentCommand{\blockSkeleton}{O{} O{inner sep=5mm,} O{text=mainColor} O{} m}{
-	\begin{tikzpicture}
-	\matrix (authorBlock)[
-		matrix of nodes, ampersand replacement=\&,
-		nodes={inner ysep=.7mm, inner xsep=0mm, inner xsep=2mm, anchor=south west},
-		column 1/.style={nodes={anchor=south,#3}},%
-		column 2/.style={nodes={#4}},
-		#2
-	]{#5};
-	\begin{scope}[darkGrey, line width=\blockLineWidth]
-		\draw ($(authorBlock.north east)+(-\blockLineLength, 0)$) -- ++(\blockLineLength, 0) -- ++(0, -\blockLineLength);
-		\draw ($(authorBlock.south west)+(0, \blockLineLength)$) -- ++(0, -\blockLineLength) -- ++(\blockLineLength, 0);
-		\draw ($(authorBlock.south east)+(-\blockLineLength, 0)$) -- ++(\blockLineLength, 0) -- ++(0, \blockLineLength);
-	\end{scope}
-	#1
-	\end{tikzpicture}
-}
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %		Numbers typesetting
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \DeclareDocumentCommand{\bigNumber}{o m O{\lightMainColor}}{% style line_color number
 	{\heavyFont\LARGE{\IfValueT{#1}{#1}#2}}\\{#3\rule{1.5cm}{2mm}}% \contourlength{.4pt}\contournumber{50}\contour{mainColor}
 }
@@ -867,9 +753,9 @@
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %		Table of content
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newcommand{\yTableOfContent}[1][]{%
 	\nomarginparpage
 	\hypersetup{linkcolor=black}
@@ -962,178 +848,10 @@
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%		Mathematical infoBulle
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Abstract commands
-\DeclareDocumentCommand{\yLectureNoteTheoremTitleContent}{m m m m}{%
-	\mbox{}%
-	\parbox[t][0pt]{.75cm}{%
-		\mbox{}%
-		\raisebox{-1mm}{\iconStyle\color{lightGrey}#1}%
-	}\hspace*{2mm}%
-	\parbox[t]{\linewidth-.75cm}{%
-		\mbox{}%
-		\infoBulleTitleFormat\textbf{#2~\thechapter.#3\IfValueTF{#4}{:}{}}\IfValueTF{#4}{\quad#4}{}%
-	}%
-}
-\DeclareDocumentCommand{\yLectureNoteLogo}{O{Grey} m}{%
-	\raisebox{-1mm}{\infoBulleAbstractLogo[#1]{#2}}
-}
-% General mathematical commands
-\newcommand{\mathematicalLogo}{%
-	\infoBulleAbstractLogo[mathematicalColor]{\fontsize{.6cm}{.72cm}\selectfont$\pi$}%\includegraphics[width=.6\linewidth]{images/Shape158-inverted.png}}
-}
 
-% Theorem commands
-\newcommand{\theoremString}{Theorem}
-\ifFrench
-	\renewcommand{\theoremString}{Théorème}
-\fi
-\ifGerman
-	\renewcommand{\theoremString}{Lehrsatz}
-\fi
-\newcounter{theorem}[chapter]
-\NewDocumentEnvironment{theorem}{O{}}{
-	\stepcounter{theorem}
-	\begin{mdframed}[%
-		style=infoBulle,
-		linecolor=mathematicalColor,
-		frametitle=\yLectureNoteTheoremTitleContent{\mathematicalLogo}{\theoremString}{\thetheorem}{#1}
-	]\relax%
-}{
-	\end{mdframed}
-}
-
-% Lemma commands
-\newcommand{\lemmaString}{Lemma}
-\ifFrench
-	\renewcommand{\lemmaString}{Lemme}
-\fi
-\ifGerman
-	\renewcommand{\lemmaString}{Lemma}
-\fi
-\newcounter{lemma}[chapter]
-\NewDocumentEnvironment{lemma}{o}{
-	\stepcounter{lemma}
-	\begin{mdframed}[%
-		style=infoBulle,
-		linecolor=mathematicalColor,
-		frametitle=\yLectureNoteTheoremTitleContent{\mathematicalLogo}{\lemmaString}{\thelemma}{#1}
-		]\relax%
-	}{
-\end{mdframed}
-}
-
-% Corollary commands
-\newcommand{\corollaryString}{Corollary}
-\ifFrench
-\renewcommand{\corollaryString}{Corollaire}
-\fi
-\ifGerman
-\renewcommand{\corollaryString}{Folge}
-\fi
-\newcounter{corollary}[chapter]
-\NewDocumentEnvironment{corollary}{o}{
-	\stepcounter{corollary}
-	\begin{mdframed}[%
-		style=infoBulle,
-		linecolor=mathematicalColor,
-		frametitle=\yLectureNoteTheoremTitleContent{\mathematicalLogo}{\corollaryString}{\thecorollary}{#1}
-		]\relax%
-	}{
-\end{mdframed}
-}
-
-% Definition commands
-\newcommand{\definitionString}{Definition}
-\ifFrench
-\renewcommand{\definitionString}{Définition}
-\fi
-\ifGerman
-\renewcommand{\definitionString}{Definition}
-\fi
-\newcounter{definition}[chapter]
-\NewDocumentEnvironment{definition}{o}{
-	\stepcounter{definition}
-	\begin{mdframed}[%
-		style=infoBulle,
-		linecolor=mathematicalColor,
-		frametitle=\yLectureNoteTheoremTitleContent{\mathematicalLogo}{\definitionString}{\thedefinition}{#1}
-		]\relax%
-	}{
-\end{mdframed}
-}
-
-% Axiom commands
-\newcommand{\axiomString}{Axiom}
-\ifFrench
-\renewcommand{\axiomString}{Axiome}
-\fi
-\ifGerman
-\renewcommand{\axiomString}{Axiom}
-\fi
-\newcounter{axiom}[chapter]
-\NewDocumentEnvironment{axiom}{o}{
-	\stepcounter{axiom}
-	\begin{mdframed}[%
-		style=infoBulle,
-		linecolor=mathematicalColor,
-		frametitle=\yLectureNoteTheoremTitleContent{\mathematicalLogo}{\axiomString}{\theaxiom}{#1}
-		]\relax%
-	}{
-\end{mdframed}
-}
-
-% Proposition commands
-\newcommand{\propositionString}{Proposition}
-\ifFrench
-\renewcommand{\propositionString}{Proposition}
-\fi
-\ifGerman
-\renewcommand{\propositionString}{Vorschlag}
-\fi
-\newcounter{proposition}[chapter]
-\NewDocumentEnvironment{proposition}{o}{
-	\stepcounter{proposition}
-	\begin{mdframed}[%
-		style=infoBulle,
-		linecolor=mathematicalColor,
-		frametitle=\yLectureNoteTheoremTitleContent{\mathematicalLogo}{\propositionString}{\theproposition}{#1}
-		]\relax%
-	}{
-\end{mdframed}
-}
-
-% Tips commands
-\newcommand{\tipsString}{Tips}
-\ifFrench
-\renewcommand{\tipsString}{Astuce}
-\fi
-\ifGerman
-\renewcommand{\tipsString}{Trick}
-\fi
-\newcommand{\tipsLogo}{%
-	\infoBulleAbstractLogo[tipsColor]{\FA\symbol{"F0EB}}
-}
-\newcounter{tips}[chapter]
-\DeclareDocumentCommand{\tipsInfo}{m m}{%
-	\stepcounter{tips}%
-	\begin{mdframed}[%
-		style=infoBulle,
-		linecolor=tipsColor,
-		frametitle=\yLectureNoteTheoremTitleContent{\tipsLogo}{\tipsString}{\thetips}{#1}
-		]\relax%
-		#2%
-\end{mdframed}%
-}
-
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %		Date typesetting
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \AtBeginDocument{
 	\usepackage{datetime}
 	\newdateformat{autodate}{
@@ -1145,9 +863,9 @@
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %		yLecture Side blocks
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \mdfdefinestyle{yLectureNoteSideBlock}
 {
 	skipabove=0mm,
@@ -1168,9 +886,9 @@
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %		yLecture Date
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newcounter{yDate}
 \newcommand{\yLectureNoteClassDate}{}
 \newcommand{\classDate}[3]{%
@@ -1192,9 +910,9 @@
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %		yLecture Serie
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newif\ifPrintSerie
 \PrintSeriefalse
 \newcounter{ySerie}
@@ -1225,56 +943,22 @@
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%		yLecture SideInfo
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\mdfdefinestyle{yLectureNoteSideInfo}
-{
-	skipabove=0mm,
-	skipbelow=0mm,
-	innertopmargin=1mm,
-	innerbottommargin=1mm,
-	innerleftmargin=3mm,
-	innerrightmargin=0mm,
-	leftmargin=0mm,
-	rightmargin=0mm,
-	rightline=false,
-	topline=false,
-	bottomline=false,
-	linewidth=1mm,
-	frametitlebelowskip=1mm,
-	frametitleaboveskip=1mm,
-}
-\DeclareDocumentCommand{\sideInfoAbstract}{m m m m m}{%
-	\marginElement{%
-		\begin{mdframed}[style=yLectureNoteSideInfo, linecolor=#2, frametitle={%
-				\parbox{\linewidth}{%
-					\mbox{}%
-					\parbox[t]{.5cm}{\leavevmode\color{#2}#1}%
-					\parbox[t]{\linewidth-.5cm}{\bfseries\IfNoValueTF{#3}{#4}{#3}}%
-				}%
-			}]%
-			#5%
-		\end{mdframed}%
-	}%
-}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		infoBulle Configuration
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\newcommand{\difficultyString}{Difficulty}
-\ifGerman
-\renewcommand{\difficultyString}{Schwierigkeit}
-\fi
-\ifFrench
-\renewcommand{\difficultyString}{Difficulté}
-\fi
-\DeclareDocumentCommand{\sideCritical}{o m}{%
-	\sideInfoAbstract{\faTimesCircle}{criticalColor}{\difficultyString}{#1}{#2}%
-}
+\infoBulleConfiguration{icon/shape = hexagon}
 
-\newcommand{\infoString}{Info}
-\DeclareDocumentCommand{\sideInfo}{o m}{%
-	\sideInfoAbstract{\faInfoCircle}{informationColor}{\infoString}{#1}{#2}%
-}
 
-\DeclareDocumentCommand{\sideTips}{o m}{%
-	\sideInfoAbstract{\FA\symbol{"F0EB}}{tipsColor}{\tipsString}{#1}{#2}%
-}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		yMarginDesign Configuration
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Align all margin elements to the left
+\yMarginDesignConfiguration{alignment/.code = {\FlushLeft}, color=mainColor}
+
+
+
+
+
