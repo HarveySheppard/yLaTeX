@@ -50,6 +50,8 @@
 \RequirePackage{interfaces-base}
 \LoadInterface{pgfkeys}
 
+\RequirePackage{yMainColor}
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -118,9 +120,6 @@
 %		Colors
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% infoBulle colors
-\definecolor{light-gray}{gray}{0.92}
-
 \definecolor{criticalColor}{RGB}{211, 47, 47}
 \definecolor{questionColor}{RGB}{156, 39, 176}
 \definecolor{informationColor}{RGB}{139, 195, 74}
@@ -168,7 +167,7 @@
 	topline=false,
 	bottomline=false,
 	linewidth=1mm,
-	backgroundcolor=light-gray,
+	backgroundcolor=lightGrey,
 	frametitlebelowskip=0mm,
 	frametitleaboveskip=4mm,
 	style=infoBulleFrametitleBelowSkip,
@@ -482,7 +481,7 @@
 
 % Normal Icons Command
 %-------------------------------------------------------------------------------
-\DeclareDocumentCommand{\infoBulleAbstractIcon}{m m O{text=light-gray}}{%
+\DeclareDocumentCommand{\infoBulleAbstractIcon}{m m O{text=lightGrey}}{%
 	\begin{tikzpicture}[inner sep=0mm, baseline=(iconText.base)]%
 		\coordinate (iconCenter) at (0,0);
 		\pgfkeys{/infoBulle/icon/shapeCommand={iconCenter}{\pgfkeysvalueof{/infoBulle/icon/radius}}{#1}}
