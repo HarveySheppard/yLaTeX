@@ -1,0 +1,47 @@
+\documentclass{article}
+
+
+\usepackage{lipsum}
+\usepackage{calc}
+\usepackage[table]{xcolor}
+\usepackage[
+	left=3cm,
+	right=3cm,
+	top=3cm,
+	bottom=3cm,
+]{geometry}
+
+
+\usepackage{yFlatTable}
+
+
+\title{yFlatTable Example}
+\author{Harvey Sheppard}
+
+
+
+\begin{document}
+	
+	\maketitle
+	
+	\begin{tabu}{ l l l }
+		\tableHeaderStyle
+		Class & Grade & Professor\\
+		French & 10 & Pr. Bonvin\\
+		Math & 12 & Pr. Squarero-Ots\\
+		English & 8 & Pr. Shakespeare\\
+	\end{tabu}
+	\vspace*{\baselineskip}
+	
+	\begin{tabu}{r X[4]}
+		\tableHeaderStyle
+		Word & Definition\\
+		First Word & \lipsum[1]\\
+		Second Word & \lipsum[2]\\
+	\end{tabu}
+	
+\end{document}
+
+
+
+

@@ -1,0 +1,79 @@
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%																			   %
+%																			   %
+%								yFlatTable									   %
+%																			   %
+%																			   %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+% Copyright Yves Zumbach 2017
+%-------------------------------------------------------------------------------
+
+% This work is distributed under the LPPL
+%-------------------------------------------------------------------------------
+
+% This work may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License, either version 1.3
+% of this license or (at your option) any later version.
+% The latest version of this license is in
+%   http://www.latex-project.org/lppl.txt
+% and version 1.3 or later is part of all distributions of LaTeX
+% version 2005/12/01 or later.
+%
+% This work has the LPPL maintenance status `maintained'.
+% 
+% The Current Maintainer of this work is Yves Zumbach
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{yFlatTable}[2017/02/24 The yFlatTable package provide some default styling for table, by Yves ZUMBACH]
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Required Packages
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\makeatletter
+\@namedef{ver@array.sty}{2008/09/09}
+\makeatother
+\RequirePackage{makecell}
+\RequirePackage{tabu}
+\RequirePackage{longtable}
+\RequirePackage[table]{xcolor}
+
+\RequirePackage{yMainColor}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Default Table Configuration
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Row will alternate color
+\definecolor{tableLineOne}{RGB}{245, 245, 245}
+\definecolor{tableLineTwo}{RGB}{224, 224, 224}
+\taburowcolors[2] 2{tableLineOne .. tableLineTwo}
+
+% Add a thin white line between all lines
+\AtBeginDocument{\everyrow{\tabucline[.4mm  white]{}}}
+
+% Redefine line sep to make the table more spaced
+\tabulinesep = ^2.5mm_2mm
+
+% Provide a command to style the headers of the tables
+\newcommand{\tableHeaderStyle}{
+	\rowfont{\bfseries\leavevmode\color{white}}
+	\rowcolor{mainColor}
+	\Gape[3.5mm][1.5mm]{}
+}
+
+
+
+
+
+
+
+\endinput
