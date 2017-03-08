@@ -64,7 +64,7 @@
 	
 	\lipsum[26]
 	
-	\begin{figure}[ht!]
+	\begin{figure}
 		\includegraphics[width=\linewidth]{images/sunset.jpg}
 		\sideCaptionOf{figure}{Beautiful Sea Sunset}
 	\end{figure}
@@ -95,6 +95,36 @@
 			key 4 & value 4\\
 		\end{tabu}
 	}
+	
+	
+	\sideTable[A second flat table example]{
+		\sideTabuStyle
+		\begin{tabu} to \marginparwidth {XX}%
+			\sideTabuTopRule
+			\sideTabuHeaderStyle
+			Key & Value\\
+			\tabucline[1pt, mainColor]{-}
+			\everyrow{\sideTabuMidRule}
+			key 1 & value 1\\
+			key 2 & value 2\\
+			key 3 & value 3\\
+			\everyrow{}
+			key 4 & value 4\\
+			\sideTabuTopRule
+		\end{tabu}
+	}
+	
+	\sideTable[A flat table example]{
+		\begin{tabu} to \marginparwidth {XX}
+			\tableHeaderStyle
+			Key & Value\\
+			key 1 & value 1\\
+			key 2 & value 2\\
+			key 3 & value 3\\
+			key 4 & value 4\\
+		\end{tabu}
+	}
+	
 	\subsection{Second Section}
 	
 	\lipsum[2-3]
@@ -113,7 +143,7 @@
 	\warningInfo{InfoBulle --- Warning}{\lipsum[3]}
 	
 	\newpage
-	\begin{figure}[ht!]
+	\begin{figure}
 		\begin{centered}
 			\includegraphics[width=\linewidth]{images/sunset.jpg}
 			\caption{Beautiful Sea Sunset}

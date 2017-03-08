@@ -134,7 +134,7 @@
 
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{\baselineskip}
-\setlength{\marginparpush}{1.5\baselineskip}
+\setlength{\marginparpush}{\baselineskip}
 
 \RequirePackage[
 	xetex,
@@ -206,7 +206,6 @@ BoldItalicFont=Fira Sans Medium Italic
 ]
 % Normal font
 \setmainfont{Fira Sans Light}[
-Numbers=OldStyle,
 BoldFont=Fira Sans Medium,
 ItalicFont=Fira Sans Light Italic,
 BoldItalicFont=Fira Sans Medium Italic
@@ -215,12 +214,12 @@ BoldItalicFont=Fira Sans Medium Italic
 \newfontfamily{\lightBoldFont}{Fira Sans}
 \newfontfamily{\heavyFont}{Fira Sans Heavy}
 \newfontfamily{\titleFont}{CanterLight}
-\newfontfamily{\headingFontTest}{Fira Sans Book}
-\newcommand{\headingFont}{\headingFontTest}
-\newfontfamily{\chapterNumberFont}{Canter Bold 3D}%{London}%{DiamondsThinItalic}%Abril Fatface}
-\newfontfamily{\chapterFont}{CanterBold}
+\newfontfamily{\headingFont}{Fira Sans Book}
+\newfontfamily{\chapterNumberFont}{Butler Bold}%{London}%{DiamondsThinItalic}%Abril Fatface}
+\newfontfamily{\chapterFont}{Butler}
 \newfontfamily{\serifFont}{Vollkorn}
-\newfontfamily{\sectionNumbers}{Oswald MediumItalic}
+\newcommand{\sectionNumbers}{\subsectionNumbers\bfseries\selectfont}
+\newfontfamily{\subsectionNumbers}{Oswald RegularItalic}
 \newfontfamily{\abril}{Abril Fatface}
 
 \usepackage{fontawesome}
@@ -233,10 +232,13 @@ BoldItalicFont=Fira Sans Medium Italic
 \definecolor{mainColor}{RGB}{211, 47, 47}
 \colorlet{lightMainColor}{mainColor!80}
 \newcommand{\lightMainColor}{\colorlet{lightMainColor}{mainColor!80}\color{lightMainColor}}
+\colorlet{darkMainColor}{mainColor!60!Black}
+\newcommand{\darkMainColor}{\colorlet{darkMainColor}{mainColor!70!Black}\color{darkMainColor}}
+{\darkMainColor}
 \definecolor{secondColor}{RGB}{255, 193, 7}
 
-\definecolor{sectionNumbersColor}{gray}{.7}
-\definecolor{subsectionNumbersColor}{gray}{.75}
+\definecolor{sectionNumbersColor}{gray}{.8}
+\colorlet{subsectionNumbersColor}{sectionNumbersColor}
 
 \definecolor{lightGrey}{gray}{0.94}
 \definecolor{middleGrey}{gray}{.75}
@@ -245,6 +247,56 @@ BoldItalicFont=Fira Sans Medium Italic
 
 \newcommand{\inColor}[1]{{\bfseries\color{mainColor}#1}}
 \colorlet{light-gray}{lightGrey} %redefines infoBulle background light-grey to match yReport lightGrey
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		TikZ
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\RequirePackage{tikz}
+\usetikzlibrary{fit}
+\usetikzlibrary{calc}
+\usetikzlibrary{matrix}
+\usetikzlibrary{positioning}
+\usetikzlibrary{fadings}
+
+\pgfdeclarelayer{bg}    % declare background layer
+\pgfsetlayers{bg,main}	% set the order of the layers (main is the standard layer)
+
+\newlength{\bigVerticalLineWidth}
+\setlength{\bigVerticalLineWidth}{\evensidemargin + 1in + \hoffset}
+
+\newlength{\bigVerticalLinePartOfMarginParSep}
+\setlength{\bigVerticalLinePartOfMarginParSep}{\marginparsep/8}
+\setlength{\bigVerticalLinePartOfMarginParSep}{5\bigVerticalLinePartOfMarginParSep}
+
+\addtolength{\bigVerticalLineWidth}{-\bigVerticalLinePartOfMarginParSep}
+
+\newcommand{\bigVerticalLine}[1]{
+	\strictpagechecktrue
+	\checkoddpage
+	\ifoddpage%
+	\AddToShipoutPictureBG*{
+		\begin{tikzpicture}[remember picture, overlay]
+		\fill[fill=#1] (current page.south east) rectangle ++(-\bigVerticalLineWidth, \paperheight);
+		\end{tikzpicture}
+	}
+	\else%
+	
+	\AddToShipoutPictureBG*{
+		\begin{tikzpicture}[remember picture, overlay]
+		\fill[fill=#1] (current page.south west) rectangle ++(\bigVerticalLineWidth, \paperheight);
+		\end{tikzpicture}
+	}
+	\fi%
+}
+
+\DeclareDocumentCommand{\hexagon}{O{Black} m m O{}}{
+	\fill [#1, #4] ($ (#2) + (0:#3) $) -- ($ (#2) + (60:#3) $) -- ($ (#2) + (120:#3) $) -- ($ (#2) + (180:#3) $) -- ($ (#2) + (240:#3) $) -- ($ (#2) + (300:#3) $) -- cycle;
+}
+
+\DeclareDocumentCommand{\hexagonOutline}{O{Black} m m O{ultra thick}}{
+	\path [draw, #1, #4] ($ (#2) + (0:#3) $) -- ($ (#2) + (60:#3) $) -- ($ (#2) + (120:#3) $) -- ($ (#2) + (180:#3) $) -- ($ (#2) + (240:#3) $) -- ($ (#2) + (300:#3) $) -- cycle;
+}
 
 
 
@@ -312,29 +364,32 @@ BoldItalicFont=Fira Sans Medium Italic
 %		Titling
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \RequirePackage{titlesec}
+\newcommand{\chapterNumberRadius}{2.1cm}
 \titleformat{\chapter}[block]
 {} % format
 { % label
+	{\darkMainColor}
 	\backgroundThisPageColor%
-	\isOddPage{%
-		\begin{tikzpicture}[remember picture, overlay]
-		\coordinate[xshift=-\bigVerticalLineWidth/2, yshift=-5.8cm] (numberCenter) at (current page.north east);
-		\draw[White] (numberCenter) node{
-			\chapterNumberFont\fontsize{6.5cm}{7.8cm}\selectfont
-			\color{White}
-			\thechapter
-		};
-		\end{tikzpicture}%
-	}{%
 	\begin{tikzpicture}[remember picture, overlay]
-	\coordinate[xshift=\bigVerticalLineWidth/2, yshift=-5.8cm] (numberCenter) at (current page.north west);
-	\draw[White] (numberCenter) node{
-		\chapterNumberFont\fontsize{6.5cm}{7.8cm}\selectfont
-		\color{White}
-		\thechapter
-	};
+		\tikzfading[name=monfading,left color=transparent!100,right color=transparent!0]
+		\isOddPage{%
+			\coordinate[xshift=-\bigVerticalLineWidth/2, yshift=-5.8cm] (numberCenter) at (current page.north east);
+		}{%
+			\coordinate[xshift=\bigVerticalLineWidth/2, yshift=-5.8cm] (numberCenter) at (current page.north west);
+		}
+		\hexagon[darkMainColor]{numberCenter}{\chapterNumberRadius}[path fading=south, fading angle=-60]
+		\node[yshift=2mm] at (numberCenter) (chapterNumber) {
+			\chapterNumberFont%
+			\fontsize{\chapterNumberRadius}{\chapterNumberRadius}%
+			\selectfont%
+			\thechapter%
+		};
+		\node [below=1mm of chapterNumber, text=Black!80] {
+			\addfontfeatures{LetterSpace=20.0}%
+			\fontsize{1.2em}{1.4em}\selectfont%
+			\chaptertitlename%
+		};
 	\end{tikzpicture}%
-}
 }
 {0pt} % sep
 { % code before
@@ -345,17 +400,18 @@ BoldItalicFont=Fira Sans Medium Italic
 		\begin{FlushLeft}
 		\vspace*{-10mm}
 	}
-	\fontsize{2.5cm}{3cm}\chapterFont\selectfont%
+	\fontsize{1.8cm}{2.16cm}\chapterFont\selectfont%
 }[ % code after
 \alignLeftOrRightEnd
 ]
+
 \titleformat{name=\chapter, numberless}[block]
 {} % format
 {\backgroundThisPageColor} % label
 {0pt} % sep
 { % code before
 	\alignLeftOrRight
-	\fontsize{2.5cm}{3cm}\chapterFont\selectfont	
+	\fontsize{1.8cm}{2.16cm}\chapterFont\selectfont	
 }[ % code after
 \alignLeftOrRightEnd
 ]
@@ -366,24 +422,24 @@ BoldItalicFont=Fira Sans Medium Italic
 \renewcommand{\thesection}{\arabic{chapter}.\arabic{section}}
 \fi
 
-\titleformat{\section}{}{%
-	\fontsize{1.6cm}{1.8cm}\sectionNumbers\color{sectionNumbersColor}%
-	\rlap{\hspace*{-3mm}\raisebox{-3mm}[1pt][1pt]{\thesection}}%
-}{-.8mm}{\Huge\headingFont}{}
+\titleformat{\section}{\huge}{%
+	\hspace*{-3mm}\fontsize{3ex}{3.6ex}\sectionNumbers\selectfont\color{sectionNumbersColor}%
+	\raisebox{-1mm}{\thesection}%
+}{-3mm}{\fontspec{Fira Sans Medium}\selectfont}{}
 
-\titleformat{\subsection}{}{%
-	\fontsize{1cm}{1.2cm}\sectionNumbers\color{subsectionNumbersColor}%
-	\rlap{\hspace*{-2mm}\raisebox{-2mm}[0pt][0pt]{\thesubsection}}%
-}{-.5mm}{\huge\headingFont}{}
-\titleformat*{\subsubsection}{\LARGE\headingFont}
+\titleformat{\subsection}{\LARGE}{%
+	\hspace*{-3mm}\fontsize{3ex}{3.6ex}\subsectionNumbers\selectfont\color{subsectionNumbersColor}%
+	\raisebox{-1mm}{\thesubsection}%
+}{-3mm}{}{}
+\titleformat*{\subsubsection}{\Large}
 
 %Titling spacing: left before after [right]
 \titlespacing*{\chapter}{0mm}{3mm}{1cm}
 %\titlespacing*{name=\chapter,numberless}{0pt}{10pt}{0pt} %starred version of chapter default: 0pt, 50pt, 40pt
-\titlespacing*{\section}{0mm}{-1mm}{-4mm}
-\titlespacing*{name=\section, numberless}{0mm}{-1mm}{-3mm}
-\titlespacing*{\subsection}{0mm}{-1mm}{-3mm}
-\titlespacing*{\subsubsection}{0mm}{2mm}{1.5mm}
+\titlespacing*{\section}{0mm}{3mm}{0mm}
+\titlespacing*{name=\section, numberless}{0mm}{3mm}{0mm}
+\titlespacing*{\subsection}{0mm}{2mm}{0mm}
+\titlespacing*{\subsubsection}{0mm}{2mm}{0mm}
 
 
 
@@ -413,46 +469,6 @@ BoldItalicFont=Fira Sans Medium Italic
 	\renewcommand{\footrulewidth}{0pt}
 }
 \pagestyle{yReport}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%		TikZ
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\RequirePackage{tikz}
-\usetikzlibrary{fit}
-\usetikzlibrary{calc}
-\usetikzlibrary{matrix}
-
-\pgfdeclarelayer{bg}    % declare background layer
-\pgfsetlayers{bg,main}	% set the order of the layers (main is the standard layer)
-
-\newlength{\bigVerticalLineWidth}
-\setlength{\bigVerticalLineWidth}{\evensidemargin + 1in + \hoffset}
-
-\newlength{\bigVerticalLinePartOfMarginParSep}
-\setlength{\bigVerticalLinePartOfMarginParSep}{\marginparsep/8}
-\setlength{\bigVerticalLinePartOfMarginParSep}{5\bigVerticalLinePartOfMarginParSep}
-
-\addtolength{\bigVerticalLineWidth}{-\bigVerticalLinePartOfMarginParSep}
-
-\newcommand{\bigVerticalLine}[1]{
-	\strictpagechecktrue
-	\checkoddpage
-	\ifoddpage%
-	\AddToShipoutPictureBG*{
-		\begin{tikzpicture}[remember picture, overlay]
-			\fill[fill=#1] (current page.south east) rectangle ++(-\bigVerticalLineWidth, \paperheight);
-		\end{tikzpicture}
-	}
-	\else%
-	
-	\AddToShipoutPictureBG*{
-		\begin{tikzpicture}[remember picture, overlay]
-			\fill[fill=#1] (current page.south west) rectangle ++(\bigVerticalLineWidth, \paperheight);
-		\end{tikzpicture}
-	}
-	\fi%
-}
 
 
 
@@ -589,8 +605,10 @@ BoldItalicFont=Fira Sans Medium Italic
 	\pgfextractx{\pgf@xa}{\pgfpointanchor{#2}{west}}% \pgf@xa is a length defined by PGF for temporary storage. No need to create a new temporary length.
 	\addtolength{#1}{-\pgf@xa}%
 }
+\newcommand{\dateRadius}{1.7}
 \newlength{\titlepageTitleLength}
 \DeclareDocumentCommand{\titleTwo}{o o}{
+	{\darkMainColor}
 	\thispagestyle{empty}
 	\symmetricalPage
 	\null
@@ -605,43 +623,41 @@ BoldItalicFont=Fira Sans Medium Italic
 		reset transform/.code={\pgftransformreset}
 	}
 	\begin{tikzpicture}[remember picture, overlay]
-		% some coordinates
-		\coordinate[yshift=-\titlepageHeaderHeight](rectangleEnd) at (current page.north east);
-		\coordinate[xshift=-4cm](dateCenter) at (rectangleEnd);
-		
-		% draw an image if one was provided
-		\IfValueT{#1}{\draw (current page.center)[yshift=-\titlepageHeaderHeight/2] node[align=center, inner sep=0mm, anchor=center] {\IfValueTF{#2}{\includegraphics[#2]{#1}}{\includegraphics[height=\paperheight-\titlepageHeaderHeight]{#1}}};}
-		
-		% red rectangle
-		\fill[mainColor] (current page.north west) rectangle (rectangleEnd) node[fitting node] (headerRectangle) {};
-		
-		% title page text (title rule and subtitle)
-			% title
-		\draw (\leftmargin, -3.5cm) node[align=left, inner sep=0mm, anchor=south west, font=\fontsize{2.3cm}{1.8cm}\selectfont\chapterFont] (title) {
-			\hspace*{-.8mm}\begin{varwidth}{\textwidth}%
-				\FlushLeft%
-				\noHyphen\runtitle%
-			\end{varwidth}%
-		};
-			% rule
-		\getwidthofnode{\titlepageTitleLength}{title}
-		\node[inner xsep=0mm, text width=\titlepageTitleLength, anchor=north west, yshift=-2mm] (rule) at (title.south west) {
-			{\color{White}\rule{\linewidth}{.6mm}}
-		};
-			% author
-		\node[inner xsep=0mm, text width=\linewidth, anchor=north west, yshift=-2mm] (subtitle) at (rule.south west) {
-			{\fontsize{.6cm}{.72cm}\selectfont\color{White}
-				\@subtitle}% \runauthor
-			};
-		
-		% Date
-		\fill[mainColor] (dateCenter)[yshift=1mm] circle (1.8cm);
-		\fill[Black] (dateCenter)[yshift=1mm] circle (1.4cm); %, draw=Black, ultra thick
-		\draw[White](dateCenter) node[text width=1.3cm, align=center] (day) {\fontsize{1cm}{1.2cm}\selectfont\textbf{\dayNumberOnTwoDigit\today}};
-		\draw[White](dateCenter) node [node distance = .75cm, above of=day, text width=1.3cm, align=center](month) {\fontsize{.6cm}{1.2cm}\selectfont\textsc{\addfontfeatures{LetterSpace=15.0}\monthThreeLetterName}};
-		\draw[White](dateCenter) node[node distance = .65cm, below of=day, text width=1.3cm, align=center] (year) {\fontsize{.4cm}{1.2cm}\selectfont{\addfontfeatures{LetterSpace=20.0}\the\year} };
-		% author
-%		\node[anchor=south east] at ($(current page.south east)+(-6mm, 6mm)$) {\fontspec{Canter Light}\fontsize{10mm}{6mm}\color{White}\selectfont Yves Zumbach};
+	% some coordinates
+	\coordinate[yshift=-\titlepageHeaderHeight](rectangleEnd) at (current page.north east);
+	\coordinate[xshift=-4cm](dateCenter) at (rectangleEnd);
+	
+	% draw an image if one was provided
+	\IfValueT{#1}{\draw (current page.center)[yshift=-\titlepageHeaderHeight/2] node[align=center, inner sep=0mm, anchor=center] {\IfValueTF{#2}{\includegraphics[#2]{#1}}{\includegraphics[height=\paperheight-\titlepageHeaderHeight]{#1}}};}
+	
+	% red rectangle
+	\fill[mainColor] (current page.north west) rectangle (rectangleEnd) node[fitting node] (headerRectangle) {};
+	
+	% title page text (title rule and subtitle)
+	% title
+	\draw (\leftmargin-9mm, -3cm) node[align=left, inner sep=0mm, anchor=south west, font=\fontsize{1.4cm}{1.2cm}\selectfont\chapterFont] (title) {
+		\hspace*{-.8mm}\begin{varwidth}{\textwidth}%
+		\FlushLeft%
+		\noHyphen\runtitle%
+		\end{varwidth}%
+	};
+	% rule
+	\getwidthofnode{\titlepageTitleLength}{title}
+	\node[inner xsep=0mm, text width=\titlepageTitleLength+2mm, anchor=north west, yshift=-2mm, xshift=-1mm] (rule) at (title.south west) {{\color{White}\rule{\linewidth}{.6mm}}};
+	% author
+	\node[inner xsep=0mm, text width=\linewidth, anchor=north west, yshift=-2mm] (subtitle) at (rule.south west) {
+		{\fontsize{.6cm}{.72cm}\selectfont\color{White}
+			\@subtitle}% \runauthor
+	};
+	
+	% Date
+	\hexagon[mainColor]{dateCenter}{\dateRadius}
+	\hexagon[darkMainColor]{dateCenter}{\dateRadius}[path fading=south, fading angle=-60]
+	\draw(dateCenter) node[text width=1.3cm, align=center] (day) {\fontsize{1cm}{1.2cm}\selectfont\textbf{\dayNumberOnTwoDigit\today}};
+	\draw(dateCenter) node [node distance = .75cm, above of=day, text width=1.3cm, align=center](month) {\fontsize{.6cm}{1.2cm}\selectfont\textsc{\addfontfeatures{LetterSpace=15.0}\monthThreeLetterName}};
+	\draw(dateCenter) node[node distance = .65cm, below of=day, text width=1.3cm, align=center] (year) {\fontsize{.4cm}{1.2cm}\selectfont{\addfontfeatures{LetterSpace=20.0}\the\year} };
+	% author
+	%		\node[anchor=south east] at ($(current page.south east)+(-6mm, 6mm)$) {\fontspec{Canter Light}\fontsize{10mm}{6mm}\color{White}\selectfont Yves Zumbach};
 	\end{tikzpicture}
 	\null
 	\vfill
@@ -665,20 +681,28 @@ BoldItalicFont=Fira Sans Medium Italic
 \makeatletter
 \@namedef{ver@array.sty}{2008/09/09}
 \makeatother
-\usepackage{makecell}
+%\usepackage{makecell}
 \RequirePackage{tabu}
 \RequirePackage{longtable}
 
-\definecolor{tableLineOne}{RGB}{245, 245, 245}
-\definecolor{tableLineTwo}{RGB}{224, 224, 224}
-\everyrow{\tabucline[.4mm  white]{}}
+\definecolor{tableLineOne}{RGB}{255, 255, 255}
+\definecolor{tableLineTwo}{RGB}{245, 245, 245}
 \taburowcolors[2] 2{tableLineOne .. tableLineTwo}
 \tabulinesep = ^2.5mm_2mm
 \newcommand{\tableHeaderStyle}{
 	\rowfont{\bfseries\sffamily\leavevmode\color{white}}
 	\rowcolor{mainColor}
-	\Gape[3.5mm][1.5mm]{}
 }
+\DeclareDocumentCommand{\sideTabuStyle}{}{%
+	\taburowcolors{}%
+	\tabulinesep = _1.3mm^1.5mm%
+}
+\newcommand{\sideTabuHeaderStyle}{
+	\rowfont{\bfseries}
+}
+\newcommand{\sideTabuTopRule}{\tabucline[1pt, mainColor]{-}}
+\DeclareDocumentCommand{\sideTabuMidRule}{}{\tabucline[.6pt, lightGrey]{-}}
+
 
 
 
@@ -1195,7 +1219,11 @@ BoldItalicFont=Fira Sans Medium Italic
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \makeatletter
 %	\pretocmd{\@schapter}{\startcontents[chapter]}{}{} % uncomment to activate mini toc in frontmatter
+	\ifArticle
+	\AtBeginEnvironment{document}{\startcontents}
+	\else
 	\pretocmd{\@chapter}{\startcontents}{}{}
+	\fi
 \makeatother
 
 \apptocmd{\contentsline}{\par}{}{} % patching contentsline so that it works with partial ToC
@@ -1213,9 +1241,12 @@ BoldItalicFont=Fira Sans Medium Italic
 		{\hspace*{1mm}#1\makebox[3.5mm]{\hfill\color{partialTocColor}$\blacktriangleleft$}}%
 }
 
-\newcommand{\partialTocTitle}{%
+\newcommand{\partialTocTitle}{Summary}
+\ifFrench
+\renewcommand{\partialTocTitle}{%
 	En Bref%
 }
+\fi
 
 \mdfdefinestyle{partialToc}{
 	skipabove=\baselineskip,
@@ -1261,6 +1292,28 @@ BoldItalicFont=Fira Sans Medium Italic
 	}
 }
 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Grid Layout
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% The code below was adapted from the grid package:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/grid/
+
+
+
+\newdimen\floatunit
+\newskip\allfloats
+\setlength\floatunit{\the\baselineskip}
+
+\setlength\allfloats{\floatunit}
+
+\setlength\floatsep{\allfloats}
+\setlength\textfloatsep{\allfloats}
+\setlength\intextsep{\allfloats}
+\setlength\dblfloatsep{\allfloats}
+\setlength\dbltextfloatsep{\allfloats}
 
 
 
