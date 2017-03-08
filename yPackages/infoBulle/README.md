@@ -30,7 +30,7 @@ This package defines commands to typeset flat informational blocs. The commands 
 \criticalInfo{<Title>}{<content>}
 \checkInfo{<Title>}{<content>}
 \questionInfo{<Title>}{<content>}
-\codeInfo{<Title>}{<content>}
+\tipsInfo{<Title>}{<content>}
 ```
 
 ## Further Documentation and commands showcase
