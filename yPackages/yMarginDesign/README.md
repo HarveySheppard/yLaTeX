@@ -8,8 +8,7 @@ Content is aligned to the inner of the page.
 For the alignment to work multiple compilations might be required.
 
 ## Warning
-Without further changes, this package is only compatible with the memoir class.
-To make it compatible with other documentclasses, change the alignment (see below).
+This package might be incompatible with the memoir class
 
 ## Configuration
 
@@ -18,7 +17,7 @@ All configuration for yMarginDesign package should happen in the following comma
 
 Following configuration options are available:
    - `alignment/.code = {<alignment code>}`.
-   By default `<alignment code>` is equal to `\strictpagechecktrue\checkoddpage\ifoddpage\RaggedRight\else\RaggedLeft\fi` (only compatible with the memoir documentclass).
+   By default `<alignment code>` is equal to `\strictpagechecktrue\checkoddpage\ifoddpage\RaggedRight\else\RaggedLeft\fi`.
    You can change those command with any alignment command you like (`\RaggedLeft` for example).
    If you set `alignment/.code = {}`, the LaTeX default alignment will be applied: justified.
    - `color=<color>`, change the marginNoteMark color.

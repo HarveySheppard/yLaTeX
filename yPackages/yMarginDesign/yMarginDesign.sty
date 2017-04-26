@@ -40,6 +40,7 @@
 \RequirePackage{interfaces-base}
 \LoadInterface{pgfkeys}
 \RequirePackage{xcolor}
+\RequirePackage{changepage}
 
 
 
@@ -54,11 +55,7 @@
 \pgfkeys{
 	/yMarginDesign/.cd,
 	color/.store as color,
-}
-\@ifundefinedcolor{mainColor}{%
-	\pgfkeys{/yMarginDesign/color = black}
-}{%
-	\pgfkeys{/yMarginDesign/color = mainColor}
+	color=black,
 }
 
 % Marginpar alignment
@@ -127,7 +124,7 @@
 %		Margin Design Elements
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\DeclareDocumentCommand{\marginTitle}{m}{{\bfseries\large#1}\\}
+\DeclareDocumentCommand{\marginTitle}{m}{{\bfseries\large\color{\pgfkeysvalueof{/yMarginDesign/color}}#1}\\}
 
 
 

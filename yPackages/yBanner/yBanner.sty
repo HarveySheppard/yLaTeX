@@ -4,18 +4,11 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesPackage{yBanner}[2016/01/29 This package provides facilities to draw banners.]
 
-
-%% Fallback
-\DeclareOption*{
-	\PackageWarning{yBanner}{Unknown option '\CurrentOption'}
-}
-
-%% Process given options
-\ProcessOptions\relax
-
 \RequirePackage{xparse}
 \RequirePackage{tikz}
 \usetikzlibrary{fit}
+
+\RequirePackage{yMainColor}
 
 \pgfdeclarelayer{background}
 \pgfdeclarelayer{foreground}
