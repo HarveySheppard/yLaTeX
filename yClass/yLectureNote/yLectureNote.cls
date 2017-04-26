@@ -230,7 +230,7 @@
 \newfontfamily{\lightBoldFont}{Fira Sans}
 \newfontfamily{\heavyFont}{Fira Sans Heavy}
 \newfontfamily{\titleFont}{ShintiaScript}
-\newfontfamily{\chapterNumberFont}{Oswald-BoldItalic.ttf}
+\newfontfamily{\chapterNumberFont}{Oswald-BoldItalic}
 \newfontfamily{\chapterFont}{ShintiaScript}
 \newfontfamily{\serifFont}{Vollkorn}
 \newcommand{\sectionNumbers}{\subsectionNumbers\bfseries\selectfont}
