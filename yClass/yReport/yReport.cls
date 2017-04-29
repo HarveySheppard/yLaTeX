@@ -927,9 +927,9 @@ BoldItalicFont=Fira Sans Medium Italic
 }
 \strictpagecheck
 
-%\RequirePackage[margincaption,outercaption]{sidecap}
-%\sidecaptionvpos{figure}{t} 
-%\sidecaptionvpos{table}{t}
+\RequirePackage[margincaption,outercaption]{sidecap}
+\sidecaptionvpos{figure}{t} 
+\sidecaptionvpos{table}{t}
 
 
 \RequirePackage{caption}
@@ -943,7 +943,7 @@ BoldItalicFont=Fira Sans Medium Italic
 %		}%
 \DeclareCaptionLabelFormat{yLabel}{%
 %\lettrine[lhang=0, lines=2, findent=.5em, nindent=0em ]{\normalsize\tikz{\node[anchor=west, inner sep=2mm, fill=lightGrey, font=\bfseries, text=mainColor] {#1 #2};}}{}%\\
-\textcolor{mainColor}{#1 #2}\quad
+\textcolor{mainColor}{\bfseries#1 #2}\quad
 }
 
 \DeclareDocumentCommand{\sideCaptionOf}{m m}{\marginnote{\captionof{#1}{#2}}}
