@@ -1,7 +1,7 @@
-#yBanner
+# yBanner
 A simple uncompleted package to draw flat banners
 
-##Prerequisites
+## Prerequisites
 
 For this package to work, you need to define a color named mainColor:
 

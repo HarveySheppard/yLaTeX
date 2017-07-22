@@ -5,10 +5,10 @@ This class aim to provide a beautiful class for LaTeX document, combining old ty
 ## Showcase
 A showcase of this template can be seen in the [example directory](../../examples/yReport).
 
-##Prerequisites
+## Prerequisites
 You must compile this class with XeLaTeX for it to work properly. The fonts given in the `.fonts/` folder are required. You also need the `infoBulle` package.
 
-##Starting code
+## Starting code
 Here is the starting code I use:
 
 ```
