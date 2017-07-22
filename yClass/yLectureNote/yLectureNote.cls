@@ -210,7 +210,7 @@
 % For source code
 \setmonofont{Source Code Pro Light}[
 	BoldFont=Source Code Pro,
-	Scale=MatchLowercase,
+	Scale=MatchUppercase,
 ]
 % Normal font
 \setsansfont{Fira Sans Light}[
@@ -257,7 +257,6 @@
 \definecolor{middleGrey}{gray}{.75}
 \definecolor{darkGrey}{gray}{.55}
 
-\newcommand{\inColor}[1]{{\bfseries\color{mainColor}#1}}
 \colorlet{light-gray}{lightGrey} %redefines infoBulle background light-grey to match yLectureNote lightGrey
 
 % Theoreme and blocs colors
