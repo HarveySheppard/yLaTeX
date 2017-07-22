@@ -71,7 +71,6 @@
 
 \newcommand{\inLightGrey}[1]{{\color{lightGrey}#1}}
 \newcommand{\inMiddleGrey}[1]{{\color{middleGrey}#1}}
-\newcommand{\inColor}[1]{{\bfseries\color{mainColor}#1}}
 
 
 
