@@ -269,7 +269,6 @@ BoldItalicFont=Fira Sans Medium Italic
 \definecolor{darkGrey}{gray}{.55}
 \colorlet{bigVerticalLineGrey}{lightGrey}
 
-\newcommand{\inColor}[1]{{\bfseries\color{mainColor}#1}}
 \colorlet{light-gray}{lightGrey} %redefines infoBulle background light-grey to match yReport lightGrey
 
 
