@@ -18,6 +18,9 @@ Defines commands to typeset a block containing the informations about the author
 ## yBanner
 Allows you to typeset flat banners.
 
+## yCards
+Provides commands to typeset cards, where "cards" designate the web UI design elements (Pinterest use a lot of them).
+
 ## yFlatTable
 This package provides commands to typeset flat modern tables using the tabu package.
 

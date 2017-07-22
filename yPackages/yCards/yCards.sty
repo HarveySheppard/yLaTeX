@@ -1,0 +1,281 @@
+%%
+%% This is file `yCards.sty',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% yCards.dtx  (with options: `package')
+%% 
+%% This is a generated file.
+%% 
+%% Copyright (C) 2017 by Harvey Sheppard <harveysheppard75 [at] yandex [dot] com>
+%% 
+%% This file may be distributed and/or modified under the conditions of
+%% the LaTeX Project Public License, either version 1.3 of this license
+%% or (at your option) any later version.  The latest version of this
+%% license is in:
+%% 
+%%    http://www.latex-project.org/lppl.txt
+%% 
+%% and version 1.3 or later is part of all distributions of LaTeX version
+%% 2005/12/01 or later.
+%% 
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{yCards}
+    [2017/06/30 v1.0 creates cards-like (where cards refers to the Web-UI concept) graphical elements.]
+    \RequirePackage{etoolbox}
+    \RequirePackage{xparse}
+    \RequirePackage{interfaces-base}
+    \RequirePackage{calc}
+    \RequirePackage{tikz}
+    \usetikzlibrary{shapes,calc,positioning,fit,shadows,shadows.blur}
+
+    \RequirePackage{yMainColor}
+
+
+\pgfdeclarelayer{bg}
+\pgfsetlayers{bg,main}
+
+
+\DeclareDocumentCommand{\ycardsset}{m}{%
+\pgfqkeys{/ycards}{#1}%
+}
+
+
+\ycardsset{%
+padding/.store as dimen,
+padding = 1em,
+above skip/.store as dimen,
+above skip=\baselineskip,
+below skip/.store as dimen,
+below skip=\baselineskip,
+}
+
+\ycardsset{%
+background/color/.store as color,
+background/color = white,
+background/opacity/.store as code,
+background/opacity = 1,
+rounded corners/.store as dimen,
+rounded corners = .3mm,
+shadow/.style = {blur shadow={shadow xshift=0mm, shadow yshift=-.35mm, shadow opacity=40, shadow blur radius=.6mm, shadow blur steps=30,}},
+}
+
+\ycardsset{%
+line width/.store as dimen,
+line width = 0pt,
+line color/.store as color,
+line color = lightGrey,
+line opacity/.store as code,
+line opacity = 1,
+}
+
+\ycardsset{%
+content/.cd,
+align/.is enum={left,flush left,right,flush right,center,flush center,justify,none},
+align = left,
+font/.initial = {\small\sffamily},
+color/.store as color,
+color = black,
+}
+
+\ycardsset{%
+header/.cd,
+color/.store as color,
+color = middleGrey,
+}
+
+\ycardsset{%
+footer/.cd,
+color/.store as color,
+color = middleGrey,
+}
+
+\ycardsset{%
+image/.cd,
+padding/.store as dimen,
+padding = 0mm,
+align/.is enum={left,flush left,right,flush right,center,flush center,justify,none},
+align = left,
+font/.initial = {\large\sffamily},
+color/.store as color,
+color = white,
+text vertical align/.is enum={top,bottom},
+text vertical align=bottom,
+}
+
+\ycardsset{%
+separator/.cd,
+line width/.store as dimen,
+line width = .5pt,
+line color/.store as color,
+line color=lightGrey,
+}
+
+\DeclareDocumentCommand{\@yc@card@skeleton}{m m m}{%
+\noindent%
+\begingroup%
+\pgfkeys{/ycards/.cd, #1}%
+\ifstrempty{#2}{}{\forcsvlist{\ycapplystyle}{#2}}%
+\begin{tikzpicture}[inner sep=0mm, node distance=0mm, outer sep=0mm]
+\begin{scope}
+\coordinate (cardNorthWest) at (0, 0);
+\coordinate[yshift=-.5*\pgfkeysvalueof{/ycards/line width}] (previous) at (cardNorthWest);
+#3
+\coordinate[yshift=-.5*\pgfkeysvalueof{/ycards/line width}] (cardSouthEast) at (previous.south east);
+\clip [
+rounded corners=\pgfkeysvalueof{/ycards/rounded corners},
+] (cardNorthWest) rectangle (cardSouthEast);
+\end{scope}
+\begin{pgfonlayer}{bg}
+\fill[
+\pgfkeysvalueof{/ycards/background/color},
+opacity=\pgfkeysvalueof{/ycards/background/opacity},
+rounded corners=\pgfkeysvalueof{/ycards/rounded corners},
+/ycards/shadow,
+] (cardNorthWest) rectangle (cardSouthEast);
+\end{pgfonlayer}
+\draw[
+\pgfkeysvalueof{/ycards/line color},
+line width=\pgfkeysvalueof{/ycards/line width},
+opacity=\pgfkeysvalueof{/ycards/line opacity},
+rounded corners=\pgfkeysvalueof{/ycards/rounded corners}
+] (cardNorthWest) rectangle (cardSouthEast);
+\draw [opacity=0] ($(cardNorthWest)+(0,\pgfkeysvalueof{/ycards/above skip})$) circle (0);
+\draw [opacity=0] ($(cardSouthEast)+(0,-\pgfkeysvalueof{/ycards/below skip})$) circle (0);
+\end{tikzpicture}%
+\endgroup%
+}
+
+\DeclareDocumentCommand{\yccontent}{O{} m}{%
+\node[
+anchor=north west,
+align=\pgfkeysvalueof{/ycards/content/align},
+text width=\linewidth-2*\pgfkeysvalueof{/ycards/padding}-\pgfkeysvalueof{/ycards/line width},
+inner sep=\pgfkeysvalueof{/ycards/padding},
+font=\pgfkeysvalueof{/ycards/content/font},
+text=\pgfkeysvalueof{/ycards/content/color},
+#1,
+] (previous) at (previous.south west) {#2};
+}
+
+\DeclareDocumentCommand{\ycheader}{s O{} m}{%
+\node[
+anchor=north west,
+align=\pgfkeysvalueof{/ycards/content/align},
+text width=\linewidth-2*\pgfkeysvalueof{/ycards/padding}-\pgfkeysvalueof{/ycards/line width},
+inner sep=\pgfkeysvalueof{/ycards/padding},
+font=\pgfkeysvalueof{/ycards/content/font},
+text=\pgfkeysvalueof{/ycards/header/color},
+#2
+] (previous) at (previous.south west) {#3};
+\IfBooleanF{#1}{\ychline}
+}
+
+\DeclareDocumentCommand{\ycfooter}{s O{} m}{%
+\IfBooleanF{#1}{\ychline}
+\node[
+anchor=north west,
+align=\pgfkeysvalueof{/ycards/content/align},
+text width=\linewidth-2*\pgfkeysvalueof{/ycards/padding}-\pgfkeysvalueof{/ycards/line width},
+inner sep=\pgfkeysvalueof{/ycards/padding},
+font=\pgfkeysvalueof{/ycards/content/font},
+text=\pgfkeysvalueof{/ycards/footer/color},
+#2,
+] (previous) at (previous.south west) {#3};
+}
+
+\DeclareDocumentCommand{\ychline}{O{} O{}}{%
+\node[
+line width=0mm,
+inner sep=0mm,
+minimum height=\pgfkeysvalueof{/ycards/separator/line width},
+minimum width=\linewidth-1.5*\pgfkeysvalueof{/ycards/line width},
+rectangle,
+fill=\pgfkeysvalueof{/ycards/separator/line color},
+anchor=north west,
+#1,
+] at ($(previous.south west) + (.5*\pgfkeysvalueof{/ycards/line width}, 0)$) {};
+\node [
+line width=0mm,
+minimum height=\pgfkeysvalueof{/ycards/separator/line width},
+minimum width=\linewidth-\pgfkeysvalueof{/ycards/line width},
+anchor=north west,
+#2,
+] (previous) at (previous.south west) {};
+}
+
+\DeclareDocumentCommand{\ycimage}{O{} m}{%
+\node[
+line width=0mm,
+inner sep=\pgfkeysvalueof{/ycards/image/padding},
+text width=\linewidth-2*\pgfkeysvalueof{/ycards/image/padding}-1.5*\pgfkeysvalueof{/ycards/line width},
+anchor=north west,
+] (ycimage) at ($(previous.south west) + (.5*\pgfkeysvalueof{/ycards/line width}, 0)$) {\includegraphics[width=\linewidth]{#2}};
+\coordinate[xshift=-.5*\pgfkeysvalueof{/ycards/line width}] (tempnorthwest) at (ycimage.north west);
+\coordinate[xshift=.5*\pgfkeysvalueof{/ycards/line width}] (tempsoutheast) at (ycimage.south east);
+\ifstrequal{\pgfkeysvalueof{/ycards/image/text vertical align}}{top}{%
+\node[
+anchor = north west,
+align=\pgfkeysvalueof{/ycards/image/align},
+text width=\linewidth-2*\pgfkeysvalueof{/ycards/padding}-\pgfkeysvalueof{/ycards/line width},
+inner sep=\pgfkeysvalueof{/ycards/padding},
+font=\pgfkeysvalueof{/ycards/image/font},
+text=\pgfkeysvalueof{/ycards/image/color},
+] at (tempnorthwest) {#1};
+}{%
+\node[
+anchor = south west,
+align=\pgfkeysvalueof{/ycards/image/align},
+text width=\linewidth-2*\pgfkeysvalueof{/ycards/padding}-\pgfkeysvalueof{/ycards/line width},
+inner sep=\pgfkeysvalueof{/ycards/padding},
+font=\pgfkeysvalueof{/ycards/image/font},
+text=\pgfkeysvalueof{/ycards/image/color},
+] at ($(ycimage.south west) + (-.5*\pgfkeysvalueof{/ycards/line width}, 0)$) {#1};
+}
+\node[
+line width=0mm,
+fit=(tempnorthwest)(tempsoutheast),
+] (previous) {};
+}
+
+
+\DeclareDocumentCommand{\ycnewstyle}{m m}{%
+\pgfkeys{%
+/ycards/#1/.style={/ycards/.cd,#2}%
+}%
+}
+
+\DeclareDocumentCommand{\ycapptostyle}{m m}{%
+\pgfkeys{
+/ycards/#1/.append style = {#2}
+}%
+}
+
+\DeclareDocumentCommand{\ycapplystyle}{m}{%
+\pgfkeys{/ycards/#1}%
+}
+
+
+\ycnewstyle{noborder}{
+line width=0mm,%
+}
+
+\ycnewstyle{inversed}{
+content/color=white,
+background/color=black,
+}
+
+\ycnewstyle{inversedmaincolor}{
+content/color=white,
+background/color=mainColor,
+}
+
+
+\DeclareDocumentCommand{\ycard}{O{} O{} m}{%
+\@yc@card@skeleton{#1}{#2}{#3}
+}
+
+\endinput
+%%
+%% End of file `yCards.sty'.
