@@ -158,19 +158,6 @@
 	/rvtm/language = english,
 }
 
-% MainColor Options
-%-------------------------------------------------------------------------------
-\pgfkeys{
-	/rvtm/main color/.code n args = {3}{\@declareMainColor{#1}{#2}{#3}},
-	/rvtm/main color/.default = {211}{47}{47},
-	/rvtm/main color/.value required,
-}
-\DeclareDocumentCommand{\@declareMainColor}{m m m}{
-	\definecolor{mainColor}{RGB}{#1, #2, #3}
-	\colorlet{lightMainColor}{mainColor!80}
-	\colorlet{darkMainColor}{mainColor!80!Black}
-}
-
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -215,9 +202,6 @@
 
 % Alternative Layouts
 %-------------------------------------------------------------------------------
-% This command is defined in the format files so that it adapts itself to the
-% page format
-\newcommand{\symmetricalLayout}{} % The layout is already symmetrical. This command is left so that for those who would wish an asymmetrical layout this class could still work
 
 \DeclareDocumentCommand{\smallmarginlayout}{}{%
 	\newgeometry{
