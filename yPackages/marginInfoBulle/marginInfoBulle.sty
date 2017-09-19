@@ -104,8 +104,8 @@
 \NewTranslation{german}{difficulty}{Schwierigkeit}
 \DeclareDocumentCommand{\marginCritical}{s o m}{%
 	\IfBooleanTF{#1}
-	{\marginInfoAbstract*{\faTimesCircle}{criticalColor}{\GetTranslation{difficulty}}{#2}{#3}}
-	{\marginInfoAbstract{\faTimesCircle}{criticalColor}{\GetTranslation{difficulty}}{#2}{#3}}%
+	{\marginInfoAbstract*{\faTimes}{criticalColor}{\GetTranslation{difficulty}}{#2}{#3}}
+	{\marginInfoAbstract{\faTimes}{criticalColor}{\GetTranslation{difficulty}}{#2}{#3}}%
 }
 
 % marginInfo
@@ -115,8 +115,8 @@
 \NewTranslation{german}{info}{Info}
 \DeclareDocumentCommand{\marginInfo}{s o m}{%
 	\IfBooleanTF{#1}
-	{\marginInfoAbstract*{\faInfoCircle}{informationColor}{\GetTranslation{info}}{#2}{#3}}
-	{\marginInfoAbstract{\faInfoCircle}{informationColor}{\GetTranslation{info}}{#2}{#3}}%
+	{\marginInfoAbstract*{\faInfo}{informationColor}{\GetTranslation{info}}{#2}{#3}}
+	{\marginInfoAbstract{\faInfo}{informationColor}{\GetTranslation{info}}{#2}{#3}}%
 }
 
 % marginTips
@@ -137,8 +137,8 @@
 \NewTranslation{german}{question}{Frage}
 \DeclareDocumentCommand{\marginQuestion}{s o m}{%
 	\IfBooleanTF{#1}
-	{\marginInfoAbstract*{\faQuestionCircle}{questionColor}{\GetTranslation{question}}{#2}{#3}}
-	{\marginInfoAbstract{\faQuestionCircle}{questionColor}{\GetTranslation{question}}{#2}{#3}}%
+	{\marginInfoAbstract*{\faQuestion}{questionColor}{\GetTranslation{question}}{#2}{#3}}
+	{\marginInfoAbstract{\faQuestion}{questionColor}{\GetTranslation{question}}{#2}{#3}}%
 }
 
 % marginCheck
@@ -148,8 +148,8 @@
 \NewTranslation{german}{check}{Beispiel}
 \DeclareDocumentCommand{\marginCheck}{s o m}{%
 	\IfBooleanTF{#1}
-	{\marginInfoAbstract*{\faCheckCircle}{checkColor}{\GetTranslation{check}}{#2}{#3}}
-	{\marginInfoAbstract{\faCheckCircle}{checkColor}{\GetTranslation{check}}{#2}{#3}}%
+	{\marginInfoAbstract*{\faCheck}{checkColor}{\GetTranslation{check}}{#2}{#3}}
+	{\marginInfoAbstract{\faCheck}{checkColor}{\GetTranslation{check}}{#2}{#3}}%
 }
 
 % marginWarning
@@ -159,8 +159,8 @@
 \NewTranslation{german}{warning}{Warnung}
 \DeclareDocumentCommand{\sideWarning}{s o m}{%
 	\IfBooleanTF{#1}
-	{\marginInfoAbstract*{\faExclamationCircle}{warningColor}{\GetTranslation{warning}}{#2}{#3}}
-	{\marginInfoAbstract{\faExclamationCircle}{warningColor}{\GetTranslation{warning}}{#2}{#3}}%
+	{\marginInfoAbstract*{\faExclamation}{warningColor}{\GetTranslation{warning}}{#2}{#3}}
+	{\marginInfoAbstract{\faExclamation}{warningColor}{\GetTranslation{warning}}{#2}{#3}}%
 }
 
 \endinput
