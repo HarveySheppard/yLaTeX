@@ -171,10 +171,10 @@
 \newcommand{\nomarginparpage}{
 	\fancyhfoffset[R]{0mm}
 	\newgeometry{
-		top=27mm,
-		bottom=27mm,
 		inner=20mm,
 		outer=20mm,
+		bottom=27mm,
+		footskip=14mm,
 		ignorehead,
 		ignorefoot,
 		nomarginpar
@@ -183,6 +183,13 @@
 \newcommand{\marginparpage}{
 	\restoregeometry
 	\fancyhfoffset[OR, EL]{\marginparsep + \marginparwidth}
+}
+
+\DeclareDocumentCommand{\makePlaceForBottomNotes}{}{%
+	\geometry{%
+		bottom=65mm,
+		footskip=52mm,
+	}
 }
 
 
@@ -425,15 +432,16 @@
 
 \DeclareDocumentCommand{\titleOne}{ O{} }{%
 	\thispagestyle{empty}%
-	\null
-	\vspace*{1cm}
+	\null%
+	\vspace*{1cm}%
 	\begin{tikzpicture}[remember picture, overlay, inner sep=0mm]
 %		Title of the document
 		\node [
 			anchor=north west,
 			align=left,
 			text width=\paperwidth-\titlepageRubberWidth-2in-\evensidemargin-\oddsidemargin-\titlepageDefaultPadding,
-		] (titlepageTitle) {
+		] (titlepageTitle) {%
+			\noHyphen%
 			\titlepageTitleStyle{\@title}
 		};
 		\ifdefempty{\@subtitle}{}{
