@@ -449,7 +449,7 @@
 			\node (titlepageSubtitle) [
 				anchor=north west,
 				text width=\paperwidth-\titlepageRubberWidth-2in-\evensidemargin-\oddsidemargin-\titlepageDefaultPadding-3mm,
-			] at (titlePageSubtitleNorthWest) {\titlepageSubtitleStyle{\@subtitle}};
+			] at (titlePageSubtitleNorthWest) {\noHyphen\titlepageSubtitleStyle{\@subtitle}};
 			}
 %		Rubber
 		\coordinate [
