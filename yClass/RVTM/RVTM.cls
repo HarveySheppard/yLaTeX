@@ -46,6 +46,10 @@
 
 \LoadClass[a4paper, openright, twoside, 12pt]{report}
 
+% Extends default TeX registry among other things
+\RequirePackage{etex}
+\reserveinserts{28}
+
 % Checks that no deprecated commands are used
 \RequirePackage[l2tabu, orthodox]{nag}
 
@@ -623,7 +627,6 @@ BoldFont=Fira Sans Medium,
 }
 
 \DeclareDocumentCommand{\rvtmtoc}{}{%
-	\smallmarginlayout%
 	\begingroup%
 	\contentsmargin{0mm}%
 	% remove hyphenation in titles
@@ -687,7 +690,9 @@ BoldFont=Fira Sans Medium,
 			\p2=(current page.east) in
 		node [
 			anchor=\anchor,
-			font=\fontsize{\csuse{@rvtm@toc@chapter@page@\thecontentslabel @fontsize}}{1.2\csuse{@rvtm@toc@chapter@page@\thecontentslabel @fontsize}}\selectfont\pgfkeys{/rvtm/toc/chapter page/font},
+			font=%
+				\fontsize{\csuse{@rvtm@toc@chapter@page@\thecontentslabel @fontsize}}{1.2\csuse{@rvtm@toc@chapter@page@\thecontentslabel @fontsize}}\selectfont
+				\pgfkeys{/rvtm/toc/chapter page/font},
 			xshift=\the\csuse{@rvtm@toc@chapter@page@\thecontentslabel @xshift},
 			yshift=\the\csuse{@rvtm@toc@chapter@page@\thecontentslabel @yshift},
 		] (@rvtm@toc@previous@page) at ($(\x2, \y1) + (\@rvtm@toc@leftorrightxshift,0mm)$) {\hypersetup{linkcolor=\pgfkeysvalueof{/rvtm/toc/chapter page/color}}\thecontentspage};
@@ -812,7 +817,6 @@ BoldFont=Fira Sans Medium,
 
 \DeclareDocumentEnvironment{framedpage}{}{%
 	\newpage%
-	\symmetricalLayout%
 	\null%
 	\thispagestyle{empty}
 	\begin{tikzpicture}[remember picture, overlay]
