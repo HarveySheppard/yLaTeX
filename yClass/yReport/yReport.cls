@@ -1140,75 +1140,78 @@ BoldItalicFont=Fira Sans Medium Italic
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %		AuthorBlock
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newcommand{\extraVerticalSpace}{\rule{0pt}{2.5ex}}
 
-\DeclareDocumentCommand{\blockLine}{m m}{#1 \& #2\\}
+\RequirePackage{yAuthorBlock}
 
-% Author shortcuts
-\DeclareDocumentCommand{\authorName}{m O{\faUser}}{
-	\blockLine{}{\bfseries#1}%
-}
-\DeclareDocumentCommand{\authorAdressLineOne}{m O{\extraVerticalSpace\faHome}}{
-	\blockLine{#2}{#1}%
-}
-\DeclareDocumentCommand{\authorAdressLineTwo}{m O{\phantom{\fontsize{2mm}{2mm}\faHome}}}{
-	\blockLine{#2}{#1}%
-}
-\DeclareDocumentCommand{\authorAdressLineThree}{m O{\phantom{\fontsize{2mm}{2mm}\faHome}}}{
-	\blockLine{#2}{#1}%
-}
-\DeclareDocumentCommand{\authorPhone}{m O{\extraVerticalSpace\fontsize{5mm}{4mm}\faMobile}}{
-	\blockLine{#2}{#1}%
-}
-\DeclareDocumentCommand{\authorMail}{m O{\extraVerticalSpace\faEnvelopeO}}{
-	\blockLine{#2}{\emaillink{#1}}%
-}
-\DeclareDocumentCommand{\authorWebsite}{m O{\extraVerticalSpace{\FA\symbol{"F245}}}}{
-	\blockLine{#2}{\href{#1}{\color{Black}#1}}%
-}
-
-% Book shortcuts
-\DeclareDocumentCommand{\bookAuthor}{m O{{\FA\symbol{"F040}}}}{
-	\blockLine{#2}{\bfseries#1}%
-}
-\DeclareDocumentCommand{\bookParution}{m O{\extraVerticalSpace\faCalendar}}{
-	\blockLine{#2}{#1}%
-}
-\DeclareDocumentCommand{\bookISBN}{m O{\extraVerticalSpace\textsc{isbn}}}{
-	\blockLine{#2}{#1}%
-}
-
-\newcommand{\blockLineWidth}{1.8mm}
-\newcommand{\blockLineLength}{8mm}
-\DeclareDocumentCommand{\authorBlock}{m O{inner sep=5mm}}{
-	\blockSkeleton[
-		\node[font=\fontsize{1.3cm}{1cm}, text=mainColor] (userIcon) at ($(authorBlock.north west)+(1mm, 0)$) {\faUser};
-	][#2]{#1}
-}
-\DeclareDocumentCommand{\bookBlock}{m O{inner sep=5mm}}{
-	\blockSkeleton[
-	\node[font=\fontsize{1.3cm}{1cm}, text=mainColor] (bookIcon) at ($(authorBlock.north west)+(1mm, 0)$) {\faBook};
-	][#2]{#1}
-}
-
-% Arguments: 1afterCode 2matrixArgument 3columnOneCode 4columnTwoCode 5text
-\DeclareDocumentCommand{\blockSkeleton}{O{} O{inner sep=5mm,} O{text=mainColor} O{} m}{
-	\begin{tikzpicture}
-	\matrix (authorBlock)[
-		matrix of nodes, ampersand replacement=\&,
-		nodes={inner ysep=.7mm, inner xsep=0mm, inner xsep=2mm, anchor=south west},
-		column 1/.style={nodes={anchor=south,#3}},%
-		column 2/.style={nodes={#4}},
-		#2
-	]{#5};
-	\begin{scope}[darkGrey, line width=\blockLineWidth]
-		\draw ($(authorBlock.north east)+(-\blockLineLength, 0)$) -- ++(\blockLineLength, 0) -- ++(0, -\blockLineLength);
-		\draw ($(authorBlock.south west)+(0, \blockLineLength)$) -- ++(0, -\blockLineLength) -- ++(\blockLineLength, 0);
-		\draw ($(authorBlock.south east)+(-\blockLineLength, 0)$) -- ++(\blockLineLength, 0) -- ++(0, \blockLineLength);
-	\end{scope}
-	#1
-	\end{tikzpicture}
-}
+%\newcommand{\extraVerticalSpace}{\rule{0pt}{2.5ex}}
+%
+%\DeclareDocumentCommand{\blockLine}{m m}{#1 \& #2\\}
+%
+%% Author shortcuts
+%\DeclareDocumentCommand{\authorName}{m O{\faUser}}{
+%	\blockLine{}{\bfseries#1}%
+%}
+%\DeclareDocumentCommand{\authorAdressLineOne}{m O{\extraVerticalSpace\faHome}}{
+%	\blockLine{#2}{#1}%
+%}
+%\DeclareDocumentCommand{\authorAdressLineTwo}{m O{\phantom{\fontsize{2mm}{2mm}\faHome}}}{
+%	\blockLine{#2}{#1}%
+%}
+%\DeclareDocumentCommand{\authorAdressLineThree}{m O{\phantom{\fontsize{2mm}{2mm}\faHome}}}{
+%	\blockLine{#2}{#1}%
+%}
+%\DeclareDocumentCommand{\authorPhone}{m O{\extraVerticalSpace\fontsize{5mm}{4mm}\faMobile}}{
+%	\blockLine{#2}{#1}%
+%}
+%\DeclareDocumentCommand{\authorMail}{m O{\extraVerticalSpace\faEnvelopeO}}{
+%	\blockLine{#2}{\emaillink{#1}}%
+%}
+%\DeclareDocumentCommand{\authorWebsite}{m O{\extraVerticalSpace{\FA\symbol{"F245}}}}{
+%	\blockLine{#2}{\href{#1}{\color{Black}#1}}%
+%}
+%
+%% Book shortcuts
+%\DeclareDocumentCommand{\bookAuthor}{m O{{\FA\symbol{"F040}}}}{
+%	\blockLine{#2}{\bfseries#1}%
+%}
+%\DeclareDocumentCommand{\bookParution}{m O{\extraVerticalSpace\faCalendar}}{
+%	\blockLine{#2}{#1}%
+%}
+%\DeclareDocumentCommand{\bookISBN}{m O{\extraVerticalSpace\textsc{isbn}}}{
+%	\blockLine{#2}{#1}%
+%}
+%
+%\newcommand{\blockLineWidth}{1.8mm}
+%\newcommand{\blockLineLength}{8mm}
+%\DeclareDocumentCommand{\authorBlock}{m O{inner sep=5mm}}{
+%	\blockSkeleton[
+%		\node[font=\fontsize{1.3cm}{1cm}, text=mainColor] (userIcon) at ($(authorBlock.north west)+(1mm, 0)$) {\faUser};
+%	][#2]{#1}
+%}
+%\DeclareDocumentCommand{\bookBlock}{m O{inner sep=5mm}}{
+%	\blockSkeleton[
+%	\node[font=\fontsize{1.3cm}{1cm}, text=mainColor] (bookIcon) at ($(authorBlock.north west)+(1mm, 0)$) {\faBook};
+%	][#2]{#1}
+%}
+%
+%% Arguments: 1afterCode 2matrixArgument 3columnOneCode 4columnTwoCode 5text
+%\DeclareDocumentCommand{\blockSkeleton}{O{} O{inner sep=5mm,} O{text=mainColor} O{} m}{
+%	\begin{tikzpicture}
+%	\matrix (authorBlock)[
+%		matrix of nodes, ampersand replacement=\&,
+%		nodes={inner ysep=.7mm, inner xsep=0mm, inner xsep=2mm, anchor=south west},
+%		column 1/.style={nodes={anchor=south,#3}},%
+%		column 2/.style={nodes={#4}},
+%		#2
+%	]{#5};
+%	\begin{scope}[darkGrey, line width=\blockLineWidth]
+%		\draw ($(authorBlock.north east)+(-\blockLineLength, 0)$) -- ++(\blockLineLength, 0) -- ++(0, -\blockLineLength);
+%		\draw ($(authorBlock.south west)+(0, \blockLineLength)$) -- ++(0, -\blockLineLength) -- ++(\blockLineLength, 0);
+%		\draw ($(authorBlock.south east)+(-\blockLineLength, 0)$) -- ++(\blockLineLength, 0) -- ++(0, \blockLineLength);
+%	\end{scope}
+%	#1
+%	\end{tikzpicture}
+%}
 
 
 

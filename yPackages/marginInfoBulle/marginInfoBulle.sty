@@ -157,7 +157,7 @@
 \NewTranslation{english}{warning}{Warning}
 \NewTranslation{french}{warning}{Attention}
 \NewTranslation{german}{warning}{Warnung}
-\DeclareDocumentCommand{\sideWarning}{s o m}{%
+\DeclareDocumentCommand{\marginWarning}{s o m}{%
 	\IfBooleanTF{#1}
 	{\marginInfoAbstract*{\faExclamation}{warningColor}{\GetTranslation{warning}}{#2}{#3}}
 	{\marginInfoAbstract{\faExclamation}{warningColor}{\GetTranslation{warning}}{#2}{#3}}%
