@@ -31,10 +31,7 @@
     \usetikzlibrary{shapes,calc,positioning,fit,shadows,shadows.blur}
 
     \RequirePackage{yMainColor}
-
-
-\pgfdeclarelayer{bg}
-\pgfsetlayers{bg,main}
+\usetikzlibrary{backgrounds}
 
 
 \DeclareDocumentCommand{\ycardsset}{m}{%
@@ -115,8 +112,8 @@ line color=lightGrey,
 \DeclareDocumentCommand{\@yc@card@skeleton}{m m m}{%
 \noindent%
 \begingroup%
-\pgfkeys{/ycards/.cd, #1}%
 \ifstrempty{#2}{}{\forcsvlist{\ycapplystyle}{#2}}%
+\pgfkeys{/ycards/.cd, #1}%
 \begin{tikzpicture}[inner sep=0mm, node distance=0mm, outer sep=0mm]
 \begin{scope}
 \coordinate (cardNorthWest) at (0, 0);
@@ -127,7 +124,7 @@ line color=lightGrey,
 rounded corners=\pgfkeysvalueof{/ycards/rounded corners},
 ] (cardNorthWest) rectangle (cardSouthEast);
 \end{scope}
-\begin{pgfonlayer}{bg}
+\begin{pgfonlayer}{background}
 \fill[
 \pgfkeysvalueof{/ycards/background/color},
 opacity=\pgfkeysvalueof{/ycards/background/opacity},

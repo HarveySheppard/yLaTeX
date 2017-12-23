@@ -38,6 +38,7 @@
 \usepackage{yCards}
 \usepackage{csquotes}
 \usepackage{xparse}
+\usepackage{multicol}
 \usepackage{tikz}
 \usetikzlibrary{arrows, shapes}
 \EnableCrossrefs
@@ -87,15 +88,101 @@
 % \begin{abstract}
 %	The \textsf{yCards} package provides utilities to create cards-like (cards refers here to the web-UI concept) graphical elements.
 % \end{abstract}
-
-
-
+%
+%
+%
+% \section{Example}
+%
+% \begin{multicols}{2}
+%	
+%\ycard[background/color=black][inversedmaincolor]{
+%    \yccontent{{\Large\bfseries Title}}
+%    \ycimage[Caption]{test.jpg}
+%    \yccontent{This is the text of the card}
+%}
+%
+% \columnbreak
+% \begin{verbatim}%
+%\ycard[background/color=black][inversedmaincolor]{
+%    \yccontent{{\Large\bfseries Title}}
+%    \ycimage[Caption]{test.jpg}
+%    \yccontent{This is the text of the card}
+%}
+% \end{verbatim}
+%
+%\end{multicols}
+%
+% \section{User Commands}
+%
+%
+% \subsection{Cards}
+% \DescribeMacro{\ycard[or][style]\{content\}}
+%	All cards are created using this command.
+%	The \verb|or| argument allows you to specify local overrides.
+%	The \verb|style| argument allows you to specify a list of comma-separatted styles that will be applied sequentially to the card.
+%	More details about styles are given in section \ref{sec:styles}.
+%	The \verb|content| argument is list of commands that will describe the card's content.
+%	The commands that you can issue in this place are described in section \ref{sec:content}.
+%
+% \subsection{Content Commands}
+% \label{sec:content}
+% \DescribeMacro{\yccontent[style]\{content\}}
+%	Typesets a paragraph of text inside the card.
+%	The \verb|style| argument allows to pass some configuration options to the tikz node created under the hood by this package.
+%
+% \DescribeMacro{\ycheader<*>[style]\{content\}}
+%	Typesets a header for the card with a horizontal line below it.
+%	If the command is starred, then no horizontal line will be added below the header.
+%	Headers differ from normal content in the sense that a special color can be attributed to them.
+%	The \verb|style| argument allows to pass some configuration options to the tikz node created under the hood by this package.
+%
+% \DescribeMacro{\ycfooter<*>[style]\{content\}}
+%	Typesets a footer for the card with a horizontal line above it.
+%	If the command is starred, then no horizontal line will be added.
+%	Footers differ from normal content in the sense that a special color can be attributed to them.
+%	The \verb|style| argument allows to pass some configuration options to the tikz node created under the hood by this package.
+%
+% \DescribeMacro{\ycline[style1][style2]}
+%	Typesets a horizontal line.
+%	The \verb|style1| argument allows to pass some configuration options to the tikz node that actually prints the line.
+%	The \verb|style2| argument allows to pass some configuration options to the tikz node created below the line for spacing.
+%
+% \DescribeMacro{\ycimage[caption]\{image path\}}
+%	Typesets an image that takes the full card width.
+%	The \verb|caption| argument will typeset a caption on top of the image.
+%	See section \ref{sec:configuration} for the list of option available for caption configuration.
+%	The \verb|image path| argument is the path to the image to be printed.
+%
+%
+% \subsection{Global Configuration}
+% \DescribeMacro{\ycardsset\{keys\}}
+%	This command allow to globally change the yCards options.
+%	The \verb+<keys>+ argument must respect the tikz syntax.
+%	The possible configuration options for the cards are described in section \ref{sec:configuration}.
+%
+%
+% \subsection{Styles}
+% \label{sec:styles}
+%
+% \DescribeMacro{\ycnewstyle\{name\}\{options\}}
+%	Declare a new style named \verb|name| that applies the options described in \verb|options|.
+%	The \verb|options| argument is a comma-separated list of configurations.
+%	For the list of available configurations, see section \ref{sec:configuration}.%
+%
+% \DescribeMacro{\ycapptostyle\{name\}\{options\}}
+%	Appends the configurations given in \verb|options| to the style named \verb|name|.
+%
+% \DescribeMacro{\ycapplystyle\{name\}}
+%	Apply the style named \verb|name|.
+%	This command is mostly seen inside the card environment.
+%
+% \section{Code}
+%
 % \subsection{Global Code}
-
-% \begin{macro}{Global Configuration}
+%
+% \begin{macro}{Package Configuration}
 %    \begin{macrocode}
-\pgfdeclarelayer{bg}
-\pgfsetlayers{bg,main}
+\usetikzlibrary{backgrounds}
 %    \end{macrocode}
 % \end{macro}
 
@@ -114,6 +201,7 @@
 
 
 % \subsection{yCard Options}
+% \label{sec:configuration}
 
 % \begin{macro}{Padding}
 %    \begin{macrocode}
@@ -237,8 +325,8 @@
 \DeclareDocumentCommand{\@yc@card@skeleton}{m m m}{%
 	\noindent%
 	\begingroup%
-	\pgfkeys{/ycards/.cd, #1}%
 	\ifstrempty{#2}{}{\forcsvlist{\ycapplystyle}{#2}}%
+	\pgfkeys{/ycards/.cd, #1}%
 	\begin{tikzpicture}[inner sep=0mm, node distance=0mm, outer sep=0mm]
 		\begin{scope}
 			\coordinate (cardNorthWest) at (0, 0);
@@ -249,7 +337,7 @@
 				rounded corners=\pgfkeysvalueof{/ycards/rounded corners},
 			] (cardNorthWest) rectangle (cardSouthEast);
 		\end{scope}
-		\begin{pgfonlayer}{bg}
+		\begin{pgfonlayer}{background}
 			\fill[
 				\pgfkeysvalueof{/ycards/background/color},
 				opacity=\pgfkeysvalueof{/ycards/background/opacity},
