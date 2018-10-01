@@ -9,7 +9,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-% Copyright Yves Zumbach 2017
+% Copyright Harvey Sheppard 2018
 %-------------------------------------------------------------------------------
 
 % This work is distributed under the LPPL
@@ -40,7 +40,6 @@
 \RequirePackage{mdframed}
 \RequirePackage{changepage}
 \RequirePackage{xparse}
-\RequirePackage{caption}
 \RequirePackage{tikz}
 \usetikzlibrary{fit}
 
@@ -106,7 +105,7 @@
 	},
 	darkOpaque/.style={
 		fill=black,
-		text=White,
+		text=gray,
 		font=\bfseries,
 	},
 	left/.style={
@@ -147,14 +146,6 @@
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%		Captions Setup
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\newcommand{\fullPageImageCaption}[1]{{\captionsetup{belowskip=0mm, aboveskip=0mm, justification=RaggedRight, singlelinecheck=false}\caption{#1}}}
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %		yFullDesign Commands
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -177,7 +168,7 @@
 	\IfValueT{#1}{
 		\coordinate[#2, yshift=\yFullDesign@captionBottomOffset] (borderNorthWest) at (yFullWidthImage.south west);
 		\coordinate[xshift=1mm] (captionNorthWest) at (borderNorthWest);
-		\draw (captionNorthWest) node[captionRectangleStyle, #3] (captionRectangle) {\fullPageImageCaption{#1}};
+		\draw (captionNorthWest) node[captionRectangleStyle, #3] (captionRectangle) {#1};
 		\node[fit={(borderNorthWest)(captionRectangle.south west)}, shape=rectangle, fill=mainColor] {};
 	}
 }
