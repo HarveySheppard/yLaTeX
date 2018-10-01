@@ -3,6 +3,12 @@
 This package provide commands to typeset little blocks containing some informations about the author.
 
 
+## Usage
+
+To use this package, you must have `\usepackage{fontawesome}` somewhere in your code.
+This package does not issue the command itself to avoid conflict with other call to the same command.
+
+
 ## Global Syntax
 
 All informational lines are added using a command of the form `\author<Info>{<text>}[<icon>]` (see below).
