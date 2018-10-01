@@ -73,6 +73,8 @@
 \newcommand{\inLightGrey}[1]{{\color{lightGrey}#1}}
 \newcommand{\inMiddleGrey}[1]{{\color{middleGrey}#1}}
 
+\ProvideDocumentCommand{\inColor}{m}{\textbf{\textcolor{mainColor}{#1}}}
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -100,7 +102,6 @@ BoldItalicFont=Fira Sans SemiBold Italic
 % Font for section, subsection, subsubsection, etc
 \newfontfamily{\josefin}{Josefin Sans}
 \newfontfamily{\abril}{Abril Fatface}
-\newfontfamily{\FA}{FontAwesome.otf}
 
 
 
