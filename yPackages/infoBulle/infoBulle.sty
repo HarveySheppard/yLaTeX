@@ -180,14 +180,12 @@
 \newlength{\yIconHorizontalOffset}
 \setlength{\yIconHorizontalOffset}{.73cm}
 % General Command
-\ifinfoBulleMarginIcons
-	\DeclareDocumentCommand{\@titleContent}{m m m}{%
+\DeclareDocumentCommand{\@titleContent}{m m m}{%
+	\ifinfoBulleMarginIcons
 		\llap{#2\hspace*{\yIconHorizontalOffset}}%
 		\mbox{}%
 		\infoBulleTitleFormat#3%
-	}
-\else
-	\DeclareDocumentCommand{\@titleContent}{m m m}{%		
+	\else
 		\@afterindentfalse\@afterheading%
 		\mbox{}%
 		\parbox[t][2\pgfkeysvalueof{/infoBulle/icon/radius}]{.75cm}{%
@@ -199,8 +197,8 @@
 				\mbox{}%
 				\infoBulleTitleFormat#3%
 		}%
-	}%
-\fi
+	\fi
+}%
 % Command for titles n two part (one in bold, the other normal)
 % icon color, icon, title part one, title part two
 \DeclareDocumentCommand{\@titleContentTwoPart}{m m m m}{%
