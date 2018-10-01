@@ -104,8 +104,8 @@
 \NewTranslation{german}{difficulty}{Schwierigkeit}
 \DeclareDocumentCommand{\marginCritical}{s o m}{%
 	\IfBooleanTF{#1}
-	{\marginInfoAbstract*{\faTimes}{criticalColor}{\GetTranslation{difficulty}}{#2}{#3}}
-	{\marginInfoAbstract{\faTimes}{criticalColor}{\GetTranslation{difficulty}}{#2}{#3}}%
+	{\marginInfoAbstract*{\FASolid\symbol{"F00D}}{criticalColor}{\GetTranslation{difficulty}}{#2}{#3}}
+	{\marginInfoAbstract{\FASolid\symbol{"F00D}}{criticalColor}{\GetTranslation{difficulty}}{#2}{#3}}%
 }
 
 % marginInfo
@@ -115,8 +115,8 @@
 \NewTranslation{german}{info}{Info}
 \DeclareDocumentCommand{\marginInfo}{s o m}{%
 	\IfBooleanTF{#1}
-	{\marginInfoAbstract*{\faInfo}{informationColor}{\GetTranslation{info}}{#2}{#3}}
-	{\marginInfoAbstract{\faInfo}{informationColor}{\GetTranslation{info}}{#2}{#3}}%
+	{\marginInfoAbstract*{\FASolid\symbol{"F129}}{informationColor}{\GetTranslation{info}}{#2}{#3}}
+	{\marginInfoAbstract{\FASolid\symbol{"F129}}{informationColor}{\GetTranslation{info}}{#2}{#3}}%
 }
 
 % marginTips
@@ -137,8 +137,8 @@
 \NewTranslation{german}{question}{Frage}
 \DeclareDocumentCommand{\marginQuestion}{s o m}{%
 	\IfBooleanTF{#1}
-	{\marginInfoAbstract*{\faQuestion}{questionColor}{\GetTranslation{question}}{#2}{#3}}
-	{\marginInfoAbstract{\faQuestion}{questionColor}{\GetTranslation{question}}{#2}{#3}}%
+	{\marginInfoAbstract*{\FASolid\symbol{"F128}}{questionColor}{\GetTranslation{question}}{#2}{#3}}
+	{\marginInfoAbstract{\FASolid\symbol{"F128}}{questionColor}{\GetTranslation{question}}{#2}{#3}}%
 }
 
 % marginCheck
@@ -148,8 +148,8 @@
 \NewTranslation{german}{check}{Beispiel}
 \DeclareDocumentCommand{\marginCheck}{s o m}{%
 	\IfBooleanTF{#1}
-	{\marginInfoAbstract*{\faCheck}{checkColor}{\GetTranslation{check}}{#2}{#3}}
-	{\marginInfoAbstract{\faCheck}{checkColor}{\GetTranslation{check}}{#2}{#3}}%
+	{\marginInfoAbstract*{\FASolid\symbol{"F00C}}{checkColor}{\GetTranslation{check}}{#2}{#3}}
+	{\marginInfoAbstract{\FASolid\symbol{"F00C}}{checkColor}{\GetTranslation{check}}{#2}{#3}}%
 }
 
 % marginWarning
@@ -159,8 +159,8 @@
 \NewTranslation{german}{warning}{Warnung}
 \DeclareDocumentCommand{\marginWarning}{s o m}{%
 	\IfBooleanTF{#1}
-	{\marginInfoAbstract*{\faExclamation}{warningColor}{\GetTranslation{warning}}{#2}{#3}}
-	{\marginInfoAbstract{\faExclamation}{warningColor}{\GetTranslation{warning}}{#2}{#3}}%
+	{\marginInfoAbstract*{\FASolid\symbol{"F12A}}{warningColor}{\GetTranslation{warning}}{#2}{#3}}
+	{\marginInfoAbstract{\FASolid\symbol{"F12A}}{warningColor}{\GetTranslation{warning}}{#2}{#3}}%
 }
 
 \endinput
