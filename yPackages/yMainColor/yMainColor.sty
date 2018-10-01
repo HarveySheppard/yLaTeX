@@ -37,17 +37,18 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \RequirePackage{xcolor}
+\RequirePackage{xparse}
 
-\definecolor{mainColor}{RGB}{211, 47, 47}
-\definecolor{secondColor}{RGB}{142, 68, 173}
+\providecolor{mainColor}{RGB}{211, 47, 47}
+\providecolor{secondColor}{RGB}{142, 68, 173}
 
-\definecolor{lightGrey}{gray}{0.94}
-\definecolor{middleGrey}{gray}{.75}
-\definecolor{darkGrey}{gray}{.55}
+\providecolor{lightGrey}{gray}{0.94}
+\providecolor{middleGrey}{gray}{.75}
+\providecolor{darkGrey}{gray}{.55}
 \colorlet{lightGray}{lightGrey}
 \colorlet{middleGray}{middleGrey}
 \colorlet{darkGray}{darkGrey}
 
-\newcommand{\inColor}[1]{\textbf{\textcolor{mainColor}{#1}}}
+\ProvideDocumentCommand{\inColor}{m}{\textbf{\textcolor{mainColor}{#1}}}
 
 \endinput
