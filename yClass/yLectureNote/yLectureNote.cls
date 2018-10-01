@@ -120,13 +120,14 @@
 \RequirePackage{titletoc}
 \RequirePackage{mdframed}
 \RequirePackage{ifthen}
+\RequirePackage{titlesec}
+\RequirePackage{fontawesome}
 
 % Those custom packages can all be found and downloaded at http://github.com/HarveySheppard/yLaTeX
 \RequirePackage{yMarginDesign}
 \RequirePackage{infoBulle}
 \RequirePackage{marginInfoBulle}
 \RequirePackage{yMainColor}
-\RequirePackage{yAuthorBlock}
 
 
 
@@ -236,15 +237,13 @@
 \newfontfamily{\normalFont}{Fira Sans Light}
 \newfontfamily{\lightBoldFont}{Fira Sans}
 \newfontfamily{\heavyFont}{Fira Sans Heavy}
-\newfontfamily{\titleFont}{ShintiaScript}
+\newfontfamily{\titleFont}{Shintia Script}
 \newfontfamily{\chapterNumberFont}{Oswald-BoldItalic}
 \newfontfamily{\chapterFont}{ShintiaScript}
 \newfontfamily{\serifFont}{Vollkorn}
 \newcommand{\sectionNumbers}{\subsectionNumbers\bfseries\selectfont}
-\newfontfamily{\subsectionNumbers}{Oswald RegularItalic}
+\newfontfamily{\subsectionNumbers}{Oswald LightItalic}
 \newfontfamily{\abril}{Abril Fatface}
-
-\usepackage{fontawesome}
 
 
 
@@ -269,6 +268,8 @@
 % Theoreme and blocs colors
 \definecolor{mathematicalColor}{RGB}{230, 126, 34}
 
+\ProvideDocumentCommand{\inColor}{m}{\textbf{\textcolor{mainColor}{#1}}}
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -286,7 +287,6 @@
 \newlength{\subtitleRubberWidth}\setlength{\subtitleRubberWidth}{2cm}
 \newlength{\subtitleDefaultPadding}\setlength{\subtitleDefaultPadding}{2mm}
 \newlength{\subtitleRubberHeight}\setlength{\subtitleRubberHeight}{4.5cm}
-\RequirePackage{titlesec}
 \titleformat{\chapter}[block]
 {} % format
 {%
@@ -483,7 +483,7 @@
 			\ifdefempty{\@professor}{
 				\ClassWarning{yLectureNote}{You did not provide a professor name!}
 			}{
-				\titlepageIcon{\FA\symbol{"F19D}}
+				\titlepageIcon{\FASolid\symbol{"F51C}}
 				\@professor\\
 			}
 			\ifdefempty{\@author}{
@@ -498,7 +498,7 @@
 			\@date\\
 			\ifdefempty{\@yLanguage}{}{
 				\titlepageRubberVerticalSpacer
-				\titlepageIcon{\FA\symbol{"F1AB}}
+				\titlepageIcon{\FASolid\symbol{"F1AB}}
 				\@yLanguage\\
 			}
 			#1
