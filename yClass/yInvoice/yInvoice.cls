@@ -59,12 +59,13 @@
 \usetikzlibrary{shapes}
 \usetikzlibrary{fpu}
 
+\RequirePackage{yMainColor}
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %		Colors
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\definecolor{mainColor}{RGB}{150, 150, 150} % a sort of light gray
 \definecolor{mainColor}{RGB}{211, 47, 47} % some dark red
 \definecolor{lightGrey}{gray}{.6}
 \definecolor{middleGrey}{gray}{.3}
@@ -99,7 +100,7 @@ BoldItalicFont=Fira Sans SemiBold Italic
 % Font for section, subsection, subsubsection, etc
 \newfontfamily{\josefin}{Josefin Sans}
 \newfontfamily{\abril}{Abril Fatface}
-\newfontfamily{\FA}{FontAwesome_0.otf}
+\newfontfamily{\FA}{FontAwesome.otf}
 
 
 
@@ -107,7 +108,6 @@ BoldItalicFont=Fira Sans SemiBold Italic
 %		Layout
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \RequirePackage[
-	xetex,
 %	showframe,
 	a4paper,
 	ignoreheadfoot,
