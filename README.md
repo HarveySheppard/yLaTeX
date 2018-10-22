@@ -13,10 +13,10 @@ How is it useful to me?
 Take a look at the following:
 
 - [infoBulle](./examples/infoBulle/infoBulleShowcase.pdf) package
-- [yLectureNote](./example/yLectureNote/yLectureNoteShowcase.pdf) class
+- [yLectureNote](./examples/yLectureNote/yLectureNoteShowcase.pdf) class
 - [yReport](./examples/yReport/article/articleGeopolitique_harveySheppard_2016.pdf) class
 - [yCards](./examples/yCards/yCardsShowcase.pdf) package
-- [yFlatTable](./exmaples/yFlatTable/yFlatTableShowcase.pdf) package
+- [yFlatTable](./examples/yFlatTable/yFlatTableShowcase.pdf) package
 
 You can do all of the above by using freely the code in this repo!
 
