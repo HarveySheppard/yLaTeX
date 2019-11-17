@@ -44,6 +44,7 @@
 \RequirePackage{mdframed}
 \RequirePackage{listings}
 \RequirePackage{xparse}
+\RequirePackage{ragged2e}
 \RequirePackage{tikz}
 \usetikzlibrary{calc}
 \RequirePackage{interfaces-base}
@@ -101,6 +102,13 @@
 	shape/round/.style = {/infoBulle/icon/radius = 3.5mm, /infoBulle/icon/shapeCommand/.code n args = {3}{\fill[##3] (##1) circle (##2);}},
 	shape/hexagon/.style = {/infoBulle/icon/radius = 4mm, /infoBulle/icon/shapeCommand/.code n args = {3}{\infoBulle@hexagon{##1}{##2}[##3, rotate=90];}},
 	shape/round,
+}
+
+% Text Alignment
+%-------------------------------------------------------------------------------
+\pgfkeys{
+	/infoBulle/.cd,
+	text alignment/.code = {\RaggedRight}
 }
 
 \ProcessPgfPackageOptions{/infoBulle}
@@ -220,6 +228,7 @@
 	\begin{infoBulle}[linecolor=#1, frametitle=\@titleContent{#1}{#2}{#3}]%
 		\setlength{\parindent}{\tempparindent}%
 		\setlength{\parskip}{\tempparskip}%
+		\pgfkeys{/infoBulle/text alignment}%
 	}{%
 \end{infoBulle}%
 }

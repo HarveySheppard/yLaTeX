@@ -53,6 +53,8 @@
 \RequirePackage{ragged2e}
 \RequirePackage{xparse}
 \RequirePackage[useregional]{datetime2}
+\RequirePackage{tabularx}
+\RequirePackage{booktabs}
 
 \RequirePackage{tikz}
 \usetikzlibrary{calc}
@@ -80,7 +82,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %		Font
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\RequirePackage{fontawesome}
 \defaultfontfeatures{Ligatures=TeX}
 \frenchspacing
 % For source code
@@ -102,6 +103,7 @@ BoldItalicFont=Fira Sans SemiBold Italic
 % Font for section, subsection, subsubsection, etc
 \newfontfamily{\josefin}{Josefin Sans}
 \newfontfamily{\abril}{Abril Fatface}
+\newfontfamily{\FASolid}{Font Awesome 5 Free Solid}
 
 
 
@@ -132,10 +134,6 @@ BoldItalicFont=Fira Sans SemiBold Italic
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %		Tables
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\RequirePackage{array}
-\RequirePackage{tabu}
-\RequirePackage{longtable}
-
 \definecolor{tableLineOne}{gray}{.98}
 \definecolor{tableLineTwo}{gray}{.95}
 
@@ -178,6 +176,7 @@ BoldItalicFont=Fira Sans SemiBold Italic
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %		yInvoice general commands
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\noHyphen}{\hyphenpenalty10000\exhyphenpenalty10000\righthyphenmin62\lefthyphenmin62}
 \newcommand{\printInvoiceHeader}{
 	\printTitle
 	\printHeader
@@ -263,8 +262,9 @@ BoldItalicFont=Fira Sans SemiBold Italic
 	\renewcommand{\yInvoice@bankIban}{#2}
 }
 
-\newcommand{\printHeader}{	
+\newcommand{\printHeader}{
 	\parbox[b]{\textwidth}{
+		\renewcommand{\arraystretch}{1.2}
 		\parbox[t]{.5\textwidth}{
 			\mbox{}\\
 			\begin{tabular}{rl}
@@ -272,8 +272,8 @@ BoldItalicFont=Fira Sans SemiBold Italic
 				& \yInvoice@yourAdressLineOne\\
 				& \yInvoice@yourAdressLineTwo\\
 				\ifdefempty{\yInvoice@yourAdressLineThree}{}{& \yInvoice@yourAdressLineThree\\}
-				\ifdefempty{\yInvoice@yourPhone}{}{\inLightGrey{\faMobile} & \yInvoice@yourPhone\\}
-				\ifdefempty{\yInvoice@yourMail}{}{\inLightGrey{\faEnvelopeO} & \emaillink{\yInvoice@yourMail}\\}
+				\ifdefempty{\yInvoice@yourPhone}{}{\inLightGrey{\FASolid\symbol{"F10B}} & \yInvoice@yourPhone\\}
+				\ifdefempty{\yInvoice@yourMail}{}{\inLightGrey{\FASolid\symbol{"F0E0}} & \emaillink{\yInvoice@yourMail}\\}
 				\\
 				\inColor{Bank account} & \yInvoice@bankAdresse\\
 				\textsc{\inLightGrey{iban}}& \yInvoice@bankIban
@@ -289,8 +289,8 @@ BoldItalicFont=Fira Sans SemiBold Italic
 				\inColor{Project} & \yInvoice@project\\
 				\ifdefempty{\yInvoice@contact}{}{\\
 					\inColor{Contact} & \yInvoice@contact\\
-					\ifdefempty{\yInvoice@contactPhone}{}{\inLightGrey{\faMobile} & \yInvoice@contactPhone\\}
-					\ifdefempty{\yInvoice@contactMail}{}{\inLightGrey{\faEnvelopeO} & \emaillink{\yInvoice@contactMail}\\}
+					\ifdefempty{\yInvoice@contactPhone}{}{\inLightGrey{\FASolid\symbol{"F10B}} & \yInvoice@contactPhone\\}
+					\ifdefempty{\yInvoice@contactMail}{}{\inLightGrey{\FASolid\symbol{"F0E0}} & \emaillink{\yInvoice@contactMail}\\}
 				}
 			\end{tabular}
 		}
@@ -342,7 +342,7 @@ BoldItalicFont=Fira Sans SemiBold Italic
 	\arrowbase\quad
 	\parbox{.4\textwidth}{
 		{
-			\fontsize{1cm}{1.2cm}\josefin\selectfont{
+			\fontsize{.8cm}{.96cm}\josefin\selectfont{%
 				\currencysym\yInvoice@balancePrice
 			}
 		}\\[1mm]
@@ -374,31 +374,20 @@ BoldItalicFont=Fira Sans SemiBold Italic
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %		Table commands
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\RequirePackage{environ}
-\NewEnviron{costsDescription}[2]{
-	\begin{longtabu} to \linewidth {>{\raggedright}p{3cm} >{\raggedright}p{1.5cm} X[l] >{\raggedright}p{8mm} >{\raggedright}p{1.2cm} >{\raggedright}p{2cm}}
-		\rowfont{\bfseries\sffamily\leavevmode\color{white}}
-		\rowcolor{mainColor}
-		Short name & Date & Description & Hours & Rate & Amount\\
-\BODY
-		\summaryline{Total}{#1}
-		\summaryline{Paid}{#2}
-		\summaryline{Balance Due}{\yInvoice@balancePrice}
-	\end{longtabu}
-}
+\newcommand{\tableHeaderStyle}{\bfseries\sffamily}
+\arrayrulecolor{mainColor}
+%\rowcolors{2}{tableLineOne}{tableLineTwo}
+\renewcommand{\arraystretch}{1.8}
+\renewcommand{\aboverulesep}{0mm}
+\renewcommand{\belowrulesep}{0mm}
 
-
-\newcommand{\costEntry}[6]{
-	#1 & #2 & #3 & #4 & \addCurrency{#5} & \addCurrency{#6}\\
+\newcommand{\costEntry}[6]{%
+	#1 & #2 & #3 & #4 & \addCurrency{#5} & \addCurrency{#6}\\%
 }
 
 \DeclareExpandableDocumentCommand{\summaryline}{mm}{%
-	\multicolumn{5}{>{\cellcolor{White}}r}{\inColor{#1}} & \cellcolor{White}\addCurrency{#2}\\[-3mm]
+	\multicolumn{5}{r}{\cellcolor{white}\inColor{#1}} & \cellcolor{white}\addCurrency{#2}\\
 }
-
-
-\taburowcolors[2] 2{tableLineOne .. tableLineTwo}
-\tabulinesep = ^4mm_3mm
 
 
 

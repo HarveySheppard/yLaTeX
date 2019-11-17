@@ -9,7 +9,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-% Copyright Yves Zumbach 2017
+% Copyright Harvey Sheppard 2017
 %-------------------------------------------------------------------------------
 
 % This work is distributed under the LPPL
@@ -228,7 +228,7 @@ BoldItalicFont=Fira Sans Medium Italic
 \newfontfamily{\normalFont}{Fira Sans Light}
 \newfontfamily{\lightBoldFont}{Fira Sans}
 \newfontfamily{\heavyFont}{Fira Sans Heavy}
-\newfontfamily{\titleFont}{CanterLight}
+\newfontfamily{\titleFont}{Canter Light}
 \newfontfamily{\headingFont}{Fira Sans Book}
 \newfontfamily{\chapterNumberFont}{Butler Bold}%{London}%{DiamondsThinItalic}%Abril Fatface}
 \newfontfamily{\chapterFont}{Butler}

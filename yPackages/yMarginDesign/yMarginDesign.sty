@@ -51,11 +51,32 @@
 % Configuration command
 \DeclareDocumentCommand{\yMarginDesignConfiguration}{m}{\pgfkeys{/yMarginDesign/.cd, #1}}
 
-% Color of the title, marginNoteMark, etc.
+% Colors
 \pgfkeys{
 	/yMarginDesign/.cd,
-	color/.store as color,
-	color=black,
+	emph color/.store as color,
+	emph color = black,
+	text color/.store as color,
+	text color = black,
+}
+
+% Marginparskip
+\pgfkeys{
+	/yMarginDesign/.cd,
+	marginparskip/.store as dimen,
+	marginparskip = 3mm,
+}
+
+% Size of the margin text
+\pgfkeys{
+/yMarginDesign/.cd,
+size/.code = \footnotesize,
+}
+
+% Style of the margin title
+\pgfkeys{%
+	/yMarginDesign/.cd,
+	titleFormat/.code = \normalsize\color{\pgfkeysvalueof{/yMarginDesign/emph color}}
 }
 
 % Marginpar alignment
@@ -72,20 +93,21 @@
 
 % Typeset a paragraph in the margin
 \DeclareDocumentCommand{\marginElement}{m}{%
-	\marginpar{%
+	\marginpar{{%
 		\pgfkeys{/yMarginDesign/alignment}%
-		\footnotesize%
-		#1%
-	}\unskip%
+		\pgfkeys{/yMarginDesign/size}%
+		\color{\pgfkeysvalueof{/yMarginDesign/text color}}
+		#1\par\vspace{\pgfkeysvalueof{/yMarginDesign/marginparskip}}%
+	}}\unskip%
 }%
 
 % The mark for the marginNote
-\DeclareDocumentCommand{\marginMark}{m}{{\color{\pgfkeysvalueof{/yMarginDesign/color}}#1.~}}
+\DeclareDocumentCommand{\marginMark}{m}{{\color{\pgfkeysvalueof{/yMarginDesign/emph color}}#1.~}}
 
 \DeclareDocumentCommand{\printMarginNoteMark}{}{%
 	\@ifpackageloaded{hyperref}%
-		{{\hypersetup{linkcolor=\pgfkeysvalueof{/yMarginDesign/color}}\footnotemark}}%
-		{\textcolor{\pgfkeysvalueof{/yMarginDesign/color}}{\footnotemark}}
+		{{\hypersetup{linkcolor=\pgfkeysvalueof{/yMarginDesign/emph color}}\footnotemark}}%
+		{\textcolor{\pgfkeysvalueof{/yMarginDesign/emph color}}{\footnotemark}}%
 }
 
 % Typeset a paragraph in the margin with a number (as a footnote) 
@@ -124,7 +146,4 @@
 %		Margin Design Elements
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\DeclareDocumentCommand{\marginTitle}{m}{{\bfseries\large\color{\pgfkeysvalueof{/yMarginDesign/color}}#1}\\}
-
-
-
+\DeclareDocumentCommand{\marginTitle}{m}{{\pgfkeys{/yMarginDesign/titleFormat}#1}\\}
