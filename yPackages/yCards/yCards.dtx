@@ -28,7 +28,7 @@
     \RequirePackage{interfaces-base}
     \RequirePackage{calc}
     \RequirePackage{tikz}
-    \usetikzlibrary{shapes,calc,positioning,fit,shadows,shadows.blur}
+    \usetikzlibrary{backgrounds,shapes,calc,positioning,fit,shadows,shadows.blur}
     
     \RequirePackage{yMainColor}
 %</package>
@@ -102,7 +102,7 @@
 %}
 %
 % \columnbreak
-% \begin{verbatim}%
+% \begin{verbatim}
 %\ycard[background/color=black][inversedmaincolor]{
 %    \yccontent{{\Large\bfseries Title}}
 %    \ycimage[Caption]{test.jpg}
@@ -177,14 +177,6 @@
 %	This command is mostly seen inside the card environment.
 %
 % \section{Code}
-%
-% \subsection{Global Code}
-%
-% \begin{macro}{Package Configuration}
-%    \begin{macrocode}
-\usetikzlibrary{backgrounds}
-%    \end{macrocode}
-% \end{macro}
 
 
 
@@ -208,10 +200,6 @@
 \ycardsset{%
 	padding/.store as dimen,
 	padding = 1em,
-	above skip/.store as dimen,
-	above skip=\baselineskip,
-	below skip/.store as dimen,
-	below skip=\baselineskip,
 }
 %    \end{macrocode}
 % \end{macro}
@@ -226,7 +214,15 @@
 	background/opacity = 1,
 	rounded corners/.store as dimen,
 	rounded corners = .3mm,
-	shadow/.style = {blur shadow={shadow xshift=0mm, shadow yshift=-.35mm, shadow opacity=40, shadow blur radius=.6mm, shadow blur steps=30,}},
+	shadow/.style = {%
+		blur shadow={%
+			shadow xshift=0mm,%
+			shadow yshift=-.35mm,%
+			shadow opacity=40,%
+			shadow blur radius=.6mm,%
+			shadow blur steps=30,%
+		},%
+	},%
 }
 %    \end{macrocode}
 % \end{macro}
@@ -250,9 +246,18 @@
 %    \begin{macrocode}
 \ycardsset{%
 	content/.cd,
-	align/.is enum={left,flush left,right,flush right,center,flush center,justify,none},
+	align/.is enum={%
+		left,%
+		flush left,%
+		right,%
+		flush right,%
+		center,%
+		flush center,%
+		justify,%
+		none,%
+	},
 	align = left,
-	font/.initial = {\small\sffamily},
+	font/.initial = {},
 	color/.store as color,
 	color = black,
 }
@@ -288,9 +293,18 @@
 	image/.cd,
 	padding/.store as dimen,
 	padding = 0mm,
-	align/.is enum={left,flush left,right,flush right,center,flush center,justify,none},
+	align/.is enum={%
+		left,%
+		flush left,%
+		right,%
+		flush right,%
+		center,%
+		flush center,%
+		justify,%
+		none,%
+	},
 	align = left,
-	font/.initial = {\large\sffamily},
+	font/.initial = {},
 	color/.store as color,
 	color = white,
 	text vertical align/.is enum={top,bottom},
@@ -337,22 +351,20 @@
 				rounded corners=\pgfkeysvalueof{/ycards/rounded corners},
 			] (cardNorthWest) rectangle (cardSouthEast);
 		\end{scope}
-		\begin{pgfonlayer}{bg}
+		\begin{scope}[on background layer]
 			\fill[
 				\pgfkeysvalueof{/ycards/background/color},
 				opacity=\pgfkeysvalueof{/ycards/background/opacity},
 				rounded corners=\pgfkeysvalueof{/ycards/rounded corners},
 				/ycards/shadow,
 			] (cardNorthWest) rectangle (cardSouthEast);
-		\end{pgfonlayer}
+		\end{scope}
 		\draw[
 			\pgfkeysvalueof{/ycards/line color},
 			line width=\pgfkeysvalueof{/ycards/line width},
 			opacity=\pgfkeysvalueof{/ycards/line opacity},
 			rounded corners=\pgfkeysvalueof{/ycards/rounded corners}
 		] (cardNorthWest) rectangle (cardSouthEast);
-		\draw [opacity=0] ($(cardNorthWest)+(0,\pgfkeysvalueof{/ycards/above skip})$) circle (0);
-		\draw [opacity=0] ($(cardSouthEast)+(0,-\pgfkeysvalueof{/ycards/below skip})$) circle (0);
 	\end{tikzpicture}%
 	\endgroup%
 }

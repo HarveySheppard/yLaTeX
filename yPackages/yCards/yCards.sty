@@ -28,10 +28,9 @@
     \RequirePackage{interfaces-base}
     \RequirePackage{calc}
     \RequirePackage{tikz}
-    \usetikzlibrary{shapes,calc,positioning,fit,shadows,shadows.blur}
+    \usetikzlibrary{backgrounds,shapes,calc,positioning,fit,shadows,shadows.blur}
 
     \RequirePackage{yMainColor}
-\usetikzlibrary{backgrounds}
 
 
 \DeclareDocumentCommand{\ycardsset}{m}{%
@@ -42,10 +41,6 @@
 \ycardsset{%
 padding/.store as dimen,
 padding = 1em,
-above skip/.store as dimen,
-above skip=\baselineskip,
-below skip/.store as dimen,
-below skip=\baselineskip,
 }
 
 \ycardsset{%
@@ -55,7 +50,15 @@ background/opacity/.store as code,
 background/opacity = 1,
 rounded corners/.store as dimen,
 rounded corners = .3mm,
-shadow/.style = {blur shadow={shadow xshift=0mm, shadow yshift=-.35mm, shadow opacity=40, shadow blur radius=.6mm, shadow blur steps=30,}},
+shadow/.style = {%
+blur shadow={%
+shadow xshift=0mm,%
+shadow yshift=-.35mm,%
+shadow opacity=40,%
+shadow blur radius=.6mm,%
+shadow blur steps=30,%
+},%
+},%
 }
 
 \ycardsset{%
@@ -69,9 +72,18 @@ line opacity = 1,
 
 \ycardsset{%
 content/.cd,
-align/.is enum={left,flush left,right,flush right,center,flush center,justify,none},
+align/.is enum={%
+left,%
+flush left,%
+right,%
+flush right,%
+center,%
+flush center,%
+justify,%
+none,%
+},
 align = left,
-font/.initial = {\small\sffamily},
+font/.initial = {},
 color/.store as color,
 color = black,
 }
@@ -92,9 +104,18 @@ color = middleGrey,
 image/.cd,
 padding/.store as dimen,
 padding = 0mm,
-align/.is enum={left,flush left,right,flush right,center,flush center,justify,none},
+align/.is enum={%
+left,%
+flush left,%
+right,%
+flush right,%
+center,%
+flush center,%
+justify,%
+none,%
+},
 align = left,
-font/.initial = {\large\sffamily},
+font/.initial = {},
 color/.store as color,
 color = white,
 text vertical align/.is enum={top,bottom},
@@ -124,22 +145,20 @@ line color=lightGrey,
 rounded corners=\pgfkeysvalueof{/ycards/rounded corners},
 ] (cardNorthWest) rectangle (cardSouthEast);
 \end{scope}
-\begin{pgfonlayer}{bg}
+\begin{scope}[on background layer]
 \fill[
 \pgfkeysvalueof{/ycards/background/color},
 opacity=\pgfkeysvalueof{/ycards/background/opacity},
 rounded corners=\pgfkeysvalueof{/ycards/rounded corners},
 /ycards/shadow,
 ] (cardNorthWest) rectangle (cardSouthEast);
-\end{pgfonlayer}
+\end{scope}
 \draw[
 \pgfkeysvalueof{/ycards/line color},
 line width=\pgfkeysvalueof{/ycards/line width},
 opacity=\pgfkeysvalueof{/ycards/line opacity},
 rounded corners=\pgfkeysvalueof{/ycards/rounded corners}
 ] (cardNorthWest) rectangle (cardSouthEast);
-\draw [opacity=0] ($(cardNorthWest)+(0,\pgfkeysvalueof{/ycards/above skip})$) circle (0);
-\draw [opacity=0] ($(cardSouthEast)+(0,-\pgfkeysvalueof{/ycards/below skip})$) circle (0);
 \end{tikzpicture}%
 \endgroup%
 }
