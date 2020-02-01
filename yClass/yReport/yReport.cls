@@ -693,30 +693,8 @@ BoldItalicFont=Fira Sans Medium Italic
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %		Tables
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\makeatletter
-\@namedef{ver@array.sty}{2008/09/09}
-\makeatother
-%\usepackage{makecell}
-\RequirePackage{tabu}
-\RequirePackage{longtable}
 
-\definecolor{tableLineOne}{RGB}{255, 255, 255}
-\definecolor{tableLineTwo}{RGB}{245, 245, 245}
-\taburowcolors[2] 2{tableLineOne .. tableLineTwo}
-\tabulinesep = ^2.5mm_2mm
-\newcommand{\tableHeaderStyle}{
-	\rowfont{\bfseries\sffamily\leavevmode\color{white}}
-	\rowcolor{mainColor}
-}
-\DeclareDocumentCommand{\sideTabuStyle}{}{%
-	\taburowcolors{}%
-	\tabulinesep = _1.3mm^1.5mm%
-}
-\newcommand{\sideTabuHeaderStyle}{
-	\rowfont{\bfseries}
-}
-\newcommand{\sideTabuTopRule}{\tabucline[1pt, mainColor]{-}}
-\DeclareDocumentCommand{\sideTabuMidRule}{}{\tabucline[.6pt, lightGrey]{-}}
+\RequirePackage{booktabs}
 
 
 

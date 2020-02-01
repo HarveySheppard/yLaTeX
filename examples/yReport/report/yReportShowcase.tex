@@ -3,7 +3,7 @@
 
 \usepackage{lipsum}
 
-\author{Yves Zumbach}
+\author{Harvey Sheppard}
 \subtitle{Typography}
 \title{An Example Document}
 
@@ -85,15 +85,18 @@
 	
 	\lipsum[3]
 	
-	\sideTable[A flat table example]{
-		\begin{tabu} to \marginparwidth {XX}
-			\tableHeaderStyle
-			Key & Value\\
+	\sideTable[A table example]{
+		\centering
+		\begin{tabular}{ll}
+			\toprule
+			\textbf{Key} & \textbf{Value}\\
+			\midrule
 			key 1 & value 1\\
 			key 2 & value 2\\
 			key 3 & value 3\\
 			key 4 & value 4\\
-		\end{tabu}
+			\bottomrule
+		\end{tabular}
 	}
 	\subsection{Second Section}
 	
@@ -112,7 +115,6 @@
 	
 	\warningInfo{InfoBulle --- Warning}{\lipsum[3]}
 	
-	\newpage
 	\begin{figure}[ht!]
 		\begin{centered}
 			\includegraphics[width=\linewidth]{images/sunset.jpg}
