@@ -13,12 +13,7 @@
 \let\runtitle\@title
 \makeatother
 
-
 \DeclareDocumentCommand{\sideDate}{m}{\vspace{1mm}{\normalsize\lightBoldFont#1\\}}
-
-
-
-
 
 \begin{document}
 	\titleTwo[images/anonymous.png]
@@ -151,6 +146,7 @@
 	\vfill
 	\drawBackground\startBackground
 	\begin{whole}
+		\footnotesize%
 		{\color{mainColor}\huge\fontspec{Fira Sans Book} Quelques chiffres d'internet}
 		\begin{multicols}{2}
 		\vspace*{0mm}\bigNumber{205 mia}\\[1mm]
@@ -292,16 +288,5 @@
 	L'impact sur la géopolitique est ici plus évident encore que dans les exemples précédant, car l'attaque se concentrait sur la collecte d'informations touchant à ce domaine.
 	Personne ne sait à quelles fins ces dernières furent utilisées.
 	Elles ont probablement été vendues sur le dark-net ou utilisées directement.
-	
-	\vfill
-	\hfill\authorBlock{
-			\authorName{Harvey Sheppard}
-			\blockLine{\extraVerticalSpace{\FA\symbol{"F19D}}}{My School}
-			\blockLine{}{The Class}
-			\authorAdressLineOne{my street, 6}
-			\authorAdressLineTwo{my city, Canada}
-			\authorPhone{my phone number}
-			\authorMail{my email@test.com}
-		}
 	
 \end{document}
