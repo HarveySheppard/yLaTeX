@@ -1,14 +1,14 @@
 # yFlatTable
 
-This package provides commands to typeset flat modern tables using the tabu package.
+This package provides commands to typeset flat modern tables.
 
 # Example
-```
-\begin{tabu}{ l l l }
-		\tableHeaderStyle
-		Class & Grade & Professor\\
-		French & 10 & Pr. Bonvin\\
-		Math & 12 & Pr. Squarero-Ots\\
-		English & 8 & Pr. Shakespeare\\
-	\end{tabu}
+```latex
+\begin{tabular}{_l^l^l}
+    \tableHeaderStyle%
+    Class & Grade & Professor\\
+    French & 10 & Pr. Bonvin\\
+    Math & 12 & Pr. Squarero-Ots\\
+    English & 8 & Pr. Shakespeare\\
+\end{tabular}
 ```

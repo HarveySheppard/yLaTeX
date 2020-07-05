@@ -28,7 +28,7 @@
 % The Current Maintainer of this work is Yves Zumbach
 
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{yFlatTable}[2017/02/24 The yFlatTable package provide some default styling for table, by Yves ZUMBACH]
+\ProvidesPackage{yFlatTable}[2017/02/24 The yFlatTable package provide some default styling for table, by Harvey SHEPPARD]
 
 
 
@@ -36,15 +36,30 @@
 %		Required Packages
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\makeatletter
-\@namedef{ver@array.sty}{2008/09/09}
-\makeatother
-\RequirePackage{makecell}
-\RequirePackage{tabu}
-\RequirePackage{longtable}
 \RequirePackage[table]{xcolor}
+\RequirePackage{etoolbox}
+\RequirePackage{array}
 
 \RequirePackage{yMainColor}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Commands
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\rowstyle}[1]{\gdef\currentrowstyle{#1}%
+	#1\ignorespaces
+}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Column Types
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcolumntype{_}{>{\global\let\currentrowstyle\relax}}
+\newcolumntype{^}{>{\currentrowstyle}}
 
 
 
@@ -54,26 +69,15 @@
 
 % Row will alternate color
 \definecolor{tableLineOne}{RGB}{245, 245, 245}
-\definecolor{tableLineTwo}{RGB}{224, 224, 224}
-\taburowcolors[2] 2{tableLineOne .. tableLineTwo}
+\colorlet{tableLineTwo}{white}
 
-% Add a thin white line between all lines
-\AtBeginDocument{\everyrow{\tabucline[.4mm  white]{}}}
+\AtBeginEnvironment{tabular}{\rowcolors{2}{tableLineOne}{tableLineTwo}}
 
-% Redefine line sep to make the table more spaced
-\tabulinesep = ^2.5mm_2mm
+\renewcommand{\arraystretch}{1.5}
 
-% Provide a command to style the headers of the tables
-\newcommand{\tableHeaderStyle}{
-	\rowfont{\bfseries\leavevmode\color{white}}
-	\rowcolor{mainColor}
-	\Gape[3.5mm][1.5mm]{}
+\newcommand{\tableHeaderStyle}{%
+	\rowcolor{mainColor}%
+	\rowstyle{\bfseries\color{white}}%
 }
-
-
-
-
-
-
 
 \endinput
