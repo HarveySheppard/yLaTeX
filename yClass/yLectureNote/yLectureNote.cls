@@ -75,17 +75,8 @@
 
 \LoadClass[a4paper, 10pt, openany, oneside]{report}
 
-\RequirePackage[l2tabu, orthodox]{nag}
 \RequirePackage[no-math]{fontspec}
 
-\RequirePackage{polyglossia}
-\setdefaultlanguage{english}
-\ifFrench
-	\setdefaultlanguage{french}
-\fi
-\ifGerman
-	\setdefaultlanguage{german}
-\fi
 
 
 
@@ -93,41 +84,53 @@
 %		Needed packages
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\RequirePackage[final=true,step=1]{microtype}
-\RequirePackage{graphicx}
-\RequirePackage{wrapfig}
-\RequirePackage[autostyle=true]{csquotes}
-\ifFrench
-	\setquotestyle[guillemets]{french}
-\fi
-\RequirePackage{calc}
 \RequirePackage[usenames,dvipsnames,svgnames,table]{xcolor}
-\RequirePackage[fleqn]{amsmath}
-\mathindent=1em
-\RequirePackage{amsfonts, amssymb, amsthm}
-\RequirePackage{appendix}
-\RequirePackage{ragged2e}
-\RequirePackage{xparse}
-\RequirePackage{etoolbox}
-\RequirePackage{varwidth}
-\RequirePackage{eso-pic}
-\RequirePackage{fancyhdr}
-\RequirePackage{lastpage}
-\RequirePackage{contour}
-\RequirePackage{marginfix}
-\RequirePackage{lettrine}
-\RequirePackage{zref-abspos}
-\RequirePackage{titletoc}
-\RequirePackage{mdframed}
-\RequirePackage{ifthen}
-\RequirePackage{titlesec}
-\RequirePackage{fontawesome}
 
 % Those custom packages can all be found and downloaded at http://github.com/HarveySheppard/yLaTeX
 \RequirePackage{yMarginDesign}
 \RequirePackage{infoBulle}
 \RequirePackage{marginInfoBulle}
 \RequirePackage{yMainColor}
+
+\RequirePackage[fleqn]{amsmath}
+\RequirePackage{amsfonts, amssymb, amsthm}
+\RequirePackage{appendix}
+\RequirePackage{calc}
+\RequirePackage{contour}
+\RequirePackage[autostyle=true]{csquotes}
+\RequirePackage{eso-pic}
+\RequirePackage{etoolbox}
+\RequirePackage{fancyhdr}
+\RequirePackage{graphicx}
+\RequirePackage{ifthen}
+\RequirePackage{lastpage}
+\RequirePackage{lettrine}
+\RequirePackage{marginfix}
+\RequirePackage[final=true,step=1]{microtype}
+\RequirePackage{mdframed}
+\RequirePackage[l2tabu, orthodox]{nag}
+\RequirePackage{polyglossia}
+\RequirePackage{ragged2e}
+\RequirePackage{titlesec}
+\RequirePackage{titletoc}
+\RequirePackage{varwidth}
+\RequirePackage{xparse}
+\RequirePackage{wrapfig}
+\RequirePackage{zref-abspos}
+
+\ifFrench
+\setquotestyle[guillemets]{french}
+\fi
+
+\mathindent=1em
+
+\setdefaultlanguage{english}
+\ifFrench
+\setdefaultlanguage{french}
+\fi
+\ifGerman
+\setdefaultlanguage{german}
+\fi
 
 
 
@@ -239,11 +242,14 @@
 \newfontfamily{\heavyFont}{Fira Sans Heavy}
 \newfontfamily{\titleFont}{Shintia Script}
 \newfontfamily{\chapterNumberFont}{Oswald-BoldItalic}
-\newfontfamily{\chapterFont}{ShintiaScript}
+\newfontfamily{\chapterFont}{Shintia Script}
 \newfontfamily{\serifFont}{Vollkorn}
 \newcommand{\sectionNumbers}{\subsectionNumbers\bfseries\selectfont}
 \newfontfamily{\subsectionNumbers}{Oswald LightItalic}
 \newfontfamily{\abril}{Abril Fatface}
+
+\providefontfamily{\FA}{Font Awesome 5 Free}
+\providefontfamily{\FASolid}{Font Awesome 5 Free Solid}
 
 
 
@@ -490,11 +496,11 @@
 				\ClassWarning{yLectureNote}{You did not provide an author name!}
 			}{
 				\titlepageRubberVerticalSpacer
-				\titlepageIcon{\faUser}
+				\titlepageIcon{\FA\symbol{"F007}}
 				\@author\\
 			}
 			\titlepageRubberVerticalSpacer
-			\titlepageIcon{\faCalendar}
+			\titlepageIcon{\FASolid\symbol{"F073}}
 			\@date\\
 			\ifdefempty{\@yLanguage}{}{
 				\titlepageRubberVerticalSpacer
@@ -963,7 +969,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Align all margin elements to the left
-\yMarginDesignConfiguration{alignment/.code = {\FlushLeft}, color=mainColor}
+\yMarginDesignConfiguration{alignment/.code = {\FlushLeft}, emph color=mainColor}
 
 
 
