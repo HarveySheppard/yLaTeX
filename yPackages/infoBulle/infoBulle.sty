@@ -45,10 +45,9 @@
 \RequirePackage{listings}
 \RequirePackage{xparse}
 \RequirePackage{ragged2e}
+\RequirePackage{pgfkeys}
 \RequirePackage{tikz}
 \usetikzlibrary{calc}
-\RequirePackage{interfaces-base}
-\LoadInterface{pgfkeys}
 
 \RequirePackage{yMainColor}
 
@@ -63,8 +62,7 @@
 \newif\ifinfoBulleMath
 \pgfkeys{
 	/infoBulle/.cd,
-	mathInfoBulle/.true = {\infoBulleMathtrue},
-	mathInfoBulle/.false = {\infoBulleMathfalse},
+	mathInfoBulle/.is if=infoBulleMath,
 	mathInfoBulle = true,
 }
 
@@ -81,8 +79,7 @@
 \newif\ifinfoBulleMarginIcons
 \pgfkeys{
 	/infoBulle/.cd,
-	marginIcons/.true = {\infoBulleMarginIconstrue},
-	marginIcons/.false = {\infoBulleMarginIconsfalse},
+	marginIcons/.is if=infoBulleMarginIcons,
 	marginIcons = false,
 }
 
@@ -90,8 +87,7 @@
 %-------------------------------------------------------------------------------
 \pgfkeys{
 	/infoBulle/icon/.cd,
-	radius/.store as dimen,
-	radius = 3.5mm,
+	radius/.initial=3.5mm,
 }
 
 % Icon Shape
@@ -196,7 +192,7 @@
 	\else
 		\@afterindentfalse\@afterheading%
 		\mbox{}%
-		\parbox[t][2\pgfkeysvalueof{/infoBulle/icon/radius}]{.75cm}{%
+		\parbox[t]{.75cm}{%
 			\@afterindentfalse\@afterheading%
 			\mbox{}%
 			#2%
@@ -229,8 +225,8 @@
 		\setlength{\parindent}{\tempparindent}%
 		\setlength{\parskip}{\tempparskip}%
 		\pgfkeys{/infoBulle/text alignment}%
-	}{%
-\end{infoBulle}%
+}{%
+	\end{infoBulle}%
 }
 \DeclareDocumentCommand{\@infoBulleSkeleton}{m m m +m}{
 	\begin{@infoBulleSkeletonEnv}{#1}{#2}{#3}
