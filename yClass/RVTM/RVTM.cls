@@ -10,7 +10,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-% Copyright Harvey Sheppard 2017
+% Copyright Harvey Sheppard 2021
 %-------------------------------------------------------------------------------
 
 % This work is distributed under the Creative Common 3.0 NC-BY-SA licence
@@ -70,8 +70,6 @@
 
 % LaTeX packages
 %-------------------------------------------------------------------------------
-% Main Package that provide easy interfaces for a lot of other packages
-\RequirePackage{interfaces}
 % Package/Class Creation
 \RequirePackage{xparse}
 \RequirePackage{etoolbox}
@@ -305,8 +303,7 @@ BoldFont=Fira Sans Medium,
 
 \pgfkeys{
 	/rvtm/footer/.cd,
-	page number shape/line width/.store as dimen,
-	page number shape/line width = 1pt,
+	page number shape/line width/.initial = 1pt,
 }
 
 \pagestyle{fancy}
@@ -352,13 +349,6 @@ BoldFont=Fira Sans Medium,
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %		TikZ
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% Layers
-%-------------------------------------------------------------------------------
-% Declare Background Layer
-\pgfdeclarelayer{bg}
-% Set the Order of the Layers (main is the standard layer)
-\pgfsetlayers{bg,main}
 
 % Commands to draw hexagons
 %-------------------------------------------------------------------------------
@@ -441,19 +431,14 @@ BoldFont=Fira Sans Medium,
 
 \pgfkeys{
 	/rvtm/chapters/.cd,
-	fontsize/.store as dimen,
-	fontsize = 1.5cm,
-	line length/.store as dimen,
-	line length = \linewidth,
-	line width/.store as dimen,
-	line width=2pt,
-	space between text and line/.store as dimen,
-	space between text and line=2mm,
+	fontsize/.initial = 1.5cm,
+	line length/.initial = \linewidth,
+	line width/.initial = 2pt,
+	space between text and line/.initial = 2mm,
 }
 \pgfkeys{
 	/rvtm/chapters/.cd,
-	fontsize skip/.store as dimen,
-	fontsize skip = 1.2\pgfkeysvalueof{/rvtm/chapters/fontsize},
+	fontsize skip/.initial = 1.8cm,
 }
 
 % Chapter Text Font
@@ -508,36 +493,30 @@ BoldFont=Fira Sans Medium,
 
 \pgfkeys{
 	/rvtm/toc/.cd,
-	left column width/.store as dimen,
-	left column width=.5\textwidth,
-	right column width/.store as dimen,
-	right column width=.45\paperwidth,
+	left column width/.initial = .5\textwidth,
+	right column width/.initial = .45\paperwidth,
 }
 \pgfkeys{
 	/rvtm/toc/title/.cd,
-	fontsize/.store as dimen,
-	fontsize = 1.5cm,
+	fontsize/.initial = 1.5cm,
+	fontsize skip/.initial = 1.8cm,
 	font/.code = {\geometricslim\addfontfeatures{LetterSpace=-10.0}},
 	translation string/.code = {\GetTranslation{Overview}},
-	bar thickness/.store as dimen,
-	bar thickness=3mm,
-	bar length/.store as dimen,
-	bar length=.8\linewidth,
+	bar thickness/.initial = 3mm,
+	bar length/.initial = .8\linewidth,
 }
 \pgfkeys{
 	/rvtm/toc/chapter label/.cd,
-	fontsize/.store as dimen,
-	fontsize=5mm,
-	color/.store as color,
-	color=darkGrey,
+	fontsize/.initial = 5mm,
+	fontsize skip/.initial = 6mm,
+	color/.initial = darkGrey,
 	font/.initial = {\itshape},
 }
 \pgfkeys{
 	/rvtm/toc/chapter text/.cd,
-	fontsize/.store as dimen,
-	fontsize=5mm,
-	color/.store as color,
-	color=middleGrey,
+	fontsize/.initial = 5mm,
+	fontsize skip/.initial = 6mm,
+	color/.initial = middleGrey,
 	font/.initial = {\geometricbold\bfseries},
 }
 
@@ -571,18 +550,12 @@ BoldFont=Fira Sans Medium,
 
 \pgfkeys{
 	/rvtm/toc/chapter page/.cd,
-	color/.store as color,
-	color=rvtmtoccolor,
-	yshift/.store as dimen,
-	yshift=10mm,
-	xshift/.store as dimen,
-	xshift=5mm,
-	initial yshift/.store as dimen,
-	initial yshift=7mm,
-	line width/.store as dimen,
-	line width=2pt,
-	distance from chapter text to line/.store as dimen,
-	distance from chapter text to line = 5mm,
+	color/.initial = rvtmtoccolor,
+	yshift/.initial = 10mm,
+	xshift/.initial = 5mm,
+	initial yshift/.initial = 7mm,
+	line width/.initial = 2pt,
+	distance from chapter text to line/.initial = 5mm,
 	font/.code = {\rvtmtocchapterpagefont\addfontfeatures{LetterSpace=-15.0}},
 }
 
@@ -617,7 +590,7 @@ BoldFont=Fira Sans Medium,
 \DeclareDocumentCommand{\rvtmtoctitle}{}{%
 	\begingroup%
 	\pgfkeys{/rvtm/toc/title/font}%
-	\fontsize{\pgfkeysvalueof{/rvtm/toc/title/fontsize}}{1.2\pgfkeysvalueof{/rvtm/toc/title/fontsize}}\selectfont%
+	\fontsize{\pgfkeysvalueof{/rvtm/toc/title/fontsize}}{\pgfkeysvalueof{/rvtm/toc/title/fontsize skip}}\selectfont%
 	\pgfkeys{/rvtm/toc/title/translation string}%
 	\endgroup%
 }
@@ -659,13 +632,13 @@ BoldFont=Fira Sans Medium,
 	\null\hfill\begin{tikzpicture}[remember picture,]
 		\node[
 			anchor=south,
-			font=\pgfkeysvalueof{/rvtm/toc/chapter label/font}\fontsize{\pgfkeysvalueof{/rvtm/toc/chapter label/fontsize}}{1.2\pgfkeysvalueof{/rvtm/toc/chapter label/fontsize}}\selectfont,
+			font=\pgfkeysvalueof{/rvtm/toc/chapter label/font}\fontsize{\pgfkeysvalueof{/rvtm/toc/chapter label/fontsize}}{\pgfkeysvalueof{/rvtm/toc/chapter label/fontsize skip}}\selectfont,
 			align=center,
 			text=\pgfkeysvalueof{/rvtm/toc/chapter label/color},
 		] at (0,0) {\chaptertitlename\ \thecontentslabel};
 		\node[
 			anchor=north,
-			font=\pgfkeysvalueof{/rvtm/toc/chapter text/font}\fontsize{\pgfkeysvalueof{/rvtm/toc/chapter text/fontsize}}{1.2\pgfkeysvalueof{/rvtm/toc/chapter text/fontsize}}\selectfont,
+			font=\pgfkeysvalueof{/rvtm/toc/chapter text/font}\fontsize{\pgfkeysvalueof{/rvtm/toc/chapter text/fontsize}}{\pgfkeysvalueof{/rvtm/toc/chapter text/fontsize skip}}\selectfont,
 			align=center,
 			text=\pgfkeysvalueof{/rvtm/toc/chapter text/color},
 		] (chaptertext) at (0,0) {%
@@ -797,18 +770,14 @@ BoldFont=Fira Sans Medium,
 \pgfkeys{
 	/rvtm/framedpage/.is family,
 	/rvtm/framedpage/.cd,
-	line width/.store as dimen,
-	line width=2mm,
-	line color/.store as color,
-	line color = black,
-	text width/.store as dimen,
-	text width = .5\textwidth,
-	vertical offset/.store as dimen,
-	horizontal offset/.store as dimen,
+	line width/.initial = 2mm,
+	line color/.initial = black,
+	text width/.initial = .5\textwidth,
+	vertical offset/.initial = 2cm,
+	horizontal offset/.initial = 2cm,
 	offset/.code = {
 		\pgfkeys{/rvtm/framedpage/vertical offset=#1, /rvtm/framedpage/horizontal offset=#1}
 	},
-	offset=2cm,
 	above space/.code = {\vfill},
 	below space/.code = {\vfill},
 	left space/.code = {\hfill},
@@ -842,10 +811,8 @@ BoldFont=Fira Sans Medium,
 \pgfkeys{
 	/rvtm/framedpage/title/.cd,
 	font/.code = {\geometricbold},
-	size/.store as dimen,
-	size=2em,
-	below skip/.store as dimen,
-	below skip=2mm,
+	size/.initial = 2em,
+	below skip/.initial = 2mm,
 }
 
 \DeclareDocumentCommand{\framedpagetitle}{m}{%
@@ -863,20 +830,16 @@ BoldFont=Fira Sans Medium,
 
 \pgfkeys{
 	/rvtm/blackpage/.cd,
-	background/.store as color,
-	background = black,
-	text color/.store as color,
-	text color = white,
-	text width/.store as dimen,
-	text width = .5\textwidth,
+	background/.initial = black,
+	text color/.initial = white,
+	text width/.initial = .5\textwidth,
 	above space/.code={\vfill\vfill},
 	below space/.code = {\vfill},
 	left space/.code = {\strictpagechecktrue\checkoddpage\ifoddpage\relax\else\hfill\fi},
 	right space/.code = {},
-	vertical offset/.store as dimen,
-	horizontal offset/.store as dimen,
+	vertical offset/.initial = 0mm,
+	horizontal offset/.initial = 0mm,
 	offset/.code = {\pgfkeys{/rvtm/blackpage/vertical offset=#1, /rvtm/blackpage/horizontal offset=#1}},
-	offset=0mm,
 }
 
 \DeclareDocumentEnvironment{blackpage}{}{%
@@ -906,10 +869,8 @@ BoldFont=Fira Sans Medium,
 
 \pgfkeys{
 	/rvtm/bpdp/.cd,
-	photo width/.store as dimen,
-	photo width = 2\paperwidth,
-	photo height/.store as dimen,
-	photo height=\paperheight,
+	photo width/.initial = 2\paperwidth,
+	photo height/.initial = \paperheight,
 	page style/.initial = empty,
 }
 
@@ -942,32 +903,23 @@ BoldFont=Fira Sans Medium,
 
 \pgfkeys{
 	/rvtm/quotation page/.cd,
-	fontsize/.store as dimen,
-	fontsize = 1.4cm,
+	fontsize/.initial = 1.4cm,
 	font/.code = {\quotationfont},
-	text/.store as color,
-	text = black,
-	background/.store as color,
-	background = white,
+	text/.initial = black,
+	background/.initial = white,
 }
 \pgfkeys{
 	/rvtm/quotation page/.cd,
-	fontsize skip/.store as dimen,
-	fontsize skip=1.4\pgfkeysvalueof{/rvtm/quotation page/fontsize},
+	fontsize skip/.initial = 1.96cm,
 }
 \pgfkeys{
 	/rvtm/quotation page/quote mark/.cd,
-	fontsize/.store as dimen,
-	fontsize=4cm,
-	text vertical drop/.store as dimen,
-	text vertical drop = 1cm,
+	fontsize/.initial = 4cm,
+	text vertical drop/.initial = 1cm,
 	text/.initial = {''},
-	text color/.store as color,
-	text color = black,
-	inner circle color/.store as color,
-	inner circle color = black,
-	outer circle color/.store as color,
-	outer circle color = black,
+	text color/.initial = black,
+	inner circle color/.initial = black,
+	outer circle color/.initial = black,
 }
 
 \DeclareDocumentEnvironment{quotationpage}{o o o}{%
@@ -1028,16 +980,11 @@ BoldFont=Fira Sans Medium,
 
 \pgfkeys{
 	/rvtm/dotted line/.cd,
-	fill/.store as color,
-	fill=black,
-	radius/.store as dimen,
-	radius = 1mm,
-	space between dots/.store as dimen,
-	space between dots = 2mm,
-	above skip/.store as dimen,
-	above skip=\baselineskip,
-	below skip/.store as dimen,
-	below skip=\baselineskip,
+	fill/.initial = black,
+	radius/.initial = 1mm,
+	space between dots/.initial = 2mm,
+	above skip/.initial = \baselineskip,
+	below skip/.initial = \baselineskip,
 }
 
 \DeclareDocumentCommand{\hdottedline}{o o}{%

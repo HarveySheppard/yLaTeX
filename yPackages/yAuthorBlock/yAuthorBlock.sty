@@ -9,7 +9,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-% Copyright Yves Zumbach 2017
+% Copyright Harvey Sheppard 2021
 %-------------------------------------------------------------------------------
 
 % This work is distributed under the LPPL
@@ -40,7 +40,7 @@
 \usetikzlibrary{matrix}
 \usetikzlibrary{calc}
 \RequirePackage{xparse}
-\RequirePackage{fontspec}
+\RequirePackage{fontawesome5}
 \RequirePackage{hyperref}
 
 \RequirePackage{yMainColor}
@@ -125,11 +125,8 @@
 \DeclareDocumentCommand{\authorPhone}{m O{\extraVerticalSpace\fontsize{5mm}{4mm}\faMobile}}{
 	\blockLine{#2}{#1}%
 }
-\DeclareDocumentCommand{\authorMail}{m O{\extraVerticalSpace\faEnvelopeO}}{
+\DeclareDocumentCommand{\authorMail}{m O{\extraVerticalSpace\faEnvelope}}{
 	\blockLine{#2}{\yauthorblockemaillink{#1}}%
-}
-\DeclareDocumentCommand{\authorWebsite}{m O{\extraVerticalSpace{\FA\symbol{"F245}}}}{
-	\blockLine{#2}{\url{#1}}%
 }
 
 

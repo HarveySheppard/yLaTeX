@@ -336,14 +336,14 @@ BoldItalicFont=Fira Sans SemiBold Italic
 \newcommand{\formatNumber}[1]{
 	\num[group-separator={'}, group-minimum-digits=3, round-mode=places, round-precision=2]{#1}
 }
-\newcommand{\yInvoice@balancePrice}{}
-\newcommand{\balancePrice}[1]{\renewcommand{\yInvoice@balancePrice}{#1}}
+\newcommand{\yInvoiceBalancePrice}{}
+\newcommand{\balancePrice}[1]{\renewcommand{\yInvoiceBalancePrice}{#1}}
 \newcommand{\printBalancePrice}{
 	\arrowbase\quad
 	\parbox{.4\textwidth}{
 		{
 			\fontsize{.8cm}{.96cm}\josefin\selectfont{%
-				\currencysym\yInvoice@balancePrice
+				\currencysym\yInvoiceBalancePrice
 			}
 		}\\[1mm]
 		\inMiddleGrey{due \duedate}

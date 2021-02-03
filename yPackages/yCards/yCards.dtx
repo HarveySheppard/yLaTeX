@@ -1,6 +1,6 @@
 % \iffalse meta-comment
 %
-% Copyright (C) 2017 by Harvey Sheppard <harveysheppard75 [at] yandex [dot] com>
+% Copyright (C) 2021 by Harvey Sheppard <harveysheppard75 [at] yandex [dot] com>
 % -------------------------------------------------------
 % 
 % This file may be distributed and/or modified under the
@@ -25,7 +25,6 @@
     [2017/06/30 v1.0 creates cards-like (where cards refers to the Web-UI concept) graphical elements.]
     \RequirePackage{etoolbox}
     \RequirePackage{xparse}
-    \RequirePackage{interfaces-base}
     \RequirePackage{calc}
     \RequirePackage{tikz}
     \usetikzlibrary{backgrounds,shapes,calc,positioning,fit,shadows,shadows.blur}
@@ -198,8 +197,7 @@
 % \begin{macro}{Padding}
 %    \begin{macrocode}
 \ycardsset{%
-	padding/.store as dimen,
-	padding = 1em,
+	padding/.initial = 1em,
 }
 %    \end{macrocode}
 % \end{macro}
@@ -208,12 +206,9 @@
 % \begin{macro}{Background}
 %    \begin{macrocode}
 \ycardsset{%
-	background/color/.store as color,
-	background/color = white,
-	background/opacity/.store as code,
-	background/opacity = 1,
-	rounded corners/.store as dimen,
-	rounded corners = .3mm,
+	background/color/.initial = white,
+	background/opacity/.initial = 1,
+	rounded corners/.initial = .3mm,
 	shadow/.style = {%
 		blur shadow={%
 			shadow xshift=0mm,%
@@ -231,12 +226,9 @@
 % \begin{macro}{Line around the card}
 %    \begin{macrocode}
 \ycardsset{%
-	line width/.store as dimen,
-	line width = 0pt,
-	line color/.store as color,
-	line color = lightGrey,
-	line opacity/.store as code,
-	line opacity = 1,
+	line width/.initial = 0pt,
+	line color/.initial = lightGrey,
+	line opacity/.initial = 1,
 }
 %    \end{macrocode}
 % \end{macro}
@@ -246,20 +238,9 @@
 %    \begin{macrocode}
 \ycardsset{%
 	content/.cd,
-	align/.is enum={%
-		left,%
-		flush left,%
-		right,%
-		flush right,%
-		center,%
-		flush center,%
-		justify,%
-		none,%
-	},
-	align = left,
+	align/.initial = left,
 	font/.initial = {},
-	color/.store as color,
-	color = black,
+	color/.initial = black,
 }
 %    \end{macrocode}
 % \end{macro}
@@ -269,8 +250,7 @@
 %    \begin{macrocode}
 \ycardsset{%
 	header/.cd,
-	color/.store as color,
-	color = Black,
+	color/.initial = black,
 }
 %    \end{macrocode}
 % \end{macro}
@@ -280,8 +260,7 @@
 %    \begin{macrocode}
 \ycardsset{%
 	footer/.cd,
-	color/.store as color,
-	color = middleGrey,
+	color/.initial = middleGrey,
 }
 %    \end{macrocode}
 % \end{macro}
@@ -291,24 +270,11 @@
 %    \begin{macrocode}
 \ycardsset{%
 	image/.cd,
-	padding/.store as dimen,
-	padding = 0mm,
-	align/.is enum={%
-		left,%
-		flush left,%
-		right,%
-		flush right,%
-		center,%
-		flush center,%
-		justify,%
-		none,%
-	},
-	align = left,
+	padding/.initial = 0mm,
+	align/.initial = left,
 	font/.initial = {},
-	color/.store as color,
-	color = white,
-	text vertical align/.is enum={top,bottom},
-	text vertical align=bottom,
+	color/.initial = white,
+	text vertical align/.initial = bottom,
 }
 %    \end{macrocode}
 % \end{macro}
@@ -318,10 +284,8 @@
 %    \begin{macrocode}
 \ycardsset{%
 	separator/.cd,
-	line width/.store as dimen,
-	line width = .5pt,
-	line color/.store as color,
-	line color=lightGrey,
+	line width/.initial = .5pt,
+	line color/.initial = lightGrey,
 }
 %    \end{macrocode}
 % \end{macro}

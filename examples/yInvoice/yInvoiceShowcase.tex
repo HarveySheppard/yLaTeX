@@ -22,11 +22,18 @@
 	
 	\printInvoiceHeader
 	
-	
-	\begin{costsDescription}{240,00}{0,00}
+	\begin{tabularx}{\linewidth}{p{3cm} p{1.5cm} X p{8mm} p{1.2cm} p{2cm}}
+		\toprule
+		\tableHeaderStyle Short name & \tableHeaderStyle Date & \tableHeaderStyle Description & \tableHeaderStyle Hours & \tableHeaderStyle Rate & \tableHeaderStyle Amount \\
+		\midrule
 		\costEntry{Template}{January 2016}{Template creation}{5½}{40,00}{220,00}
 		\costEntry{Debug}{January 2016}{Debugging and user support}{½}{40,00}{20,00}
-	\end{costsDescription}
+		\midrule
+		\summaryline{Total}{240,00}
+		\summaryline{Paid}{0,00}
+		\summaryline{Balance Due}{\yInvoiceBalancePrice}
+		\bottomrule
+	\end{tabularx}
 	
 	\vfill
 	\textit{Your name}

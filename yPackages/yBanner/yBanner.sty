@@ -14,19 +14,9 @@
 
 \RequirePackage{xparse}
 \RequirePackage{pgfkeys}
-\RequirePackage{interfaces-base}
 
 \RequirePackage{tikz}
-\usetikzlibrary{calc}
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%		Layers
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\pgfdeclarelayer{bg}
-\pgfsetlayers{bg,main}
+\usetikzlibrary{backgrounds, calc}
 
 
 
@@ -39,23 +29,17 @@
 
 \pgfkeys{%
 	/ybanner/.cd,
-	color/.store as color,
-	color=gray,
-	text color/.store as color,
-	text color = white,
-	inner sep/.store as dimen,
-	inner sep=3mm,
-	additional horizontal space/.store as dimen,
-	additional horizontal space=3mm,
-	align/.is enum={left,flush left,right,flush right,center,flush center,justify,none},
-	align = left,
+	color/.initial = gray,
+	text color/.initial = white,
+	inner sep/.initial = 3mm,
+	additional horizontal space/.initial = 3mm,
+	align/.initial = left,
 	font/.initial = {},
 }
 
 \pgfkeys{
 	/ybanner/.cd,
-	shadowed color/.store as color,
-	shadowed color=\pgfkeysvalueof{/ybanner/color}!70!black,
+	shadowed color/.initial = \pgfkeysvalueof{/ybanner/color}!70!black,
 }
 
 % Banner Contour
@@ -67,10 +51,8 @@
 	contour/.is if=ybannerdrawcontour,
 	contour=true,
 	contour/.cd,
-	line width/.store as dimen,
-	line width = .3pt,
-	color/.store as color,
-	color=white,
+	line width/.initial = .3pt,
+	color/.initial = white,
 	style/.style = {%
 		\pgfkeysvalueof{/ybanner/contour/color},
 		line width = \pgfkeysvalueof{/ybanner/contour/line width}
@@ -82,14 +64,10 @@
 
 \pgfkeys{
 	/ybanner/endings/.cd,
-	vertical offset/.store as dimen,
-	vertical offset=3mm,
-	inner width/.store as dimen,
-	inner width=8mm,
-	outer width/.store as dimen,
-	outer width=1cm,
-	triangle offset/.store as dimen,
-	triangle offset = 3mm,
+	vertical offset/.initial = 3mm,
+	inner width/.initial = 8mm,
+	outer width/.initial = 1cm,
+	triangle offset/.initial = 3mm,
 }
 
 
@@ -120,7 +98,7 @@
 		\coordinate[xshift=-\pgfkeysvalueof{/ybanner/endings/inner width}] (rightTriangleInnerTop) at (text.south east);
 		\coordinate[xshift=-\pgfkeysvalueof{/ybanner/endings/inner width}, yshift=-\pgfkeysvalueof{/ybanner/endings/vertical offset}] (rightTriangleInnerBottom) at (text.south east);
 		\path[fill=\pgfkeysvalueof{/ybanner/shadowed color}] (text.south east) -- (rightTriangleInnerTop) -- (rightTriangleInnerBottom) -- cycle;
-		\begin{pgfonlayer}{bg}
+		\begin{pgfonlayer}{background}
 			% Left banner endings
 			\coordinate[
 				xshift=-\pgfkeysvalueof{/ybanner/endings/outer width},

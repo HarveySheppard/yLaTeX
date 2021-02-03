@@ -9,7 +9,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-% Copyright Yves Zumbach 2017
+% Copyright Harvey Sheppard 2021
 %-------------------------------------------------------------------------------
 
 % This work is distributed under the LPPL
@@ -33,14 +33,13 @@
 %		Required Packages
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\RequirePackage{xparse}
-\RequirePackage{marginnote}
-\RequirePackage{marginfix}
-\RequirePackage{ragged2e}
-\RequirePackage{interfaces-base}
-\LoadInterface{pgfkeys}
-\RequirePackage{xcolor}
 \RequirePackage{changepage}
+\RequirePackage{marginfix}
+\RequirePackage{marginnote}
+\RequirePackage{pgfkeys}
+\RequirePackage{ragged2e}
+\RequirePackage{xcolor}
+\RequirePackage{xparse}
 
 
 
@@ -54,17 +53,14 @@
 % Colors
 \pgfkeys{
 	/yMarginDesign/.cd,
-	emph color/.store as color,
-	emph color = black,
-	text color/.store as color,
-	text color = black,
+	emph color/.initial = black,
+	text color/.initial = black,
 }
 
 % Marginparskip
 \pgfkeys{
 	/yMarginDesign/.cd,
-	marginparskip/.store as dimen,
-	marginparskip = 3mm,
+	marginparskip/.initial = 3mm,
 }
 
 % Size of the margin text
@@ -104,10 +100,14 @@ size/.code = \footnotesize,
 % The mark for the marginNote
 \DeclareDocumentCommand{\marginMark}{m}{{\color{\pgfkeysvalueof{/yMarginDesign/emph color}}#1.~}}
 
-\DeclareDocumentCommand{\printMarginNoteMark}{}{%
-	\@ifpackageloaded{hyperref}%
-		{{\hypersetup{linkcolor=\pgfkeysvalueof{/yMarginDesign/emph color}}\footnotemark}}%
+\@ifpackageloaded{hyperref}{%
+	\DeclareDocumentCommand{\printMarginNoteMark}{}{
+		{\hypersetup{linkcolor=\pgfkeysvalueof{/yMarginDesign/emph color}}\footnotemark}%
+	}%
+}{
+	\DeclareDocumentCommand{\printMarginNoteMark}{}{%
 		{\textcolor{\pgfkeysvalueof{/yMarginDesign/emph color}}{\footnotemark}}%
+	}
 }
 
 % Typeset a paragraph in the margin with a number (as a footnote) 

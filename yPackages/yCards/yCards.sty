@@ -25,7 +25,6 @@
     [2017/06/30 v1.0 creates cards-like (where cards refers to the Web-UI concept) graphical elements.]
     \RequirePackage{etoolbox}
     \RequirePackage{xparse}
-    \RequirePackage{interfaces-base}
     \RequirePackage{calc}
     \RequirePackage{tikz}
     \usetikzlibrary{backgrounds,shapes,calc,positioning,fit,shadows,shadows.blur}
@@ -39,17 +38,13 @@
 
 
 \ycardsset{%
-padding/.store as dimen,
-padding = 1em,
+padding/.initial = 1em,
 }
 
 \ycardsset{%
-background/color/.store as color,
-background/color = white,
-background/opacity/.store as code,
-background/opacity = 1,
-rounded corners/.store as dimen,
-rounded corners = .3mm,
+background/color/.initial = white,
+background/opacity/.initial = 1,
+rounded corners/.initial = .3mm,
 shadow/.style = {%
 blur shadow={%
 shadow xshift=0mm,%
@@ -62,72 +57,41 @@ shadow blur steps=30,%
 }
 
 \ycardsset{%
-line width/.store as dimen,
-line width = 0pt,
-line color/.store as color,
-line color = lightGrey,
-line opacity/.store as code,
-line opacity = 1,
+line width/.initial = 0pt,
+line color/.initial = lightGrey,
+line opacity/.initial = 1,
 }
 
 \ycardsset{%
 content/.cd,
-align/.is enum={%
-left,%
-flush left,%
-right,%
-flush right,%
-center,%
-flush center,%
-justify,%
-none,%
-},
-align = left,
+align/.initial = left,
 font/.initial = {},
-color/.store as color,
-color = black,
+color/.initial = black,
 }
 
 \ycardsset{%
 header/.cd,
-color/.store as color,
-color = Black,
+color/.initial = black,
 }
 
 \ycardsset{%
 footer/.cd,
-color/.store as color,
-color = middleGrey,
+color/.initial = middleGrey,
 }
 
 \ycardsset{%
 image/.cd,
-padding/.store as dimen,
-padding = 0mm,
-align/.is enum={%
-left,%
-flush left,%
-right,%
-flush right,%
-center,%
-flush center,%
-justify,%
-none,%
-},
-align = left,
+padding/.initial = 0mm,
+align/.initial = left,
 font/.initial = {},
-color/.store as color,
-color = white,
-text vertical align/.is enum={top,bottom},
-text vertical align=bottom,
+color/.initial = white,
+text vertical align/.initial = bottom,
 }
 
 \ycardsset{%
 separator/.cd,
-line width/.store as dimen,
-line width = .5pt,
-line color/.store as color,
-line color=lightGrey,
+line width/.initial = .5pt,
+line color/.initial = lightGrey,
 }
 
 \DeclareDocumentCommand{\@yc@card@skeleton}{m m m}{%
