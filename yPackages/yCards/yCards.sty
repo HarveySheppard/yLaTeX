@@ -94,7 +94,9 @@ line width/.initial = .5pt,
 line color/.initial = lightGrey,
 }
 
+\newsavebox{\cardbox}
 \DeclareDocumentCommand{\@yc@card@skeleton}{m m m}{%
+\savebox{\cardbox}{%
 \noindent%
 \begingroup%
 \ifstrempty{#2}{}{\forcsvlist{\ycapplystyle}{#2}}%
@@ -108,6 +110,31 @@ line color/.initial = lightGrey,
 \clip [
 rounded corners=\pgfkeysvalueof{/ycards/rounded corners},
 ] (cardNorthWest) rectangle (cardSouthEast);
+\end{scope}
+\begin{scope}[on background layer]
+\fill[
+\pgfkeysvalueof{/ycards/background/color},
+opacity=\pgfkeysvalueof{/ycards/background/opacity},
+rounded corners=\pgfkeysvalueof{/ycards/rounded corners},
+/ycards/shadow,
+] (cardNorthWest) rectangle (cardSouthEast);
+\end{scope}
+\end{tikzpicture}%
+\endgroup%
+}%
+\noindent%
+\begingroup%
+\ifstrempty{#2}{}{\forcsvlist{\ycapplystyle}{#2}}%
+\pgfkeys{/ycards/.cd, #1}%
+\begin{tikzpicture}[inner sep=0mm, node distance=0mm, outer sep=0mm]
+\begin{scope}
+\coordinate (cardNorthWest) at (0, 0);
+\coordinate[yshift=-.5*\pgfkeysvalueof{/ycards/line width}] (previous) at (cardNorthWest);
+\coordinate[yshift=-.5*\pgfkeysvalueof{/ycards/line width}] (cardSouthEast) at ($(cardNorthWest) + (\wd\cardbox, -\ht\cardbox)$);
+\clip [
+rounded corners=\pgfkeysvalueof{/ycards/rounded corners},
+] (cardNorthWest) rectangle (cardSouthEast);
+#3
 \end{scope}
 \begin{scope}[on background layer]
 \fill[
