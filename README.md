@@ -6,6 +6,16 @@ Feel free to use and change my code.
 
 ## Archive
 
+### [Master Thesis](./archive/master_thesis/)
+
+![title page](./archive/master_thesis/screenshots/title.png)
+
+![table of content](./archive/master_thesis/screenshots/toc.png)
+
+![part](./archive/master_thesis/screenshots/part.png)
+
+![chapter](./archive/master_thesis/screenshots/chapter.png)
+
 ### Article on Cybersecurity
 
 ![page_0](./archive/article_on_cybersecurity/screenshots/page_0.png)
@@ -34,16 +44,6 @@ Feel free to use and change my code.
 
 ![2015-12](./archive/highschool_newspaper/screenshots/2015-12.png)
 
-### Master Thesis
-
-![title page](./archive/master_thesis/screenshots/title.png)
-
-![table of content](./archive/master_thesis/screenshots/toc.png)
-
-![part](./archive/master_thesis/screenshots/part.png)
-
-![chapter](./archive/master_thesis/screenshots/chapter.png)
-
 ## Classes
 
 ### RVTM
@@ -68,7 +68,7 @@ Feel free to use and change my code.
 
 ### yReport
 
-![chapter]{./classes/yreport/screenshots/chapter.png)
+![chapter](./classes/yreport/screenshots/chapter.png)
 
 ## Packages
 
