@@ -1,0 +1,195 @@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%																			   %
+%																			   %
+%									yBanner									   %
+%																			   %
+%																			   %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{yBanner}[2016/01/29 This package provides facilities to draw banners.]
+
+\RequirePackage{xparse}
+\RequirePackage{pgfkeys}
+
+\RequirePackage{tikz}
+\usetikzlibrary{backgrounds, calc}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Configuration
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Banner General
+%-------------------------------------------------------------------------------
+
+\pgfkeys{%
+	/ybanner/.cd,
+	color/.initial = gray,
+	text color/.initial = white,
+	inner sep/.initial = 3mm,
+	additional horizontal space/.initial = 3mm,
+	align/.initial = left,
+	font/.initial = {},
+}
+
+\pgfkeys{
+	/ybanner/.cd,
+	shadowed color/.initial = \pgfkeysvalueof{/ybanner/color}!70!black,
+}
+
+% Banner Contour
+%-------------------------------------------------------------------------------
+
+\newif\ifybannerdrawcontour
+\pgfkeys{
+	/ybanner/.cd,
+	contour/.is if=ybannerdrawcontour,
+	contour=true,
+	contour/.cd,
+	line width/.initial = .3pt,
+	color/.initial = white,
+	style/.style = {%
+		\pgfkeysvalueof{/ybanner/contour/color},
+		line width = \pgfkeysvalueof{/ybanner/contour/line width}
+	},
+}
+
+% Banner Lengths
+%-------------------------------------------------------------------------------
+
+\pgfkeys{
+	/ybanner/endings/.cd,
+	vertical offset/.initial = 3mm,
+	inner width/.initial = 8mm,
+	outer width/.initial = 1cm,
+	triangle offset/.initial = 3mm,
+}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Banner Command
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\DeclareDocumentCommand{\yBanner}{o o m}
+{%
+	\begingroup%
+	\IfValueT{#1}{\ybannerapplystyle{#1}}%
+	\IfValueT{#2}{\pgfkeys{/ybanner/.cd,#2}}%
+	\begin{tikzpicture}[inner sep=0mm, outer sep=0mm]
+		\node[
+			rectangle,
+			fill=\pgfkeysvalueof{/ybanner/color},
+			inner sep=\pgfkeysvalueof{/ybanner/inner sep},
+			align=\pgfkeysvalueof{/ybanner/align},
+			text = \pgfkeysvalueof{/ybanner/text color},
+			font = \pgfkeysvalueof{/ybanner/font},
+		] (text) {\hspace*{\pgfkeysvalueof{/ybanner/additional horizontal space}}#3\hspace*{\pgfkeysvalueof{/ybanner/additional horizontal space}}};
+		% Left Triangle
+		\coordinate[xshift=\pgfkeysvalueof{/ybanner/endings/inner width}] (leftTriangleInnerTop) at (text.south west);
+		\coordinate[xshift=\pgfkeysvalueof{/ybanner/endings/inner width}, yshift=-\pgfkeysvalueof{/ybanner/endings/vertical offset}] (leftTriangleInnerBottom) at (text.south west);
+		\path[fill=\pgfkeysvalueof{/ybanner/shadowed color}] (text.south west) -- (leftTriangleInnerTop) -- (leftTriangleInnerBottom) -- cycle;
+		% Right Triangle
+		\coordinate[xshift=-\pgfkeysvalueof{/ybanner/endings/inner width}] (rightTriangleInnerTop) at (text.south east);
+		\coordinate[xshift=-\pgfkeysvalueof{/ybanner/endings/inner width}, yshift=-\pgfkeysvalueof{/ybanner/endings/vertical offset}] (rightTriangleInnerBottom) at (text.south east);
+		\path[fill=\pgfkeysvalueof{/ybanner/shadowed color}] (text.south east) -- (rightTriangleInnerTop) -- (rightTriangleInnerBottom) -- cycle;
+		\begin{pgfonlayer}{background}
+			% Left banner endings
+			\coordinate[
+				xshift=-\pgfkeysvalueof{/ybanner/endings/outer width},
+				yshift=-\pgfkeysvalueof{/ybanner/endings/vertical offset}
+			] (leftEndingTopLeft) at (text.north west);
+			\coordinate[
+				xshift=\pgfkeysvalueof{/ybanner/endings/inner width},
+				yshift=-\pgfkeysvalueof{/ybanner/endings/vertical offset}
+			] (leftEndingTopRight) at (text.north west);
+			\coordinate[
+				xshift=-\pgfkeysvalueof{/ybanner/endings/outer width},
+				yshift=-\pgfkeysvalueof{/ybanner/endings/vertical offset}
+			] (leftEndingBottomLeft) at (text.south west);
+			\path let
+				\p1=(leftEndingTopLeft),
+				\p2=(leftEndingBottomLeft),
+				\n1={\y1+\y2} in coordinate
+			[
+				xshift=\pgfkeysvalueof{/ybanner/endings/triangle offset},
+			] (leftEndingMiddleLeft) at (\x1, \n1/2);
+			\path[
+				fill=\pgfkeysvalueof{/ybanner/color}
+			] (leftEndingTopLeft) --
+			(leftEndingTopRight) --
+			(leftTriangleInnerBottom) --
+			(leftEndingBottomLeft) --
+			(leftEndingMiddleLeft) -- cycle;
+			% Right banner ending
+			\coordinate[
+				xshift=\pgfkeysvalueof{/ybanner/endings/outer width},
+				yshift=-\pgfkeysvalueof{/ybanner/endings/vertical offset}
+			] (rightEndingTopRight) at (text.north east);
+			\coordinate[
+				xshift=-\pgfkeysvalueof{/ybanner/endings/inner width},
+				yshift=-\pgfkeysvalueof{/ybanner/endings/vertical offset}
+			] (rightEndingTopLeft) at (text.north east);
+			\coordinate[
+				xshift=\pgfkeysvalueof{/ybanner/endings/outer width},
+				yshift=-\pgfkeysvalueof{/ybanner/endings/vertical offset}
+			] (rightEndingBottomRight) at (text.south east);
+			\path let
+				\p1=(rightEndingTopRight),
+				\p2=(rightEndingBottomRight),
+				\n1={\y1+\y2} in coordinate
+			[
+				xshift=-\pgfkeysvalueof{/ybanner/endings/triangle offset},
+			] (rightEndingMiddleRight) at (\x1, \n1/2);
+			\path[
+				fill=\pgfkeysvalueof{/ybanner/color}
+			] (rightEndingTopLeft) --
+			(rightEndingTopRight) --
+			(rightEndingMiddleRight) --
+			(rightEndingBottomRight) --
+			(rightTriangleInnerBottom) -- cycle;
+		\end{pgfonlayer}
+		\ifybannerdrawcontour
+			\draw[
+				/ybanner/contour/style,
+			] (text.north west) -- (text.south west) -- (text.south east) -- (text.north east);
+			\draw[
+				/ybanner/contour/style,
+			] (text.south west) -- (leftTriangleInnerBottom);
+			\draw[
+				/ybanner/contour/style,
+			] (text.south east) -- (rightTriangleInnerBottom);
+		\fi
+	\end{tikzpicture}%
+	\endgroup%
+}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Styles
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\DeclareDocumentCommand{\ybannernewstyle}{m m}{%
+	\pgfkeys{%
+		/ybanner/#1/.style={/ybanner/.cd,#2}%
+	}%
+}
+
+\DeclareDocumentCommand{\ybannerapptostyle}{m m}{%
+	\pgfkeys{
+		/ybanner/#1/.append style = {#2}
+	}%
+}
+
+\DeclareDocumentCommand{\ybannerapplystyle}{m}{%
+	\pgfkeys{/ybanner/#1}%
+}
+
+
+\endinput

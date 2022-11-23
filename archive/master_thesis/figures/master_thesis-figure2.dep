@@ -1,0 +1,10 @@
+figures/master_thesis-figure2.pdf: data/different_powers_identical_time_step/linear_decay_constant_slope/absolute/a.dat
+figures/master_thesis-figure2.pdf: data/different_powers_identical_time_step/linear_decay_constant_slope/absolute/b.dat
+figures/master_thesis-figure2.pdf: data/different_powers_identical_time_step/linear_decay_constant_slope/absolute/c.dat
+figures/master_thesis-figure2.pdf: data/different_powers_identical_time_step/linear_decay_constant_slope/absolute/d.dat
+figures/master_thesis-figure2.pdf: data/different_powers_identical_time_step/linear_decay_constant_slope/absolute/e.dat
+figures/master_thesis-figure2.pdf: data/different_powers_identical_time_step/linear_decay_constant_slope/relative/a.dat
+figures/master_thesis-figure2.pdf: data/different_powers_identical_time_step/linear_decay_constant_slope/relative/b.dat
+figures/master_thesis-figure2.pdf: data/different_powers_identical_time_step/linear_decay_constant_slope/relative/c.dat
+figures/master_thesis-figure2.pdf: data/different_powers_identical_time_step/linear_decay_constant_slope/relative/d.dat
+figures/master_thesis-figure2.pdf: data/different_powers_identical_time_step/linear_decay_constant_slope/relative/e.dat

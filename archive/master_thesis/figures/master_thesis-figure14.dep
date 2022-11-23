@@ -1,0 +1,10 @@
+figures/master_thesis-figure14.pdf: data/identical_power_different_time_steps/exponential_decay_30_50/absolute/a.dat
+figures/master_thesis-figure14.pdf: data/identical_power_different_time_steps/exponential_decay_30_50/absolute/b.dat
+figures/master_thesis-figure14.pdf: data/identical_power_different_time_steps/exponential_decay_30_50/absolute/c.dat
+figures/master_thesis-figure14.pdf: data/identical_power_different_time_steps/exponential_decay_30_50/absolute/d.dat
+figures/master_thesis-figure14.pdf: data/identical_power_different_time_steps/exponential_decay_30_50/absolute/e.dat
+figures/master_thesis-figure14.pdf: data/identical_power_different_time_steps/exponential_decay_30_50/relative/a.dat
+figures/master_thesis-figure14.pdf: data/identical_power_different_time_steps/exponential_decay_30_50/relative/b.dat
+figures/master_thesis-figure14.pdf: data/identical_power_different_time_steps/exponential_decay_30_50/relative/c.dat
+figures/master_thesis-figure14.pdf: data/identical_power_different_time_steps/exponential_decay_30_50/relative/d.dat
+figures/master_thesis-figure14.pdf: data/identical_power_different_time_steps/exponential_decay_30_50/relative/e.dat

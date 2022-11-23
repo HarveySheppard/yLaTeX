@@ -1,0 +1,48 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Basic configuration
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass{memoir}
+
+\usepackage{lipsum}
+
+\usepackage{marginInfoBulle}
+
+\usepackage[%
+	a4paper,
+%	showframe,
+	twoside,
+	top=27mm,
+	bottom=27mm,
+	inner=20mm,
+	outer=20mm,
+	ignorehead,
+	ignorefoot,
+	includemp,
+	marginparwidth=52mm,
+	marginparsep=8mm,
+	headsep=7mm,
+	footskip=14mm,
+	headheight=12.2pt,
+]{geometry}
+\setlength{\marginparpush}{\baselineskip}
+
+\title{marginInfoBulle Showcase}
+\author{Harvey Sheppard}
+
+\begin{document}
+	
+	\maketitle
+	
+	\marginQuestion*{Is this a question?}
+	\lipsum[1]
+	\marginCheck{\lipsum[1]}
+	\lipsum[2]
+	\marginCritical[Beware!]{Critical Message!!}
+	\lipsum[3]
+	\marginInfo{This is very important, and you should know it}
+	\lipsum[4]
+	\marginTips{Don't forget the tips!}
+	\lipsum[5]
+	
+	
+\end{document}

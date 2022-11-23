@@ -1,0 +1,6 @@
+$ENV{'TEXINPUTS'}='./tex//:' . $ENV{'TEXINPUTS'};
+$ENV{'TTFONTS'}='./fonts//:' . $ENV{'TTFONTS'};
+$ENV{'OPENTYPEFONTS'}='./fonts//:' . $ENV{'OPENTYPEFONTS'};
+
+$pdf_previewer = 'zathura';
+

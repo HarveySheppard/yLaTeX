@@ -1,0 +1,136 @@
+\documentclass[english]{yMasterThesis}
+
+\usepackage[
+  backend=biber,
+]{biblatex}
+\addbibresource{2022-06-15_master_thesis.bib}
+
+\title{GitDAO, Blockchain Primitives for Open Source}
+\author{Harvey Sheppard}
+
+\makeatletter%
+\hypersetup{%
+  pdfauthor=\@author,
+  pdftitle=\@title,
+  pdfkeywords={Governance, Open source, Blockchain, DAO, Decentralization},
+  pdfsubject={Building blockchain-based primitives to improve collaboration in the open source ecosystem.},
+}%
+\makeatother%
+
+% \includeonly{tex/titlepage}
+
+\begin{document}
+
+\include{tex/titlepage}
+
+\printtableofcontents
+
+\justifying%
+\setlength{\parindent}{0ex}
+
+% https://tex.stackexchange.com/questions/51263/what-are-penalties-and-which-ones-are-defined
+\clubpenalties=3 1000 500 0 % extra penalty for breaking after first line of a paragraph.
+\widowpenalties=3 1000 500 0 % extra penalty for breaking before last line of a paragraph
+
+% \tolerance sets the maximum "badness" that tex is allowed to use while setting the paragraph, that is it inserts breakpoints allowing white space to stretch and penalties to be taken, so long as the badness keeps below this threshold. If it can not do that then you get overfull boxes. So different values produce different typeset result.
+% \tolerance 1000
+
+% \emergencystretch (added at TeX3) is used if TeX can not set the paragraph below the \tolerance badness, but rather than make overfull boxes it tries an extra pass "pretending" that every line has an additional \emergencystretch of stretchable glue, this allows the overall badness to be kept below 1000 and stops TeX "giving up" and putting all stretch into one line. So \emergencystretch does not change the setting of "good" paragraphs, it only changes the setting of paragraphs that would have produced over-full boxes. Note that you get warnings about the real badness calculation from TeX even though it retries with \emergencystretch the extra stretch is used to control the typesetting but it is not considered as good for the purposes of logging.
+% \emergencystretch 4em
+\sloppy
+
+\include{tex/chapters/introduction}
+
+\part{Theoretical Discussion}
+
+\partSecondPage%
+We begin this work with some discussions about governance systems, open source, and blockchain-related topics, as inspiration and guiding lines to create new governance systems for open source projects.
+Why these three topics?
+
+Governance systems are the building block required to make decisions and coordinate members of an open source project.
+Yet coordination is hard.
+Can we create truly decentralized systems?
+Does a system exists, that ensures decisions are always satisfying for the participants?
+Are there systems that impose little additional friction on users?
+
+Because we are targeting open source projects, exploring their specifics enables us to build systems that are well suited to them.
+Some specificities of open source can be exploited; for example, the fact that code is processed through merge requests enables us to limit governance systems to binary decisions.
+
+Finally, we will turn our attention to the blockchain, how it works, what its associated narratives are, how those integrate within the open source philosophy, and what functionalities blockchains can bring to the open source.
+
+\include{tex/chapters/theory/governance_systems}
+\include{tex/chapters/theory/open_source}
+\include{tex/chapters/theory/blockchain}
+
+\part{GitDao}
+
+\partSecondPage%
+GitDAO%
+\marginNote{%
+  \marginTitle{DAO}
+  A DAO, short for Decentralized Autonomous Organization, is a smart contract hosted on the blockchain that is used to coordinate a community.
+  Most often DAOs feature a voting system.
+  A typical use case is to use DAOs to govern blockchain-oriented investment funds.
+}
+is the specification of \emph{blockchain primitives aimed at open source software}.
+Note that some of the primitives do not fundamentally require blockchains, and can be created using other technologies.
+
+The primitives described hereafter aim to fulfill specific goals among which:
+
+\begin{description}
+  \item[Trustless Open Source]
+    We want to make it possible to trust an open source project without having to trust any individual developer in the project so that even if some of them have adversarial intentions, they cannot act upon them.
+    Trustlessness is the umbrella goal under which many of the following goal fall.
+  \item[Decentralization of Power]
+    A requirement for trustlessness.
+  \item[Developer Incentivization]
+    Incentivizing developers to contribute improves the chances of a project living longer.
+    Longevity is a requirement for trustlessness: a project that receives no developer attention is a dead project, with no more bug fixes, and no features added.
+  \item[Transparency]
+    It improves trustlessness, but also makes it easier for newcomers to join, as they can find information about the project more easily.
+  \item[Coordination]
+    This includes coordination among developers, to make the work more efficient, but also the coordination between developers and users, so that open source projects can bring even more value to humanity.
+  \item[Security]
+    Obviously.
+\end{description}
+
+\include{tex/chapters/gitdao/decreasing_power_tokens}
+\include{tex/chapters/gitdao/voting_workflow}
+\include{tex/chapters/gitdao/rewarding_scheme}
+\include{tex/chapters/gitdao/dev_rewards}
+\include{tex/chapters/gitdao/issue_backing}
+\include{tex/chapters/gitdao/gitdao}
+
+\part{Applications}
+
+\partSecondPage%
+The goal of this master thesis was not only to produce a specification and theoretical analysis of a DAO that can govern open source public goods efficiently but also to provide some implementation.
+It is said that one only really knows a problem after trying to solve it (and that only the second attempt at solving the problem will be successful).
+
+Different implementation paths were pursued during this master thesis.
+One of them, described in \cref{sec:demo}, was to build a somewhat standalone demo.
+The other was to integrate with Radicle, which you can learn more about in \cref{sec:radicle}.
+
+For a DAO to integrate well and provides efficient governance, the system needs to integrate well with the development stack.
+Today, most of the code-building tools work entirely off-chain.
+Making both worlds communicate well and in a seamless fashion for the user is a real challenge.
+
+Further, it is probably desirable that multiple governance systems can be used across the DAOs oriented at open source, so the code collaboration stack around the DAO needs to be versatile enough to allow integration of various governance systems.
+
+\include{tex/chapters/applications/demo}
+\include{tex/chapters/applications/radicle}
+
+\include{tex/chapters/conclusion}
+
+\part{Appendices}
+% \partSecondPage%
+
+\appendix
+
+\include{tex/chapters/appendices/snafu_fable}
+
+%\listofdefinitions
+\printbibliography
+
+\end{document}
+

@@ -1,0 +1,83 @@
+\begin{titlepage}
+  \symmetricalPage%
+  \begingroup%
+    \tikzset{external/export=false}%%
+    \begin{tikzpicture}[
+        overlay,
+        remember picture,
+      ]
+      \node[anchor=center] at (current page) {\printImageToMinArea{\paperwidth}{\paperheight}{images/sectioning/titlepage/1/img.jpg}};
+    \end{tikzpicture}
+  \endgroup%
+  \sffamily%
+
+  \vspace*{2cm}%
+  \begingroup%
+    \bfseries%
+    % \scshape%
+    \begingroup%
+      \Huge%
+      \color{gray_30}
+      GitDAO\\[8mm]
+    \endgroup%
+    \begingroup%
+      \huge%
+      \color{gray_30}%
+      Blockchain Primitives\\[2mm]
+      for Trustless Open Source%
+    \endgroup%
+  \endgroup%
+
+  \vfill%
+  \parbox[b]{\linewidth-6cm}{%
+    \begingroup%
+      \bfseries%
+      \color{gray_90}%
+      A Master Thesis.
+
+      \vspace*{7mm}%
+      Supervised by\\
+      Yann \textsc{Vonlanthen}, Robert \textsc{Ott},\\
+      and Prof. Dr. Roger \textsc{Wattenhofer}.
+    \endgroup%
+  }%
+  \hfill%
+  \parbox[b]{4cm}{%
+    \includesvg[width=\linewidth]{images/sectioning/titlepage/eth_logo_kurz_neg.svg}
+  }
+\end{titlepage}
+\restoregeometry%
+
+\pageBackground%
+\marginElement{\input{images/sectioning/titlepage/0/readme.tex}}
+Realized between March and September 2022.
+
+\null\vfill
+
+\begingroup%
+% \begin{fullwidth}
+  \yTitleContrasted{Abstract}
+  \renewcommand{\strong}[1]{{\bfseries\textcolor{gray_20}{#1}}}
+
+  Open source software has become a crucial infrastructure in contemporary societies which is why it is important to protect it.
+  This work aims to design blockchain primitives that make open source \strong{trustless}.
+  We explore a key element of trustlessness: \strong{decentralization}; why we care about it, and how to achieve it.
+  The main proposal of this work is a voting system based on \strong{tokens with time-decreasing power}, which opens a new design space for voting systems, including creating incentives for recurrent contributions and lowering power entrenchment.
+  Additionally, we propose a \strong{rewarding scheme} to define the power of the tokens that should be awarded for contributions to an open source project, as well as a \strong{strategy to distribute the money} received by the project to its contributors using the same tokens, aligning value creation and value extraction.
+  We propose a \strong{voting workflow} specifically targeted at merge requests that improves security, by providing a challenge mechanism that deters adversarial proposals.
+  Finally, we propose a scheme to \strong{back issues} with money for improved community feedback.
+  All these features build a coherent specification, called \strong{GitDAO}, that improves the guarantees provided by any open source project that uses it.
+% \end{fullwidth}
+\endgroup%
+
+\vfill%
+
+\forcedMarginElement{\includegraphics[width=\linewidth]{images/sectioning/titlepage/switch_logo.png}}%
+In collaboration with SWITCH.
+
+\vspace*{1cm}
+\forcedMarginElement{\includegraphics[width=\linewidth]{images/sectioning/titlepage/disco_logo.eps}}%
+Done at the Distributed Computing Group,\\[2pt]
+Computer Engineering and Networks Laboratory,\\[2pt]
+ETH Zürich
+

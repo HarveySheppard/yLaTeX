@@ -1,0 +1,10 @@
+figures/master_thesis-figure6.pdf: data/main_contributor/linear_decay_constant_dt/absolute/a.dat
+figures/master_thesis-figure6.pdf: data/main_contributor/linear_decay_constant_dt/absolute/b.dat
+figures/master_thesis-figure6.pdf: data/main_contributor/linear_decay_constant_dt/absolute/c.dat
+figures/master_thesis-figure6.pdf: data/main_contributor/linear_decay_constant_dt/absolute/d.dat
+figures/master_thesis-figure6.pdf: data/main_contributor/linear_decay_constant_dt/absolute/e.dat
+figures/master_thesis-figure6.pdf: data/main_contributor/linear_decay_constant_dt/relative/a.dat
+figures/master_thesis-figure6.pdf: data/main_contributor/linear_decay_constant_dt/relative/b.dat
+figures/master_thesis-figure6.pdf: data/main_contributor/linear_decay_constant_dt/relative/c.dat
+figures/master_thesis-figure6.pdf: data/main_contributor/linear_decay_constant_dt/relative/d.dat
+figures/master_thesis-figure6.pdf: data/main_contributor/linear_decay_constant_dt/relative/e.dat

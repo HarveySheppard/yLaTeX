@@ -1,0 +1,216 @@
+\chapter{Radicle}
+\label{sec:radicle}
+
+This chapter is a chronology of our interactions with Radicle during this project.
+
+\section{Discovering Radicle}
+
+The original idea of this master thesis was to try to create some form of blockchain-based alternative to git.
+This would allow easy integration between git and transfers of value.
+One could imagine a system in which the creators of a piece of code get remunerated automatically when the code they wrote is executed.
+This would create a business model for open source.
+Of course, such a fundamental change in how code works is hard to bring about.
+
+\marginElement{\centering\includesvg[width=.5\linewidth]{images/radicle.svg}}%
+During some initial exploration of existing solutions, we were reminded of the existence of Radicle\marginNote{See \url{radicle.xyz}.}.
+Radicle aims to provide \enquote{the decentralized code collaboration stack}, i.e.\ a peer-to-peer alternative to GitHub.
+
+It seems helpful to remind the reader here of what features are part of git and what features are brought by overlays like GitHub, GitLab, Gitea, and consorts.
+Git brings commits, commit trees and merge strategies (merge or rebase).
+Overlays bring merge requests, tags, \textsc{ci/cd}, issues, and more.
+Most of the social functionalities that we enjoy when coding comes from overlays.
+
+Radicle's goal is to provide the same functionalities in a decentralized way.
+Note that Radicle does not use any blockchain for that.
+They designed their protocols based on gossiping, and while it does use some advanced cryptography, there is no economical or game theoretical framework like that of a blockchain.
+Alleviating the need for a central entity is a difficult task, and so far Radicle has built \enquote{patches}, i.e.\ an alternative to merge requests, but it does not feature any social functionalities like comments or \textsc{ci/cd} (those are features planned for the future).
+
+When we stumbled across the Radicle website, it became clear that it would be easier to integrate with Radicle than to build something similar ourselves.
+Also, blockchains are not fundamentally adapted to hosting lots of data\marginNote{Storing $1$KB of data on Ethereum costs approximately 31\$ as of August 2022, which is prohibitively expensive.}, so building git on a blockchain is probably not the way to go (at least not as of 2022).
+
+\section{Build a Radicle Org}
+
+In March 2022, Radicle was featuring a new concept; \enquote{Orgs}.
+Orgs were part of the blockchain integration featured at the time by the \textsc{gui} of Radicle called Upstream.
+Orgs were a smart contract on Ethereum whose goal was to act as a registry of the \enquote{official} version of a project.
+When the code becomes decentralized, potentially each developer of a single project has a different view of the code, in which different branches were merged and in a different order than the others.
+So which version should be used by users of the project?
+What is the official version?
+To solve this issue, Radicle had Orgs.
+But who controls an Org?
+Who can decide what the official version of a project is?
+
+Orgs could be any smart contract as long as the contract created \enquote{anchors}, where an anchor was the specification of how official commits had to be encoded.
+This enabled great flexibility, as anyone could code its own Org and its decision system.
+Radicle provided two Orgs templates.
+One was an Org entirely controlled by a single individual, the other was based on a Gnosis safe, i.e.\ $m$ out of $n$ permissioned users of the Org had to agree to a proposed change.
+
+Our initial idea was therefore to build an alternative Org for Radicle.
+One that would be more akin to a DAO with a voting system based on a token (with decreasing value tokens and a way to handle donations).
+So we settled for this task and built the demo and its underlying smart contract using the anchor interface from Radicle.
+
+\section{Rug Pulled}
+
+Once the demo was more or less completed, around the beginning of May, we tried to integrate our solution with Radicle.
+We updated our Upstream version (to be sure to integrate with the latest and most up-to-date version) and soon discovered that all the blockchain integrations were removed from Upstream.
+
+Some exploration of the Radicle forums led us to understand that Radicle was not dropping the idea of integrating with the blockchain, they only wanted to think it through and maybe propose additional features.
+
+At this point, it is probably useful to give some additional details on how Radicle work.
+The contributors of Radicle are split across \enquote{core teams}.
+Each core team is responsible for one product of the Radicle ecosystem.
+For example, there is a core team that builds the underlying peer-to-peer protocol of Radicle, another responsible for the Upstream client, another for the web and terminal interfaces, another that concerns itself with governance inside Radicle and interfacing with the Radicle foundation%
+\marginNote{%
+  The Radicle foundation gives a legal entity to the project.
+  It is a Swiss foundation and it owns much of the large Radicle treasury.
+}, yet another that builds Drips, a streamed payment protocol on the blockchain.
+And, while some teams, like the Upstream team and the web and terminal interfaces team, favor some integration with the blockchain, this feeling does not appear to be shared by all: the protocol team remains rather skeptical of integrating with some blockchain.
+Nevertheless, the situation this created was not particularly practical for the Master thesis you are reading.
+
+We decided to reach out to Radicle and see whether it was possible to take part in the blockchain integration effort directly as a substitute for building an Org.
+
+\section{Collaboration on Blockchain Integration}
+
+The first problem was to find some individual that knew what was going on with the blockchain integration.
+The only response we got from the Upstream team was that blockchain was paused for the time being.
+By asking a bunch of people, we ended up talking with \#cloudhead, the person in charge of the \enquote{Alt. Clients} team (Alt. Clients means \enquote{alternative clients}, i.e.\ the web and terminal interfaces).
+He seemed interested and we had a phone call.
+He offered to compensate us for working on blockchain integration%
+\marginNote{%
+  We had to decline this offer because of \textsc{ethz} regulations.
+}.
+We did some brainstorming on the various possibilities that integrating Radicle with the blockchain offered.
+The results of this brainstorming took the form of a Figma chart that is included in \cref{sec:figma}.
+
+\section{EthCC}
+
+Soon after that, so around the middle of July 2022, a major blockchain conference was happening in Paris.
+Radicle was holding what they called an off-site, so many core members of the project met and we managed to meet a few%
+\marginNote{%
+  It is often surprising to confront the vision of someone you only know from chatting online and maybe having a phone call once with the actual physical person.
+}.
+While it was an interesting experience, it did not feel too inclusive.
+
+\section{Stalemate}
+
+After the EthCC break, work resumed on the blockchain integration.
+We wrote a proposal for Radicle containing the principles described in this document.
+The answer we got from \#cloudhead was strange to our ears...
+He was proposing that the people that Radicle calls \enquote{delegate}%
+\marginNote{%
+  \textit{Delegates} of a Radicle repository, are originally constituted of only the account that creates a repository.
+  This account can then add other delegates by granting them the delegate role.
+} would have the voting power, and they could elect people that would get some payouts.
+This sounded like a permissioned approach: it enshrines in the marble who has control over a project in a way that does not foster the inclusion of new contributors.
+
+Another criticism addressed to our proposition was that it was never tried, there was no example of such a strategy working in practice.
+This was also somewhat strange.
+Radicle is creating new concepts regarding code collaborations (like that of a patch that does not work the same way as a merge request on GitHub), and new ways to interact.
+That is the very concept of innovation, this is also the reason why so many people in the blockchain ecosystem are motivated by Radicle: it changes the status quo, it brings new ideas, and a new way to do things which is hopefully better than the previous one.
+Why was it not welcome to innovate on governance models for open source projects?
+Additionally, there are DAOs out there that do work in a fashion similar to GitDAO, for example, the Optimism DAO.
+
+It was also raised that the proposed solution was too complex and did not solve an existing problem.
+Preventing communities from forking because of a maintainer making decisions that are not consensual, through a token-based voting system, is valuable.
+Providing a model to pay open source contributors also solves a real-life problem, namely, it improves incentives to contribute to open source and thus increases project longevity.
+But at this point in the conversation, it wasn't clear anymore to us whether we were arguing rationally about the proposed solution, or if \#cloudhead had already made his made and was now trying to justify his opinion one way or another.
+He might also have a biased opinion, as he is himself a delegate of many repositories hosted on Radicle.
+
+After our last reply, we got no more responses.
+As of the end of August, we sent a message to propose that we resume the conversation once the present work is completed.
+Stalemate.
+
+\section{A Personal Take on Radicle}
+
+The history of Radicle helps to explain the current state of the project.
+The project was co-founded in 2018 by Alexis Sellier (\#cloudhead) and Eleftherios Diakomichalis (\#lftherios).
+The project has awakened a lot of interest from the blockchain ecosystem and raised around \$12M in 2021 \cite{noauthor_radicle_nodate}%
+\marginNote{%
+  As of August 2022, it was estimated that Radicle burns around \$500K per month \cite{noauthor_formal_nodate}.
+}.
+The Radicle Foundation which currently owns much of the treasury is governed by the two founders and Abbey Titcomb (\#abbey) \cite{noauthor_formal_nodate}.
+
+\subsection{Too Much Money}
+
+One issue that we see with the Radicle project is that a lot of time is spent on deciding how the money will be distributed and how governance will be conducted, and sometimes it feels like not much code is written.
+It is our opinion that Radicle did not achieve much progress since March 2022.
+In March, the Radicle website had more content, there was documentation, some Ethereum integration, and Radicle had a desktop client.
+In August 2022, the website features less content, the desktop client has been sunsetted, the documentation is outdated (it explains how to interact with Radicle through the Upstream desktop client), and there is no more blockchain integration, but there are two new clients: one command line based, the other is a website.
+In terms of features, Radicle is still too incomplete to become realistically usable.
+
+Through the massive funding round that Radicle conducted in 2021, it received a lot of attention.
+But by trying to become too big too early, a lot of time now has to be invested in coming up with governance systems, aligning the community, etc.
+This is time that is not spent on actually building Radicle.
+The initial vision was somewhat lost to the millions of dollars that the project received in investment.
+
+\subsection{Lack of Consensual Vision}
+
+As of August 2022, the community of Radicle is split into core teams, each team being intentionally very independent.
+We think that this leads to some confusion, because the teams do not always want the same thing, and might decide to implement what they want without having a consensus from the others.
+We guess that this is what happened with the Upstream client and the alternative clients (web and terminal).
+In July 2022, Upstream was sunsetted, i.e.\ officially abandoned, and replaced by alternative clients.
+Given that most of the functionalities required to make Radicle a viable alternative to GitHub are still missing (\textsc{ci/cd}, some mechanism to define the official version, blockchain integration, etc.), it might not be optimal to divide developer time on multiple clients and to sunset clients this early.
+There seems to lack a common goal that everyone agrees on; the initial vision was somewhat blurry and now many people try to fill the holes in different ways.
+
+Similarly, \#abbey wrote a blog post in February 2021 about Radicle releasing features that integrated with Ethereum.
+Since then, the integration was removed and there are no clear plans for its future; neither about what it should entail nor about some release date.
+
+\subsection{Hierarchy in Radicle}
+
+Also, while the core teams might give the impression that they decentralize the control over the project, it feels to us that this creates some kind of hierarchy%
+\marginElement{%
+  \begin{center}
+    Radicle Foundation\\
+    $\downarrow$\\
+    Core Team Owner (\#abbey, \#cloudhead and \#lftherios)\\
+    $\downarrow$\\
+    Core Team Member\\
+    $\downarrow$\\
+    Rest of the World
+  \end{center}
+} at the top of which stands the Radicle foundation.
+Basically, and because decentralization is a core principle of Radicle, it was decided to separate the work in \enquote{core teams}.
+Each of those teams is independent and focuses on a specific aspect of Radicle.
+This approach has a few drawbacks; first, it silos information and vision for the project.
+Second, it does not guarantee decentralization.
+Indeed, each time is free to organize as it wishes, in reality, and as of August 2022, this means that each time has a benevolent dictator that leads the team; which is not decentralized.
+Further, it enshrines a hierarchy in Radicle: team owners are the most influential individuals, then there are acknowledged team members, then the rest of the world.
+And while such a model is standard in the corporate and startup worlds, this creates more barriers for new contributors than what is customary in the open source world%
+\marginNote{%
+  Even though similar structures exist in open source with the benevolent dictator of a project being the most powerful individual, followed by the \enquote{core} members, then the rest of the world which is often called \enquote{the halo}, the core members have no title that enshrines their status.
+  Their influence appears organically as the sum of the interaction that those developers have with the project.
+}.
+
+Talks are being held to transfer the control of Radicle from the foundation to a DAO governed by the RAD token.
+This is a step towards decentralization, except that the token distribution will change little to the current pretty centralized state of affairs...
+As of August 2022, \#abbey owns 54\% of all RAD, and \#cloudhead has 24\% \cite{noauthor_sybil_nodate}...
+
+\subsection{Lack of Alignment}
+
+Finally, it seems strange that one of the founders of Radicle, \#cloudhead, would say that providing decentralized governance for code projects hosted on Radicle is not something that the project is interested in, even though the slogan of Radicle, until August 2022, was \enquote{Building the decentralized code collaboration stack}.
+While it is not the same to build some decentralized infrastructure to host code and to build decentralized governance mechanisms to govern code (that might be hosted on a decentralized or centralized censorship-prone proprietary platform), both tasks have a lot in common, and experimenting on decentralized governance models ought to be an interest of the Radicle project.
+Even more so since the Radicle project is trying to start a collaboration with Gitcoin, which aims at building public goods.
+So while, we love the ideas underpinning the Radicle project, the interaction and the current state of affairs make us raise a few eyebrows.
+
+\subsection{A Way Forward?}
+
+As described in \cite{raymond_cathedral_2001}, successful projects need to provide a clear vision in the first place.
+The Radicle project provided a slightly blurry vision, many details were initially left open.
+While this impedes efficient work, this might not be a problem large enough to choke the project.
+
+First, we believe that it is now important for Radicle to come up with a way to coordinate, to make the entire community agree on the way forward.
+If the initial vision was not clear enough, then a way needs to be found to fill it out.
+
+Second, the focus needs to switch from \enquote{how people will make money} to \enquote{how the project will be turned into working software that people use and love}.
+
+Finally, the project needs to be more inclusive of contributors, no more changing the domain names of the website every month, clear and complete documentation to make it easy for people to contribute%
+\marginNote{%
+  The Radicle documentation, at times, was changed without providing any ways to view previous versions of it, for example, all Org documentation was removed when the blockchain integration was removed from Upstream.
+  The documentation was completely removed with the August 2022 version of the main website.
+  The Radicle blog, which contained various articles on the RAD token and the Radicle vision, was also deleted with the August 2022 version of the website.
+}, and a more inclusive process to onboard people that want to contribute%
+\marginNote{%
+  Holding an invite-only meeting with all the members considered \enquote{core} enough during EthCC is not an inclusive way to make progress.
+  This goes against the ideals of transparency and inclusion that are important to the open source movement, the blockchain movement, and Radicle's values.
+}.
+

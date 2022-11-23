@@ -1,0 +1,102 @@
+\documentclass{article}
+
+\usepackage{lipsum}
+
+\usepackage{infoBulle}
+
+\usepackage[%
+	a4paper,
+%	showframe,
+	twoside,
+	top=27mm,
+	bottom=27mm,
+	inner=20mm,
+	outer=20mm,
+	ignorehead,
+	ignorefoot,
+	ignoremp,
+	marginparwidth=0mm,
+	marginparsep=0mm,
+	headsep=7mm,
+	footskip=14mm,
+	headheight=12.2pt,
+]{geometry}
+\setlength{\marginparpush}{\baselineskip}
+
+\title{infoBulle Showcase}
+\author{Harvey Sheppard}
+
+\infoBulleConfiguration{icon/shape = hexagon}
+
+\begin{document}
+	
+	\maketitle
+	
+	\section{Text InfoBulles}
+	
+	\infoInfo{\lipsum[2]}{\lipsum[2]}
+	
+	\questionInfo{Is this a question?}{\lipsum[2]}
+	
+	\checkInfo{What an Example}{\lipsum[2]}
+	
+	\warningInfo{Warning!}{\lipsum[2]\lipsum[2]}
+	
+	\criticalInfo{Critical Info!}{\lipsum[2]}
+	
+	\tipsInfo{Tips!}{\lipsum[2]}
+	
+	\begin{CodeInfo}{Some code!}[And a caption]
+		\begin{CodeInfoLst}
+#!/usr/bin/env python
+print "Hello World"
+		\end{CodeInfoLst}
+		\lipsum[2]
+	\end{CodeInfo}
+	
+	\section{Math InfoBulles}
+	
+	\begin{theorem}[Pythagoras]
+		Assuming we have a rectangle triangle with the hypotenuse named c. Then:
+		\[
+		a^2 + b^2 = c^2
+		\]
+	\end{theorem}
+	
+	\begin{lemma}[Pythagoras]
+		Assuming we have a rectangle triangle with the hypotenuse named c. Then:
+		\[
+		a^2 + b^2 = c^2
+		\]
+	\end{lemma}
+	
+	\begin{axiom}[Pythagoras]
+		Assuming we have a rectangle triangle with the hypotenuse named c. Then:
+		\[
+		a^2 + b^2 = c^2
+		\]
+	\end{axiom}
+	
+	\begin{proposition}[Pythagoras]
+		Assuming we have a rectangle triangle with the hypotenuse named c. Then:
+		\[
+		a^2 + b^2 = c^2
+		\]
+	\end{proposition}
+	
+	\begin{definition}[Pythagoras]
+		Assuming we have a rectangle triangle with the hypotenuse named c. Then:
+		\[
+		a^2 + b^2 = c^2
+		\]
+	\end{definition}
+	
+	\begin{corollary}[Pythagoras]
+		Assuming we have a rectangle triangle with the hypotenuse named c. Then:
+		\[
+		a^2 + b^2 = c^2
+		\]
+	\end{corollary}
+	
+	
+\end{document}

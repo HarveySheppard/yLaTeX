@@ -1,0 +1,127 @@
+\chapter{Developer Rewards}
+\label{sec:dev_rewards}
+
+In this chapter, we propose a method to reward developers of an open source project.
+The proposed scheme also distributes money to dependencies a project depends on.
+
+\section{Splitting Funds Three Ways}
+
+A smart contract can receive tokens easily, and define callback functions to execute upon receiving them.
+We propose that any money received by a project be split three ways upon reception:
+
+\begin{description}
+	\item[Developer Rewards]
+	  A fraction of the funds received is distributed to developers of the project, proportionally to their governance power in the project at the moment the funds are received.
+		
+	\item[Further Open Source Funding]
+		A fraction of the funds received is redistributed to other open source projects.
+
+	\item[Treasury]
+		The remaining part is hoarded up in the treasury of the project, as a reserve that can be used for various other purposes like bug bounties, paying for one-off tasks like branding, or implementing a feature.
+\end{description}
+
+This situation is summarized in \cref{fig:money_distribution}.
+
+\begin{figure*}[ht!]
+	\centering
+	\setlength{\x}{5cm}
+	\setlength{\y}{2cm}
+	\begin{tikzpicture}[
+	    ultra thick,
+			money_transfer/.style = {
+				->,
+			},
+			n/.style = {
+				align=center,
+				rectangle,
+				draw,
+				text width=2cm,
+			},
+      main/.style = {
+        fill = gray_90,
+        draw = none,
+        minimum height=2\baselineskip,
+				text width=2cm,
+				align=center,
+      },
+		]
+		\node[n] (people_donating) at (0\x, -0.5\y) {Blockchain\\Accounts};
+		\node[n] (dao_donating) at (0\x, 0.5\y) {Other\\GitDAOs};
+		
+		\node[main] at (1\x, 0\y) (gitdao) {GitDAO};
+
+		\node[n] at (1\x, -1\y) (token_holders) {Token Holders};
+		
+		\node[n] at (2\x, -0\y) (dao_receiving) {Other\\GitDAOs};
+		
+		\path[money_transfer] (dao_donating) edge node[midway, above=4mm] {Donations} (gitdao);
+		\path[money_transfer] (people_donating) edge (gitdao);
+		
+		\path[money_transfer, out=120, in=60, loop] (gitdao) edge node[midway, above] {Treasury} (gitdao);
+		\path[money_transfer] (gitdao) edge node[midway, align=left, anchor=west] {Direct\\distribution} (token_holders);
+		
+		\path[money_transfer] (gitdao) edge node[midway, above, align=center] {Further\\funding} (dao_receiving);
+	\end{tikzpicture}
+	\caption{%
+		\label{fig:money_distribution}
+		Money flows in and outside of a GitDAO project.
+	}
+  \floatfoot{%
+    Donations can be received as recurrent donations or one-off donations.
+    Donations can come from further funding of other GitDAOs or direct donations from EOA.
+		Received money is in part donated to the dependencies of the current project, in part distributed to the token holders of the DAO as remuneration for their work and the value they provided to users, and in part hoarded up, to build the DAO treasury which can be used by the project.
+  }%
+\end{figure*}
+
+\section{Developer Rewards}
+
+Developer rewards are a way to incentivize developers to contribute to open source by paying them.
+Note that the developers do not get a fixed salary out of such contributions.
+Rather they obtain a fraction of the funds donated to a project they contributed to when donations are made.
+Given enough donations, one can imagine people contributing to open source software as their main occupation, although the uncertainty related to an income being dependent on donation might be a deterrent.
+
+\section{Open Source Funding Graph}
+
+Today, in the open source ecosystem, only the most user-facing projects can live off of donations (like the Mozilla Foundation for example).
+Projects less visible receive no attention or donations, most of the time, they do not even have a donation system in place.
+Creating smart contracts for each open source project would make it much easier to donate to a project.
+
+Supply chain attacks are becoming more standard on the blockchain.
+This highlights the fact that an open source project has some incentive to ensure that its dependencies are properly maintained over time.
+From the perspective of the incentives, it makes sense for a project to donate to its dependencies, because the project has an interest in having its dependencies strive: for improved features, rapid bug fixes, documentation, code quality, etc.
+If the dependencies are abandoned, a project will have to replace them or take over their development.
+By donating a percentage of the funds that an open source project receives to its dependencies, it improves its security guarantees.
+Each project can freely choose what percentage of received funds to give to further open source projects.
+
+Allowing money to flow from one project to another creates a \textit{funding graph}.
+We remark that this prevents only the most visible projects, e.g.\ Firefox, get all the donations.
+It brings donations down in the open source infrastructure stack, to core software pieces that are hidden from sight, yet highly important, like the \texttt{libc}.
+
+\section{Treasury}
+
+Smart contracts make it easy to store money, and so the money received by a project that is not directly distributed to the developers nor sent to further open source projects can be hoarded in a treasury.
+Owning a treasury makes an open source project into a full-featured \textsc{dao}.
+This money can be used for various purposes, like bug bounty programs.
+
+\section{Streaming Payments and Radicle Drips}
+
+\marginElement{%
+  \null\hfill\includesvg[width=.5\linewidth]{images/radicle_drips_logo.svg}\hfill\null\\[1mm]%
+  \includesvg[width=\linewidth]{images/radicle_drips_banner.svg}\\[2mm]%
+  At \href{https://www.drips.network}{drips.network}%
+}
+Radicle provides a blockchain protocol for streaming payments.
+Streaming payments are the opposite of discrete payments.
+So instead of paying a sum in one transaction, the protocol transfers the value small amounts by small amounts at frequent intervals, like every second or so.
+
+This protocol would be perfectly suited for donations in the open source, as it would allow funds to accrue progressively which prevents many kinds of strategic behaviors.
+An example of strategic behavior exploiting discrete payments is for a contributor to submit a merge request at the moment in time that guarantees they will receive their token from the rewarding scheme just before a large recurrent monthly donation is made, to have the largest relative power possible over the \textsc{dao}, to maximize the percentage obtained from the donation.
+
+\section{Voting on Parameters}
+
+We propose that each DAO can vote on the specific percentages according to which received donations should be split.
+Highly visible projects, e.g.\ user-facing projects, will most probably both receive more donations and use a lot of dependencies.
+From the ecosystem perspective, it would be beneficial that they distribute a larger part of their donations to other GitDAOs.
+From the project perspective, it might also be a sensible action: the project needs its dependencies to be maintained.
+For projects at the absolute bottom of the tech stack, e.g.\ the standard C library, further distribution makes no sense (unless people maintaining the project want to help some other project they care about).
+%

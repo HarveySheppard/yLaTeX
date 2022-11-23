@@ -1,0 +1,238 @@
+\chapter{Blockchains}
+\label{sec:blockchain}
+
+\section{Blockchain Basics}
+
+The blockchain was invented by to this day anonymous people from the movement called cypherpunk%
+\marginNote{%
+  \marginTitle{Cypherpunks}
+  Cypherpunks advocate for the preservation of privacy through the use of strong cryptography.
+  They value privacy as a fundamental requirement of open societies.
+  They propose that privacy is achieved by using strong cryptography, which guarantees privacy by mathematical properties.
+  This movement started in the 1980s when cryptography was only the thing of states and was heavily guarded as a national secret.
+  \marginPar
+  Cypherpunks are a \enquote{punk} because they are anti-establishment, against governments, and do not trust the systems already in place.
+  They can be related to anarchists.
+}, with ideas that tie into anarchy.
+Today, blockchain is mostly known as a speculation market, for high price volatility that can make you rich (or poor) overnight, as a new playing field for Wall Street and the riches.
+The original goal of the blockchain was to create a new kind of money, i.e.\ cryptocurrencies, that would not be controlled by the state.
+Yet today states are regulating cryptocurrencies%
+\marginNote{%
+  An example of a state trying to regulate the world of cryptocurrencies is given by the United States blacklisting in August 2022 the Tornado cash smart contract.
+  The smart contract allowed to make anonymous transactions on Ethereum.
+  This was used both to launder money and by privacy-conscious users of Ethereum (all transactions performed on Ethereum are public).
+  But what does it mean to blacklist a smart contract?
+  The blockchain is immutable, so it is not possible to delete or stop the Tornado smart contract.
+  Instead, the United States is requiring exchanges to prevent any transactions with accounts that interacted with Tornado cash.
+  So people that interacted with the smart contract are now locked in the blockchain world, i.e.\ they cannot convert their cryptocurrencies into fiat currencies, nor can they add new cryptocurrencies bought using fiat on some exchange to their account.
+  As long as cryptocurrencies cannot be used to pay in day-to-day life, this action from the US government has a strong impact on the crypto community.
+} and most of them are now looking into Central Bank Digital Currencies (CBDC), i.e.\ digital currencies similar to cryptocurrencies, but fully controlled by central banks.
+Blockchain is a strange and varied ecosystem.
+
+Let's first define what a blockchain is; it is an immutable, distributed ledger, an append-only list of transactions shared by many computers.
+Modern blockchains also offer computing capabilities through smart contracts and as such are sometimes called world computers, i.e.\ they are not limited to only storing data, they can perform computations also.
+The revolution that blockchains brought is that they are digital and mathematical constructs that guarantee that each computer will eventually have the same database as the other computers, \emph{without the need for centralized coordination}.
+To achieve this property, blockchains were created in a game-theoretical conscious way that ensures that computers that try to cheat the database lose in the end.
+The mathematical tool that was key in enabling this is \emph{public key cryptography}.
+
+Building a digital, append-only, trustworthy ledger is the perfect substrate to build \emph{currencies}.
+And so blockchains are most famously known for enabling \enquote{cryptocurrencies}.
+One key addition to blockchains of the first generation, i.e.\ Bitcoin, was the ability of blockchain to perform some computations on top of storing data.
+This new generation of blockchains, initiated by Vitalik Buterin and the Ethereum blockchain, also called the blockchains of the second generation, enabled a whole new range of applications, like financial services (exchanges, loaning platforms, derivative markets, etc.), gaming-related features, NFTs, etc.
+
+As a technological tool, blockchains are most probably overhyped; they are databases, and databases have existed for a long time, but the world never got so excited about them.
+Nevertheless, blockchains feature interesting properties, like being trustless and public by default.
+But \enquote{blockchain} is not just a technological creation, it is also a movement.
+
+\section{The Blockchain Movement}
+
+The word \enquote{blockchain} is sometimes abused, and can describe more than only the technological creation.
+Sometimes, it is used to describe the ideological movement associated with the technology, so we list some of the core narratives of the movement hereafter.
+
+Some of the core ideas that underpin blockchains are that one must be able to trust none of the entities running the blockchain, yet be able to trust that the outcome of the blockchain will be correct, i.e.\ that only valid will be included, and they will be executed correctly.
+This is a property called \emph{trustless}, which was inherited from the cypherpunks and their distrust for everyone, but especially for governments and banks.
+We want strong guarantees that the blockchain will be correct, e.g.\ that included transactions were indeed intended by the account from which they emanate, that no account can send money it does not have, etc.
+Ideally, we would like to be able to trust the outcome of the blockchain without having to trust any specific entity running the blockchain.
+That way, even if some entity running the blockchain tries to take advantage, hack, or otherwise exploit the blockchain, we know the entity will fail, even if we falsely trusted the entity.
+This is a strong requirement, and it departs deeply from the current model, which imposes on people to trust states to manage their currency properly, and banks to manage accounts properly.
+But if a bank was to slash a few zeroes from your balance, could you do much about it?
+
+Now that trustlessness is established as a desirable property, how do we achieve it?
+Without diving into the numerous mathematical and game theoretical details required, let us affirm that \emph{decentralization} is a requirement to obtain trustlessness.
+Assume the power over the blockchain is centralized in a single entity%
+\marginNote{%
+  To be a little more rigorous, assume that a single entity owns at least 51\% of the mining power.
+}, then, for the blockchain to have correct outcomes, you need to trust the entity owning 51\% of the power to do the right thing.
+This is the so-called 51\% attack.
+Because we want to be able to trust no one, it is required that no such entity exists, that the power is \emph{decentralized}.
+Actually, the more the power is decentralized, the better because more decentralization means that it is harder for anyone to obtain the required 51\%.
+
+By extrapolating, if we want the power to be distributed among many people, then we might ideally want that each entity has the same power and that no one receives a treatment of favor.
+Having some permissions that others do not have is a form of treatment of favor, it is also a way to encode that someone is more trusted than the others.
+Creating systems that are \emph{permissionless}, i.e.\ in which there exists no account that has special privileges, is an explicit goal of the blockchain movement.
+Yet, especially when it comes to applications being run on the blockchain like a stablecoin, an exchange, or some NFT smart-contract, it is more difficult to build systems that feature no privileged account like an admin account.
+The lack of an admin account, also means that if there is a bug in the smart-contract, \emph{no one} has the power to fix the issue.
+The same goes for transactions on a blockchain: if you send your money to the wrong account, no one can help you recover it.
+The funds are lost for good.
+
+\section{Sybil Resistance}
+\label{sec:sybil_resistance}
+
+Most blockchains are pseudonymous, i.e.\ you are anonymous and identified by a pseudonym.
+In such contexts, a single actor can own an unbounded number of accounts.
+
+\begin{definition}[Sybil Resistance]
+  The property of a system that cannot be exploited by creating a large number of blockchain accounts.
+\end{definition}
+
+Attacking a system by creating many accounts is called a \textit{sybil attack}.
+Some systems are vulnerable to such attacks.
+For example, quadratic voting systems will assign more weight to multiple votes tallying some voting power, than to a single vote with equal voting power.
+In such a system, it is advantageous to split your voting power across multiple accounts and make each account vote to maximize your influence when voting.
+
+Generally speaking, voting systems require sybil resistance and cannot assign influence on a \textit{per account} basis as this can easily be exploited\marginNote{%
+  Gitcoin, the project that spearheaded quadratic funding (a variant of quadratic voting), and first used it to finance public good projects, fell victim to sybil attacks during its spring 2022 funding round.
+}.
+Another example is to build a voting system that gives one vote per account.
+In such a context, creating multiple accounts yields more voting power, and so the outcome of the vote is probably decided based on who can create the most accounts in a given amount of time.
+
+What are potential mechanisms to provide sybil resistance?
+A natural answer for blockchains is to create voting systems in which your voting power is proportional to the amount of a given \textsc{erc20} token%
+\marginNote{%
+  \marginTitle{\textsc{erc20}}
+  \textsc{Erc20}, the acronym for \enquote{Ethereum Request for Comment \#20}, designates an Ethereum smart-contract standard.
+  The standard specifies the interfaces that smart-contract should exhibit to implement a fungible token.
+  By extension, fungible token are often called \enquote{\textsc{erc20}}.
+}
+that you own.
+If you split your token across multiple accounts, you still own the same amount of token, hence the same voting power.
+It is also possible to use \textsc{erc721} tokens%
+\marginNote{%
+  \marginTitle{\textsc{erc721}}
+  \textsc{Erc721}, the acronym for \enquote{Ethereum Request for Comment \#721}, designates an Ethereum smart-contract standard.
+  The standard specifies the interfaces that smart contracts must exhibit to validly implement a non-fungible token, i.e.\ a token with some properties that makes it unique compared to any other tokens.
+  By extension, non-fungible tokens are often called \enquote{\textsc{erc721}}.
+}.
+When using \textsc{erc721} tokens, you can create special rules governing the tokens.
+
+How tokens are obtained becomes an important question.
+If you can buy the tokens, which is a natural answer for a blockchain---create a liquidity pool for your token on some decentralized exchange and your token can be bought by anyone---then you have effectively built a plutocracy (see \cref{sec:plutocracy}), i.e.\ the richer have more power.
+
+To create a one person–one vote system, you can use non-transferable \textsc{erc721} tokens that you assign manually, which shifts the burden of distinguishing sybils to the entity distributing the tokens%
+\marginNote{%
+  This strategy was used by Optimism during its first round of retroactive funding.
+}
+which does not scale well.
+
+On the blockchain, a system that can give at most one token to any human is called \textit{proof of personhood}.
+Note that any proof of personhood system needs to provide two guarantees: first, that a given account is indeed owned by a human, and second that this is the only account that the human has registered in the system.
+If a single human can register multiple accounts in a proof of personhood system, then the system does not offer sybil resistance anymore.
+
+These systems are attracting a lot of attention, because proof of personhood is a requirement of many systems, like a universal basic income, or many forms of voting systems.
+At large in the computer science world, many advocate for changes regarding how we authenticate, for example using passwordless solutions, based on biometric keys for ex\-ample.
+The World Wide Web Consortium%
+\marginNote{%
+  \marginTitle{W3C}
+  The W3C is a widely acknowledged entity that creates open standards for the advancement of the web.
+  It is the W3C which publishes the standards for \textsc{html}, Javascript, \textsc{css}, and \textsc{svg}, among others.
+}, also known as W3C, published in July 2022 a new standard for decentralized identifiers, or DID\marginNote{\url{https://www.w3.org/2022/07/pressrelease-did-rec.html.en}}.
+
+There are some systems on the blockchain trying to implement \emph{proof of personhood} as a primitive on which to build other systems.
+This includes, for example, \emph{Proof of Humanity}, \emph{Gitcoin Passport}, \emph{BrightID}, and the more recent \emph{verifiable credential} based systems like \emph{Civic} and \emph{Ontology}.
+Most of these solutions are either very recent or unsatisfactory to some degree.
+For example, \emph{Proof of Humanity} requires the upload of a video of oneself performing some randomly decided action to prove humanity.
+This is privacy damaging as the video must be public, it is not resilient to \textsc{ai} generated videos%
+\marginNote{%
+  Today, using deep fake technology, it is possible to make fake videos of people saying or doing things.
+  This is possible with only a few pictures of the people that should be faked.
+  For example: \url{https://www.youtube.com/watch?v=cQ54GDm1eL0}.
+}, and does not guarantee the uniqueness of the account.
+Bright ID is a combination of a web of trust and some graph analysis.
+The graph analysis that is proposed today returns a number that represents the confidence level of the system in the fact that you are a human, which needs to be converted to a binary decision using a threshold with the regular false positive and false negative issues.
+Also, while the system might tell whether an account is managed by a real human, it is a harder problem with such an approach to detect multiple accounts managed by the same human.
+Finally, Gitcoin passport aggregates multiple other proof of humanity services like \textit{Proof of humanity}, BrightID, and some other sources which are less secure like Twitter, Google, Facebook, LinkedIn accounts, \textsc{poap} (which are \textit{tradable} location-based NFTs), ENS (which anyone can buy) and discord accounts.
+So, while it is harder to fool a meta-system like Gitcoin passport, a sufficiently motivated attacker will most surely succeed in doing so.
+Proof of personhood is still an unsolved problem on blockchain as of September 2022.
+
+\section{Quadratic Voting}
+
+Quadratic voting is a voting system in which your influence over a vote is equal to the square root of the number of tokens that you voted with.
+If you vote with one token, your influence is one.
+If you vote with four tokens, your influence is equal to two.
+With nine tokens, you get an influence of three.
+For such a system to work, there needs to be a cost to the user that is proportional to the number of tokens voted, i.e.\ not to the influence you obtain.
+
+This system allows people to express a degree of preference, while still giving more weight to the mass, than to the opinions of the rich.
+To go further, one can use functions that are more sublinear than the square root like the cubic root or even the logarithm.
+In the limit, if you take the infinite root, you have built a one account––one vote system.
+There is a continuum between preference voting and one account--one vote.
+
+Unfortunately, quadratic voting is \emph{not} sybil resistant.
+You are better off by voting one hundred times one token from one hundred different accounts, for a total influence of one hundred, than by voting one time one hundred tokens which will only give you an influence of ten.
+This is the major limitation of this voting system today.
+
+\section{Regenerative Finance}
+
+Regenerative Finance, also known as ReFi, is a blockchain-related movement initiated in December 2021 by Kevin Owocki, one of the founders of Gitcoin%
+\marginNote{%
+  Kevin Owocki wrote a book outlining the principles of ReFi, which we found an enlightening reading: Green Pill \cite{kevin_owocki_green_2022}.
+}
+.
+The core idea behind regenerative finance is to find new ways to incentivize people to behave in ways that benefit the common good.
+Public goods are a core interest of ReFi; these include open source projects, and the environment, for example.
+
+Another important narrative of ReFi is the idea of regenerating instead of extracting.
+An extractive strategy is defined as any strategy that cannot be sustained over the long run.
+For example, humanity uses more\\fossil fuels per time unit than the Earth generates which is an unsustainable strategy; at some point, the reserves will be emptied.
+This concept can be generalized, for example to biodiversity, the absence of war, the absence of carbon in the atmosphere, etc.
+
+We find it interesting to generalize the concept of extractive strategies to a moral, i.e.\ to designate as \enquote{bad} extractive actions.
+Burnouts are the consequence of an extractive strategy regarding rest.
+Behaving in a way that leads to burnout becomes \enquote{bad}.
+States that use more money than they have, by printing a lot of it, or by loaning it, is an extractive strategy, thus it becomes \enquote{bad}.
+How does this integrate with our moral intuitions?
+Take for example the French state whose public debt was worth 114\% of its BIP in 2020.
+With the Covid crisis, the French state had to spend more money on social insurances like partial unemployment indemnities and various other governmental helps to the population.
+With the inflation and the increase in the price of gas in 2022, the French government decided to create a price shield, thus France suffered the least from inflation in Europe.
+This is good for French citizens in 2022.
+But is this a sustainable strategy?
+What happens when the strategy can no longer be maintained?
+What about the future French citizens?
+
+Regenerative finance departs from ideas accepted as common knowledge in contemporary philosophy.
+For example, doing things that can be sustained over the long run is favored over becoming wealthy as rapidly as possible.
+If we were to price in carbon compensations, i.e.\ if we added to the regular price of products the price required to offset all the carbon emissions of the product (production, transport, recycling), it would increase the costs of living a lot.
+This means a lower purchasing power, less material wealth, and a diminished ability to \emph{do}.
+The marginal happiness brought by material wealth is a decreasing function.
+In other words, minimum material wealth is necessary for happiness, but mountains of wealth do not make one more happy.
+So why try to have ever more of it?
+
+\section{Blockchain Principles and Open Source}
+
+It is difficult to overstate the importance of open source infrastructure for humanity.
+The open source runs the web, runs most of the supercomputers, runs all the smartphones, runs the vast majority of all servers, etc.
+Yet, the open source comes without guarantees: licenses always start with a variation of \enquote{this software comes without any guarantees}.
+Is it reasonable to depend so much on so little guarantees?
+Let's consider the Linux kernel.
+By now, many trust Linus to do the right thing, and probably rightly so.
+But what if Linus were to die in a car accident?
+The reliance of the project on a single person makes the project fragile.
+We postulate that it would be better for humanity that open source projects, like blockchains, are \emph{trustless}, i.e.\ that you can trust that the project will keep evolving and that it will not actively try to harm its users, \emph{without having to trust any developer individually}.
+Bringing trustlessness to open source is an explicit goal of this work.
+
+And while trustlessness improves nothing to unintentional security issues or bugs, it does solve problems like the hack of the \texttt{event-stream} library: a single developer maintained this important library for free until someone proposed themselves to take over the maintenance of the library.
+The original, trustworthy author of the library gave the required permission to the new contributor, which was a nefarious individual that took advantage of the situation to include a worm in the library that leaked seed phrases of cryptowallets.
+Fundamentally, all open source projects start in a centralized situation, i.e.\ the person that had the idea and created the repository in the first place will have all the power in the beginning.
+But if there was a system that fostered decentralizing this power to other people, the project could become more and more decentralized over time, thus improving its trustlessness (and therefore the trust that we can have in the project without knowing each of the contributors personally).
+
+\null\vfill
+\drawBackground
+\startBackground
+\begin{fullwidth}
+  Now that we have explored governance systems, the open source movement, and what blockchains are, we turn our attention to building primitives for the open source using blockchain technology.
+  We hope to improve some aspects of open source code building which we describe in the next part.
+\end{fullwidth}
+\vspace*{2mm}
+\stopBackground
+\vfill\null
+

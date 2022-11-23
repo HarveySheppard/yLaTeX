@@ -1,24 +1,92 @@
 # yLaTeX
 
-A handful of packages that could be useful to others.
+Over the years I used LaTeX a lot for various purposes and documents.
+This repository contains some documents, packages and classes that I have created.
+Feel free to use and change my code.
 
-Take a look at the wiki for [installing new packages or classes](https://github.com/HarveySheppard/yLaTeX/wiki).
+## Archive
 
-## Showcase
+### Article on Cybersecurity
 
-What is this repo about?
-How is it useful to me?
+![page_0](./archive/article_on_cybersecurity/screenshots/page_0.png)
 
-Take a look at the following:
+![page_1_2](./archive/article_on_cybersecurity/screenshots/page_1_2.png)
 
-- [infoBulle](./examples/infoBulle/infoBulleShowcase.pdf) package
-- [yLectureNote](./examples/yLectureNote/yLectureNoteShowcase.pdf) class
-- [yReport](./examples/yReport/article/articleGeopolitique_harveySheppard_2016.pdf) class
-- [yCards](./examples/yCards/yCardsShowcase.pdf) package
-- [yFlatTable](./examples/yFlatTable/yFlatTableShowcase.pdf) package
+![page_3_4](./archive/article_on_cybersecurity/screenshots/page_3_4.png)
 
-You can do all of the above by using the code in this repo!
+### End of Highschool Work
 
-## MIT License
+![table of content](./archive/end_of_highschool_work/screenshots/toc.png)
 
-This work is Licensed under the MIT License, so you can use it in basically any way you see fit ;-)
+![chapter](./archive/end_of_highschool_work/screenshots/chapter.png)
+
+![text page](./archive/end_of_highschool_work/screenshots/text.png)
+
+### Highschool Newspaper
+
+![2014-12](./archive/highschool_newspaper/screenshots/2014-12.png)
+
+![2015-01](./archive/highschool_newspaper/screenshots/2015-01.png)
+
+![2015-01_1](./archive/highschool_newspaper/screenshots/2015-01_1.png)
+
+![2015-01_2](./archive/highschool_newspaper/screenshots/2015-01_2.png)
+
+![2015-12](./archive/highschool_newspaper/screenshots/2015-12.png)
+
+### Master Thesis
+
+![title page](./archive/master_thesis/screenshots/title.png)
+
+![table of content](./archive/master_thesis/screenshots/toc.png)
+
+![part](./archive/master_thesis/screenshots/part.png)
+
+![chapter](./archive/master_thesis/screenshots/chapter.png)
+
+## Classes
+
+### RVTM
+
+![table of content](./classes/rvtm/screenshots/toc.png)
+
+![chapter](./classes/rvtm/screenshots/chapter.png)
+
+![quote](./classes/rvtm/screenshots/quote.png)
+
+### yInvoice
+
+![yinvoice main page](./classes/yinvoice/screenshots/main.png)
+
+### yLectureNote
+
+![title page](./classes/ylecturenote/screenshots/title.png)
+
+![table of content](./classes/ylecturenote/screenshots/toc.png)
+
+![chapter](./classes/ylecturenote/screenshots/chapter.png)
+
+### yReport
+
+![chapter]{./classes/yreport/screenshots/chapter.png)
+
+## Packages
+
+### infoBulle
+
+![page 1](./pkgs/infoBulle/screenshots/1.png)
+
+![page 2](./pkgs/infoBulle/screenshots/2.png)
+
+### marginInfoBulle
+
+![page 1](./pkgs/marginInfoBulle/screenshots/1.png)
+
+### yBanner
+
+![page 1](./pkgs/ybanner/screenshots/1.png)
+
+### yCards
+
+![page 1](./pkgs/ycards/screenshots/1.png)
+

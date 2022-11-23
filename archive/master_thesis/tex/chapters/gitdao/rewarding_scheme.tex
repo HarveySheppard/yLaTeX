@@ -1,0 +1,339 @@
+\chapter{Rewarding Scheme}
+\label{sec:rewarding_scheme}
+
+There have been multiple strategies used in the history of Computer Science to evaluate how much value employees were contributing to a company.
+A notoriously bad strategy is to use the number of lines of code contributed, which incentivizes a coding style that uses as many lines as possible, but which is not correlated to the value of the contribution.
+
+\begin{proposition}[Only Human Can Evaluate the Value Contributed]
+  We postulate that the real value of a contribution to a project can only be evaluated by humans, never by some automated metric.
+\end{proposition}
+
+This is a somewhat generally accepted idea in software engineering that there is no computationally tractable way to evaluate the value of a contribution.
+Consider for example a person that manages code contributors, comes up with ideas, keeps an overview of what everyone is doing to avoid effort duplication, etc. but never contributes code.
+That person's contributions are also valuable to the project, but no automated metric based on the code will be able to evaluate it.
+
+In this chapter, we look at schemes that exist and are used to evaluate how much contributors should be rewarded for their work.
+Then, we propose a new scheme, targeted at open source projects specifically.
+
+\section{Properties to Fulfill}
+
+We wish to find a rewarding scheme that fulfills the following properties:
+
+\begin{description}
+	\item[Proportional Compensation]
+		The reward granted should be proportional to the value of the contribution made.
+		If you contribute more, you should be rewarded more.
+		If all contributions are rewarded equally, then there is no incentive to contribute more.
+	\item[Minimum Friction]
+		The system should not require too much action from the users, to prevent friction.
+  \item[Locally Estimated Value]
+    The best people to evaluate the value that some contribution brings are either people close to the effort (those that participated or reviewed the effort) or those that are familiar with similar efforts.
+    We mean that it is harder for a computer scientist to evaluate how much work designing a new logo or creating a communication strategy requires than it is for a designer or communication expert.
+    Note that this also implies some bias: you are more likely to assign a large reward to pieces of work that are close to your domain of competence because you know how much work it requires.
+    But locality might be measured using multiple metrics, not just your affinity to the work produced.
+  \item[Trustless]
+    The rewarding scheme should not require to trust anyone, even if there are adversarial (but non-colluding) agents%
+    \marginNote{%
+      This is a strictly weaker guarantee than being able to resist colluding adversarial agents.
+      However, colluding adversarial agents is a situation in which it might be impossible to provide any guarantees.
+      Also, assuming that adversarial agents do not collude might be a reasonable assumption: there are many ways to behave adversarially, but only one way to behave ethically.
+    }.
+    A system that features roles, like an admin role, or using any form of permissions, is a system that requires trusting some people to do the right thing and not to abuse their power.
+  \item[Explicit Values]
+    Rewarding is generally dependent on values: are you rewarding people based on the effort they put in or the effect they achieved?
+    How much do you reward people that contributed new ideas versus those that implemented the idea?
+    How much do you value people that amplify other contributors?
+    Having a process with explicit values is deemed good.
+    Value can be intrinsically embedded in the system (which makes it hard to change them), or it can rely on some extrinsic communication among participants to agree on the rewarding values.
+\end{description}
+
+\newpage
+\section{Case Study: CoordinAPE}
+
+\marginElement{\includegraphics[width=\linewidth]{images/coordinape.png}}%
+In this section, we analyze the rewarding scheme proposed by CoordinAPE \cite{noauthor_coordinape_2022}.
+
+\subsection{CoordinAPE Rewarding Scheme}
+
+CoordinAPE is a tool to evaluate the value provided by members of a \textsc{dao}.
+CoordinAPE introduces two concepts: \emph{Circles} and \emph{Epochs}.
+A circle is a subset of users of the \textsc{dao} that collaborate.
+It is assumed that people inside a circle know well what the other members of the circle are doing.
+An epoch is a period of time during which members can evaluate the contributions made by each other member in the circle since the last epoch%
+\marginNote{%
+  We give here a possible setup.
+  Assume that a \textsc{dao} does one-week-long epochs every month.
+  This means that members of each circle will have one week to evaluate the work done by other members of the circle in the last month.
+}.
+
+At the beginning of each epoch, members of a circle will receive some amount of a token called GIVE.
+The amount of tokens that each participant receives is up to the admin of the circle.
+Members of the circle can freely distribute the GIVE token to any other member of the circle.
+At the end of the epoch, CoordinAPE makes it possible for the \textsc{dao} admin to download a \textsc{csv} file containing how many GIVE each \textsc{dao} participant received.
+The value of the payments sent to the contributor is up to the \textsc{dao} admin.
+We can assume that the payments are made proportionally, at least to some extent, to the GIVE received.
+Note that the amount of GIVE that one can receive depends on the size of the circle one is part of.
+So the amount of GIVE received allows discriminating between members of a single circle, but not across circles.
+
+\subsection{Analysis}
+
+\marginBenefit{Locally estimated value.}%
+Through circles, CoordinAPE sets up the required tools to estimate value locally.
+
+\marginBenefit{Proportional compensation.}%
+Further, the system enables proportional compensations.
+
+\marginDrawback{Not trustless.}%
+Yet there are a few limitations to the model proposed by CoordinAPE.
+The approach is highly permissioned.
+You need an admin to become a member of a circle, you also need an admin to get some GIVE in each epoch, and it is an admin that will perform the payments.
+This enshrines power relationships: there are admins, and there are non-admins.
+Also, circles are a form of roles.
+This makes it harder for people to join and adds friction to any change in status.
+There are no guarantees regarding payments.
+After each participant assigns GIVE to other members of their circle, the admin might forget to execute the payments or decide that the outcomes of the voting process are not satisfactory, and decide to pay some participants according to their desires.
+
+As noted on CoordinAPE's website, there is some balance to achieve between doing epochs frequently---more user fatigue---and less frequently---but voters suffer from recency bias, i.e.\ they tend to assign more weight to work done recently.
+There is also a balance to achieve when it comes to circle size: too many people in a circle and work assessment will be less precise, too few people and the bias of individual voters might become an important factor.
+
+\marginDrawback{Not minimum friction.}%
+Because CoordinAPE is not specifically targeted at code-based projects, it cannot use the specific semantics of such projects to its advantage, like merge requests.
+For people to know what others have been up to during the last work cycle, CoordinAPE requires that every participant describes in text form the contributions they made.
+This represents some additional work for the contributors and introduces some biases in favor of those best able to \emph{sell} the work they accomplished.
+
+CoordinAPE has propositions specifically targeted at open source projects, namely to create two circles: one for the core developers, and a second one for the halo developers.
+Halo developers, being generally little involved with a project---they are mainly one-time contributors---, might not constitute a good circle, as they might not be aware of the work that other halo developers are doing (because they are not really involved in the project), and because the circle might be big (there might be a lot of one-time contributor in a project).
+
+Regarding values that should be used in the rewarding scheme, the \textsc{dao} using CoordinAPE is free to specify them, but no specific mechanism is provided in this regard.
+
+\benefitsSummary{%
+  \item Proportional compensation (with some potential bias).
+  \item Locally Estimated Value.
+}[%
+  \item Not trustless.
+  \item Not minimum friction.
+]
+
+\section{Case Study: Valve}
+\marginElement{\includegraphics[width=\linewidth]{images/valve.png}}
+
+In this section, we turn our attention to the rewarding scheme used by a famous video game company: Valve.
+Valve is the company that created Half-Life (a famous video game), Team Fortress (a famous video game), Counter-Strike (a famous video game), Steam (the most widely used video game platform on PC), Source (a video game engine), Portal (a famous video game), Left for Dead (a famous video game), Dota (a famous video game), and many more.
+The company features a fully flat hierarchy described in a handbook \cite{valve_valve_2012} that they give to their employees upon onboarding (unfortunately, the only version we were able to find dates back from 2012).
+
+Valve's explicit policy is to reward employees proportionally to the value they contribute to the company.
+In their handbook, they acknowledge that the removal of bias is important and that peers are best suited to evaluate the value contributed by individuals.
+As such they have requirements similar to those of a \textsc{dao}, except maybe for the fact that Valve has offices, whereas \textsc{dao}s might happen in a fully remote fashion.
+The exact formula used to compute the salary is unfortunately not given but some details are still provided.
+
+This process happens once a year.
+\marginBenefit{Locality-based work evaluation.}%
+Each employee is asked to rank their collaborators, i.e.\ those people in the company that the individual worked with, on four different criteria:
+
+\begin{description}
+  \item[Technical Ability]
+    How difficult and valuable are the problems that the collaborator solved?
+  \item[Productivity]
+    How much shippable, valuable, finished work was achieved by the collaborator?
+  \item[Group contribution]
+    How much does a collaborator contribute to the group, e.g.\ by hiring people, integrating people into the team, improving workflows, writing tools, or amplifying colleagues?
+  \item[Product Contribution]
+    How much influence has a collaborator had outside of their core skill domain, for example by prioritizing correctly or predicting precisely how customers will respond to change made?
+\end{description}
+
+\marginBenefit{Explicit value criteria.}%
+Through this rewarding strategy, Valve makes it clear to its employee what it is that the company values.
+Each of the four criteria gets equal weight.
+
+\marginDrawback{Recency bias.}%
+Salaries most certainly are proportional, to some extent at least, to the ranking that each employee gets.
+This enables proportional compensation, i.e.\ employees are compensated based on the contribution they made during the year to the company.
+Conducting the review process once a year implies that the process is a victim of recency bias: assume an employee works a lot in the first six months, then has a kid and starts spending some time at home.
+The ranking they will obtain is probably worse than what is fair, because people evaluating them will remember mostly the recent evening during which the colleague went back home, and not the long night that they spent before the birth.
+
+\marginBenefit{No voter fatigue.}%
+On the other hand, performing this process once a year only avoids a lot of voter fatigue.
+It probably works well for Valve also because they are an on-site company, hence people know each other visually and interact in much deeper ways than what is possible with online communications.
+It would be interesting to learn how this process evolved since the 2020 pandemic, or how it would perform in a purely online environment.
+
+\marginDrawback{Not trustless.}%
+Valve is not a blockchain-based company, so the voting process is probably conducted on a server from Valve, which requires trusting that the individuals that run the server did not tamper with the data or the computation of each employee's score.
+Also, the payments are made by Valve, so the service that performs them needs to be trusted.
+Note that the rankings of employees are confidential, so there is no way to check any parts of this system for the employee.
+
+We also remark that Valve produces a lot of code for its video game, but many other types of resources need to be created: sound, visual effects, 2D and 3D assets, animations, etc.
+So they cannot exploit the specific semantics of exclusively code-based projects like GitDAO can.
+
+The Valve example highlights that peer-based evaluation schemes can work (Valve is a successful company), and we must not restrict ourselves to simpler systems.
+
+\benefitsSummary{%
+  \item Proportional compensation (with potential recency bias).
+  \item Locally Estimated Value.
+  \item Explicit value criteria.
+  \item Minimal friction.
+}[%
+  \item Not trustless.
+]
+
+\section{GitDAO's Rewarding Scheme}
+
+GitDAO focuses on open source code, so we target this proposed rewarding scheme to merge requests.
+The rewarding scheme distributes governance tokens, which can be decreasing power tokens, and which can be used by the money distribution process described in \cref{sec:dev_rewards}.
+
+In the context of open source projects, merge requests are a natural workflow to integrate into.
+They are required in any case for various reasons, like human proofreading of the code, automated test execution, automated artifacts building, automated deployments, etc.
+
+We propose that once a merge request ends its reviewing process (like comments, fixing typos, refactorings, etc., as defined by the underlying code collaboration stack), people must go through the rewarding scheme to evaluate the rewards to distribute, then the proposal and the rewards are voted on, and if they are accepted, then artifacts are built and deployed.
+This pipeline is described in \cref{fig:reward_pipeline}.
+
+\begin{figure*}[ht!]
+  \centering
+  \setlength{\x}{3.1cm}
+  \setlength{\y}{2cm}
+  \tikzset{external/export=false}%
+  \begin{tikzpicture}[
+      process icon/.style = {
+        font = \FASolid\fontsize{1cm}{1.2cm}\selectfont,
+        text = gray_50,
+        anchor = south,
+      },
+      process/.style = {
+        anchor = north,
+        align = center,
+        text width = 1.5cm,
+        font = \small,
+      },
+      transition/.style={
+        thick,
+        ->,
+      },
+      action label/.style = {
+        text width = 1.2cm,
+        align = center,
+        above,
+        font = \small\itshape,
+      },
+    ]
+    \node[process icon] (code) at (0\x, 0\y) {\symbol{"F121}};
+    \node[process] at (code.south) {Write some code};
+
+    \node[process icon] (review) at (1\x, 0\y) {\symbol{"F530}};%
+    \node[process] at (review.south) {Code review};
+
+    \node[process icon] (rewards) at (2\x, 0\y) {\symbol{"F53B}};
+    \node[process] at (rewards.south) {Estimate rewards};
+
+    \node[process icon] (vote) at (3\x, 0\y) {\symbol{"F756}};
+    \node[process] at (vote.south) {Vote};
+
+    \node[process icon, text = gray_50!70!orange_50] (defeated) at (4\x, 1\y) {\symbol{"F5B4}};
+    \node[process] at (defeated.south) {Defeated};
+
+    \node[process icon, text = gray_50!70!green_50] (succeeded) at (4\x, -1\y) {\symbol{"F59A}};
+    \node[process] at (succeeded.south) {Succeeded};
+
+    \node[process icon,, text = gray_50!70!red_50] (dead) at (5\x, 1\y) {\symbol{"F54C}};
+    \node[process] at (dead.south) {Bad idea or unsalvageable code};
+
+    \path[transition] (code.south east) edge node[action label] {Submit for review} (review.south west);
+    \path[transition] (review.south east) edge node[action label] {Submit for rewards} (rewards.south west);
+    \path[transition] (rewards.south east) edge node[action label] {Submit for vote} (vote.south west);
+    \path[transition] (vote.south east) edge node[action label, sloped] {Vote fails} (defeated.south west);
+    \path[transition] (vote.south east) edge node[action label, sloped] {Vote succeeds} (succeeded.west);
+    \path[transition] (defeated.south east) edge node[action label] {No new submission} (dead.south west);
+    \path[transition, bend right=30] (defeated) edge node[action label, above=3mm, text width = 2cm] {Good code, bad rewards, try estimating rewards again} (rewards);
+  \end{tikzpicture}
+  \caption{%
+    \label{fig:reward_pipeline}
+    How rewards are integrated into the merge request pipeline of GitDAO%
+  }
+  \floatfoot{%
+    This figure describes where the rewarding scheme is used during a merge request.
+    First people code some functionality, then open a merge request which is proofread by others.
+    Any fix is applied before the merge request moves to the reward stage in which people vote on how much each contributor should be rewarded.
+    Once the rewards are defined, the merge request moves to a vote.
+    If the vote fails, then either the proposers can ask to estimate the rewards again and submit the proposal to a new vote, or they can abandon their merge request.
+    If the vote passes, then the code is merged, and the people are rewarded as defined by the rewarding scheme.
+  }
+\end{figure*}
+
+We propose to split the reward estimation process into two steps:
+
+\begin{enumerate}
+	\item
+		Evaluate how valuable the merge request is to the project.
+		This gives an absolute value to the contribution.
+		In the user interface, it would make sense to add other recent features and the value that was granted to those as a baseline.
+	\item
+		Evaluate the relative contributions of each member that participated in the merge request.
+\end{enumerate}
+
+We postulate that it is easier for people to estimate the total value of a merge request%
+\marginNote{%
+  Estimating the value of something \textit{a priori}, i.e.\ before using it, is often hard.
+  Some famous projects, like Gitcoin, propose to evaluate contributions \textit{a posteriori} (through what they call \enquote{retroactive public good funding}).
+  In the context of open source software, the problem is not as acute, because the functionalities brought about by a merge request are clear from the code.
+}%
+and the relative individual contributions separately, than it is to evaluate the individual contributions' value directly.
+
+We denote $\hat v_u(p)$ the estimated value of a merge request $p$, according to user $u$.
+We define the aggregated value of the merge request $v(p)$ to be equal to the weighted median of the values $\hat v_u(p)$, which we denote $\weightedMedian(\hat v_u(p))$, and where the weights are given by the relative power of each voter.
+
+Each voter will also need to evaluate the relative contribution of each contributor to the merge request.
+We denote $\hat c_u(p, v)$ the contribution that voter $u$ believes contributor $v$ made to the merge request $p$.
+Note that the estimated contributions must satisfy $\sum_v \hat c_u(p, v) = 1$.
+The aggregated contribution of contributor $v$ on proposal $p$ is:
+
+\[
+	c(p, v) = \frac{\weightedMedian(\hat c_u(p, v))}{\sum_v \weightedMedian{\hat c_u(p, v)}}
+\]
+
+Each contributor $v$ will receive a governance token with an initial power set to $v(p) \cdot c(p, v)$.
+
+When deciding whether we should use median or mean, we considered the case of an adversarial agent that would vote to assign $100\%$ of the value of a merge request to themselves, for every merge request, even though they contributed nothing.
+Of course, we desire that such a strategy yields a reward of zero.
+Using the mean would mean that this strategy does yield some rewards every time.
+With the median (and given that the adversarial agent does not have 51\% of the power) this strategy is useless.
+
+The proposed pipeline requires that people not only vote on the code, but also on the rewards.
+This implies that a vote might fail because rewards did not convince the community and so there needs to be a way to trigger the rewarding scheme again on some given piece of proposed code.
+The voting workflow proposed in \cref{sec:governance_system_voting_workflow} only allows binary voting.
+So if a vote comes out negative, the proposers of the merge request have no way to know what the reason for the failure was: it might be that the feature is altogether bad, or that the rewards are not appropriate.
+This is a problem, but we do not think it is too dire: projects always have some off-chain communication channel (like mailing lists, Slack, Discord, Mattermost, etc.) where proposers can get feedback.
+Most probably, the proposer will get feedback way before reaching acceptance or rejection at the \textsc{dao} vote.
+Ideally, the platform implementing the GitDAO specification would require people that vote negatively on a proposal to add a comment describing the reason for their vote to allow the proposer to improve and resubmit.
+
+\marginBenefit{Proportional compensation.}%
+The scheme allows compensations to be proportional to the value contributed.
+
+\marginBenefit{Locally Estimated Value}%
+When looking at merge requests in open source today, most of them are not proofread by the entire community, but only by a few members.
+We postulate that to a large extent only the people that wrote the code and those that proofread it will take part in the rewarding scheme.
+If this assumption holds, then the value brought by each contributor is evaluated locally.
+
+\marginDrawback{Overestimated value.}
+Is there a temptation to overevaluate the total value of the merge request, given that it is the same people that worked on it that will most likely evaluate its value?
+Most probably.
+But the merge request has to go through a vote by the \textsc{dao} before being accepted, so if its value is overestimated, it risks being rejected, and the proposers will have to go through the rewarding process again.
+So people do not have incentives to cheat too blatantly.
+
+\marginBenefit{Minimal friction.}
+Proofreading merge requests takes a lot of time, and people do not feel that they create value when doing them.
+In turn, this means that proofreading merge requests is rarely an appreciated activity.
+Making the process even more burdensome by adding a rewarding scheme to the merge request workflow is a clear limitation of this approach.
+If the GitDAO interface uses some heuristic to propose some rewards that people only need to tweak a little bit, so that they match their desire, then the work overload caused by the rewarding scheme might remain bearable.
+Further, proofreading a merge request provides some value to the project, e.g.\ security as it ensures that the current merge request is not adversarial, it seems reasonable to reward proofreading merge requests too.
+As the proofreading is done before the reward estimation, people should also reward people that conducted useful proofreading.
+
+\marginBenefit{Trustless.}
+Note that, as the entire process happens on-chain, including minting the tokens, it is trustless.
+There are no roles, there is no one that can prevent you from getting compensated for the work you did for the project.
+But what if all of the governance power is held by a single dictator or a few colluding oligarchs%
+\marginNote{%
+  An open source project must always start in a fully centralized situation.
+  Right after it is initiated, the project can have only one contributor: its initiator.
+  Hence all the power is centralized in the hands of one person.
+}?
+Even in such situations, we believe that the system will work well; if GitDAO is used, then the people owning the project want to distribute power over it, so they have little incentive to cheat the rewarding scheme.
+Also, if the powerful cheat the system, e.g.\ by appropriating the work of others to themselves, the project would suffer reputation losses, and people might stop funding the project, or the community might fork the project.
+

@@ -1,0 +1,190 @@
+\chapter{GitDAO}
+\label{sec:further_analysis}
+
+A GitDAO is a \textsc{dao} that implements all the primitives proposed in this work:
+
+\begin{enumerate}
+  \item Decreasing power tokens.
+  \item Voting workflow.
+  \item Rewarding scheme.
+  \item Developer rewards and splits.
+  \item Issue backing.
+\end{enumerate}
+
+In the coming sections, we discuss some limits of GitDAO, the consequences of using multiple primitives simultaneously, list ideas for further primitives, and functionalities that could be built on top of GitDAOs.
+
+\section{Limits of GitDAOs}
+
+\subsection{Conflating Providing Value, Monetary Rewards, and Political Power}
+
+Using the rewarding scheme, any token-based voting system, and developer rewards amounts to conflating providing value to the project, as evaluated by the rewarding scheme, getting some political power through the governance token, and getting monetary rewards when donations are made to the project.
+Is this a good thing?
+
+Aligning monetary rewards with the value provided to a project is beneficial: it incentivizes people to contribute as much value as possible.
+It is the very goal of the rewarding scheme to align value creation and value extraction.
+Note that value creation and value extraction only become proportional to one another, not equal: the value created by the open source project might still very much be extracted by people that do not donate back (Apple uses the Linux kernel for its operating systems, but never contributed back).
+Yet, if substantial donations are made to the open source in the future, contributors will get rewarded in a way that is proportional to the value they contributed.
+
+But is aligning value creation with political power over the project a good idea?
+Does providing value to the project make you a good leader?
+In this case, it is helpful to explore what we mean by political power over a project.
+In open source projects today, most decisions that need to be taken regard code, namely accepting or not merge requests.
+If you know a code base well, i.e.\ if you contributed a lot in the past, then you are probably well suited to determine if a new piece of code should be integrated.
+As long as the decisions are technical, conflating providing value to the project and making decisions for the project seems reasonable.
+
+However, in a GitDAO, the governance system can be used to make political decisions, like making payments, changing the parameters of the decreasing power tokens, changing splits, etc.
+Even decisions which might seem related to code at first might be political in fact, like whether a new feature should be integrated into the project.
+Sometimes less is more and adding more features only bloats the project%
+\marginNote{
+  The Unix philosophy is to create programs that do one thing, and one thing only (and to do it well).
+  Like Legos, these programs can then be combined to yield greater results.
+}.
+
+Maybe it would be better to give the power to an inspired leader instead (like in startups).
+A clear vision might lead to less variance in the decisions taken, but more bias.
+It is hard to provide a clear answer.
+Nevertheless, to take a real-life example, in the open source ecosystem today, the project leaders are generally very involved in technical aspects.
+And while being an involved technician does not make you a good leader, it proves that you have the project's success at heart.
+Another fact about open source is that projects often feature more decentralized coordination mechanisms, than traditional companies.
+Deciding what the future of a project looks like is often decided by discussion between the members of the project, and reaching some consensus; while in a company, the future of the company is decided by the executives.
+Deciding what features should be built next in a company is done by the managers; in an open source project, the next feature to build is decided organically by people working on the features they are the most interested in.
+If organic leadership indeed leads to good results, it might be reasonable to conflate providing value to the project, and political power over the project.
+
+\subsection{Forking in the Age of \textsc{dao}s}
+
+The potential for forks in the open source brings about many guarantees.
+If it is possible to fork a project, then it makes no sense to take control over a project to harm it: people can copy the code, start a new project with the same code, and exclude you.
+This reasoning would work, if it was not for some permissioned accesses that the project requires.
+For example, if you are developing a Javascript library, then someone in the project probably has an account on \textsc{npm} to upload new version of the library to the package manager repositories; for Python, it would be a PyPi account; for Scala, a Maven account, etc.
+If an attacker takes control over the project, it can potentially upload a corrupted version of the library.
+This breaks the desirable trustlessness property in web2 today already.
+
+With GitDAO, the problem becomes more acute, because, on top of accounts required to upload packages, the initial GitDAO has a treasury, and people outside the project might have donations setup (whether splits from other GitDAOs, drips, or just simple donations).
+So, while it is still possible to fork the code easily, forking the treasury or inheriting the donations is not possible.
+Code can be duplicated, money cannot.
+
+\section{Additional Primitives to Explore}
+
+\subsection{Code Reviews}
+
+Code reviews are boring, and computer scientists dread them: they take a lot of time, and are less fun than coding.
+Yet, they increase security (if your code modifications are reviewed, then it is much harder to insert a worm in the code), enable teaching (if your code is reviewed by a programmer that knows the language/framework/project better than you, then they might show you new features), and avoid knowledge silos.
+Building an incentivization scheme for code reviews would improve the guarantees related to open source software.
+
+How should code reviews be compensated?
+For the effort invested, or for the value provided?
+If a novice programmer reviews some code, it will probably take them more time and effort for the same result, than a senior developer.
+Should novice developers be rewarded the same as senior developers, even though it took them twice the time?
+Another example, assume a developer reviews some code, but there is nothing to improve, nothing to change.
+It might have taken the developer a lot of time to do the review, yet they will not be able to provide any value to the project.
+Should they be rewarded?
+A finer analysis should take into account the security guarantee improvements and the knowledge distribution that happened by performing the code review.
+
+Any compensation scheme will also need to be as trustless as possible.
+How to differentiate a code review that yields no improvement to the code, because there is none to do; and a code review that yields no code improvement, because the humans that performed it did a bad job?
+
+\subsection{Bug Bounties}
+
+Bug bounties programs are becoming more widespread.
+Google announced a new program in September 2022 that concerns all the open source projects managed by the company.
+
+Bug bounties have a fundamental problem of incentive alignment.
+The value of the reward for finding a bug or security issue is generally proportional to the importance of the problem.
+This seems reasonable: humans should invest their resources into finding bugs where they are the more damageable.
+Finding bugs with little to no impact is less desirable, than finding bugs with large impacts.
+If the value of the reward is proportional to how critical the found bug is, who determines how critical the bug is?
+The person who found the bug has an incentive to overestimate.
+The project that must pay rewards has an incentive to underestimate it.
+
+Projects that reward bugs have a reputation at stake, so we find them more trustworthy.
+This is the approach used today: in its bug bounty program, Google determines how much it pays the person that found the bug.
+But what if there is a disagreement over the bug's value?
+Is there a recourse mechanism?
+In today's system, no.
+On the blockchain, it is possible to provide such mechanisms, for example through Kleros, the on-chain court.
+
+\subsection{Bicameral Governance System}
+
+An idea worth exploring is to use a bicameral governance system for GitDAOs.
+The first chamber, called \emph{chamber721}, uses decreasing power tokens, and the voting procedure described in this work.
+The second chamber, called \emph{chamber20}, would be governed by \textsc{erc20} tokens.
+
+There are two questions to answer for a full specification.
+How can the \textsc{erc20} tokens be obtained?
+What are the responsibilities of each chamber?
+
+The \textsc{erc20} tokens could be obtained by buying them from the \textsc{dao}.
+This provides the \textsc{dao} with a system to raise funds.
+On the blockchain, it is easy to create an exchange for a new currency: one needs only to register a new pair of currencies on some decentralized exchange like Uniswap.
+The \textsc{dao} would create this pair and become its first liquidity provider.
+People could then buy the governance token, and potentially become liquidity providers themselves.
+Raising funds would amount to buying the currency in the DEX by selling some newly minted governance tokens.
+This makes the chamber20 into a \emph{plutocracy}.
+This might not fulfill some other goals that we have in this work, but these functionalities would integrate well with the current economy, and allow projects to raise money, like startups would.
+
+Why might people want to buy those governance tokens?
+What value do they bring?
+What powers should be given to the chamber20, which should we leave to the chamber721?
+A possible idea is that the chamber20 acts like a verification body.
+It would vote at regular intervals to express agreement (or disagreement) regarding how affairs were conducted in the last period, including to whom and the value of \textsc{erc721} minted.
+This makes the chamber721 ultimately accountable to the chamber20, which is how many non-perfect bicameral parliaments work today.
+This is also similar to how publicly traded companies work, with the shareholder meeting at the end of the year to validate the fiscal year.
+Modification of protocol parameters like those of the decreasing power \textsc{erc721} tokens might be left to the chamber20.
+
+Some in-depth analysis is required to check that the chamber20 cannot \emph{just} take over the chamber721.
+Indeed, the chamber20 is a plutocracy, so being rich is enough to get potentially a majority of the tokens.
+What if some state wants to attack the project?
+On the other hand, the chamber721 members have proven their interest by contributing some code.
+
+Providing these two chambers makes for a more complex system, which is not required by smaller projects.
+The governance system could be made evolutionary, i.e.\ starting with only the chamber721, and members of this chamber can vote to open a chamber20 when funds are required.
+
+\section{Systems Atop GitDAOs}
+
+\subsection{Explicit Reputation System}
+
+Many functionalities discussed in this work rely on the open source project doing the right thing, to not lose reputation.
+This requires a way to measure reputation and a medium through which project reputations can be discovered rapidly.
+Defining mechanisms through which reputations can be injured, or, on the contrary, benefited, is a complex topic.
+Yet such a system would be highly useful to ensure that open source projects have an incentive to behave well.
+
+Reputation systems for developers are another topic that can improve the status quo, and make development faster.
+Developers which good reputations might need less numerous code reviews before their code is integrated.
+But can we build a trustless, decentralized reputation system?
+What if the adversarial agents we are up against are governments paying hundreds of false developers?
+
+\subsection{Trustless Open Source Registry}
+
+There is no unified way to discover existing open source projects today: GitHub, GitLab, BitBucket, GitTea, etc.
+GitHub is the largest, but, as for many things, we are one scandal away from people leaving the platform.
+Additionally, people might desire hosting solutions with stronger guarantees like uncensorability%
+\marginNote{%
+  The American government recently required GitHub to censor some projects like \texttt{youtube-dl}, a project that made it possible to download data from YouTube easily, and, more recently, Tornado Cash.
+  Being an American company and for fear of legal repercussions, the company complied.
+  A system running on a blockchain cannot be censored.
+}, and the guarantee that the system will always be up, that no executive can decide on a whim to offline the platform%
+\marginNote{%
+  As of September 2022, GitHub is free of charge for open source projects.
+  The platform hosts open source code at cost.
+  This is not a sustainable solution.
+  So either Microsoft decides to shut GitHub down, or they find some way to monetize.
+  GitHub Co-Pilot might be this monetization approach: build \textsc{ai} for code using the huge GitHub database.
+  Can this opportunity yield enough money to cover the costs?
+  GitHub can be scrapped by anyone, so is GitHub Co-Pilot's value protected enough?
+  And do open source projects agree to be used in such a way?
+}.
+\marginElement{\vspace*{.392\paperheight}}
+
+Even if current blockchains are not suited for \emph{hosting} code (the price of hosting large amounts of data is prohibitively high), creating an on-chain registry for open source projects yields valuable additional properties like transparency and trustlessness.
+
+\null\vfill
+\drawBackground
+\startBackground
+\begin{fullwidth}
+  In this part, we proposed a few primitives based on blockchain technologies that could provide additional guarantees to the open source world.
+  After this theoretical analysis, we consider the practical implementations attempted during this work.
+\end{fullwidth}
+\vspace*{2mm}
+\stopBackground
+\vfill\null
+

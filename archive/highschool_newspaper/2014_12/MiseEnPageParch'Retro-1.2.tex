@@ -1,0 +1,236 @@
+\documentclass[a4paper, 11pt, twoside]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[francais]{babel}
+
+\usepackage[usenames, dvipsnames, svgnames, table]{xcolor} %nouvelles couleurs, couleurs personnalisée
+\usepackage{graphicx} %gestion des images
+\usepackage{csquotes} % pour les citations (guillemets adaptés à la langue, etc.), commande: \enquote{text}
+\usepackage{url} %url
+\usepackage{blindtext} %pour générer du texte
+\usepackage{setspace} %gestion des interlignes
+\usepackage{fancyhdr} %header personnalisé
+\usepackage{multicol} %gère les colonnes multiples (plus de deux)
+\usepackage{wrapfig} %permet d'avoir des images avec du texte qui s'enroule autour
+\usepackage{lettrine} %pour les capitales initiales
+\usepackage{mathptmx} %police times
+\usepackage{rotating} %pour pouvoir faire tourner du texte (90°, 180°, etc)
+\usepackage[normalem]{ulem} %pour la gestion de tous les soulignés
+\usepackage[large]{cwpuzzle} %pour les sudokus
+\usepackage{pas-crosswords} %pour les mots-croisés
+\usepackage{tcolorbox} %Pour les boites avec des angles arrondis et des couleurs
+\usepackage{pgfornament} %pour pouvoir ajouter des ornements
+\usepackage{ragged2e} %gestion des alignements
+\usepackage{soul}
+
+%Fontes
+\usepackage{aurical}
+\usepackage[light,condensed,math]{iwona}
+\usepackage{antpolt} 
+
+
+					
+																		%%%%%%%% Mes commandes/instructions			
+		%%%%%%%% Mes couleurs
+\definecolor{DarkGray}{gray}{0.3}
+
+
+		%%%%%%%% Package tcolorbox
+\makeatletter
+%Boite pour les rubriques a bords longs (pas utilisé)
+\newtcbox{\encadrerond}{on line,arc=3pt,colback=black,colframe=black,boxrule=0pt,boxsep=0pt,left=6pt,right=6pt,top=4pt,bottom=4pt}
+\makeatother
+
+
+		%%%%%%%% Mes commandes
+		
+%Titre, sous-titres, rubrique, stamp, auteur et lieu
+		%formater un titre
+		\newcommand{\titre}[1]{\textbf{\Huge{{\fontfamily{qzc}\selectfont\begin{spacing}{0.7}#1\end{spacing}}}}\vspace*{5mm}}
+
+		%formater l'auteur
+		\newcommand{\auteur}[1]{\vspace*{-3mm}\begin{small}\begin{bf}#1\end{bf}\end{small}}
+		
+		%formater l'auteur dans un article à une ou deux colonnes
+		\newcommand{\auteurunedeuxcolonne}[1]{\begin{small}\begin{bf}#1\end{bf}\end{small}}
+
+		%formater le lieu
+		\newcommand{\lieu}[1]{, \small{#1}\vspace*{-1.5ex}}
+
+		%sous titres dans un article(titre de paragraphes)
+		\newcommand{\soustitre}[1]{\pgfornament[height=1em, anchor=south]{1}\hspace{1mm}\textbf{\large{#1}}\\}
+
+		%thème/mot-clé d'un article
+		\newcommand{\stamp}[1]{\hfill\colorbox{black}{\color{White}\normalsize{\textbf{#1}}}\vspace{-1mm}}
+		
+		%thème/mot-clé d'un article avec des bords ronds
+		\newcommand{\stamprond}[1]{\hfill\encadrerond{\textbf{{\color{white}{\normalsize #1}}}}}
+		
+		%rubrique (Edito, L'essentiel, Jeux)
+		\newcommand{\rubrique}[1]{{\Huge{{\color{DarkGray}\vspace*{-0.2ex}\pgfornament[width = .7cm, height = .7em, ydelta = -.6ex]{11}\,{\Fontlukas{#1}}\,\pgfornament[width = .7cm, height = .7em, ydelta = -.6ex, symmetry=v]{11}}}}}
+		
+		%Carré de fin d'article
+		\newcommand{\finarticle}{{\color{DarkGray}\hspace{1em}\pgfornament[height=1em, anchor=south]{14}}}
+		
+		%Indication que l'article continue sur la page suivante
+		\newcommand{\suite}{{\color{DarkGray}\hspace{1em}\textbf{ >\hspace{.3ex}>\hspace{.3ex}>}}}
+
+%Commande et environnement article
+		%environement pour des articles avec colonnes balancées
+				%Utilisation: \begin{article}[nombre de colonnes]{Titre}{Auteur}{Lieu} Texte de l'article \end{article}
+		\newenvironment{article}[4][3]
+			{\titre{#2}\vspace*{-2mm}\auteur{#3}\lieu{#4}\begin{multicols}{#1}}{\end{multicols}}
+
+		%environement pour créer des articles avec colonnes non balancées
+				%Utilisation: \begin{article*}[nombre de colonnes]{Titre}{Auteur}{Lieu} Texte de l'article \end{article*}
+		\newenvironment{article*}[4][3]
+			{\titre{#2}\auteur{#3}\lieu{#4}\begin{multicols*}{#1}}{\end{multicols*}}
+		
+		%environnement pour des articles à deux colonnes avec une meilleure gestion de l'espace entre le titre et l'auteur		
+		\newenvironment{articlebis}[4][3]
+			{\titre{#2}\auteurunedeuxcolonne{#3}\lieu{#4}\begin{multicols}{#1}}{\end{multicols}}	
+		
+		%environnement pour des articles à deux colonnes avec une meilleure gestion de l'espace entre le titre et l'auteur		
+		\newenvironment{articlebis*}[4][3]
+			{\titre{#2}\auteurunedeuxcolonne{#3}\lieu{#4}\begin{multicols*}{#1}}{\end{multicols*}}	
+		
+		%créer des articles à une seule colonne
+				%Utilisation: \articleunecolonne{Titre}{Auteur}{Lieu} Texte de l'article
+		\newcommand{\articleunecolonne}[3]
+			{\begin{spacing}{1.2}\titre{#1}\end{spacing}\auteurunedeuxcolonne{#2}\lieu{#3}\vspace*{0.4ex}}
+			
+		%afficher deux articles, sur deux puis une colonne
+			%Utilisation: \doublearticledeuxun{Texte1}{Texte2}
+		\newcommand{\doublearticledeuxun}[2]
+			{\begin{minipage}[t]{0.6466\linewidth}\setlength{\parskip}{0.8ex}#1\end{minipage}\hspace{0.02\linewidth}\vrule\hspace{0.02\linewidth}\begin{minipage}[t]{0.3133\linewidth}\setlength{\parskip}{0.8ex}#2\end{minipage}\vspace{4mm}}
+
+		%afficher deux articles,sur une puis deux colonnes
+			%Utilisation: \doublearticleundeux{Texte1}{Texte2}
+		\newcommand{\doublearticleundeux}[2]
+			{\noindent\begin{minipage}[t]{0.3133\linewidth}\setlength{\parskip}{0.8ex}#1\end{minipage}\hspace{0.02\linewidth}\vrule\hspace{0.02\linewidth}\begin{minipage}[t]{0.6466\linewidth}\setlength{\parskip}{0.8ex}#2\end{minipage}\vspace{4mm}}
+
+%Initial capitals et lignes
+
+		%initials capitals et small caps
+		\newcommand{\icsc}[2]{\lettrine{#1}{#2}} 
+
+		%lignes horizontales de séparation entre les articles
+		\newcommand{\ligne}{\vspace*{-1.4cm}\rule{\linewidth}{.6mm}\vspace*{-2mm}}
+
+%Encadrés et pub
+		%encadrés de plus d'une colonne
+			% Utilisation: \encadrecolonnes{noDeColonnes}{Titre de l'encadre}{texte de l'encadre (supporte les commandes)}
+		\newcommand{\encadrecolonnes}[4][0.968]
+			{\fbox{\parbox{#1\linewidth}{\setlength{\parskip}{0.8ex}\vspace*{1ex}\titre{#3}\vspace{-1ex}\begin{multicols}{#2}#4\end{multicols}}}}
+
+		%encadrés d'une seule colonne
+			%Utilisation: \encadre{Titre de l'encadre}{Texte de l'encadre (supporte les commandes)}
+		\newcommand{\encadre}[3][0.90]
+			{\vspace{2mm}\noindent\fbox{\parbox{#1\linewidth}{\setlength{\parskip}{0.8ex}\vspace*{1ex}\begin{spacing}{1.30}\titre{#2}\end{spacing}\vspace*{1ex}#3}}}
+	
+		%petits écritaux de pub
+		\newcommand{\petitepub}[3]{\vspace{3mm}\\{\color{Gray}\rule{\linewidth}{1.5mm}}\vspace{1mm}\\\begin{minipage}{1.2cm}\includegraphics[width=1.2cm, height=1.2cm]{#1}\end{minipage}\hspace{2mm}\begin{minipage}{4.5cm}\textbf{#2}#3\end{minipage}\vspace{1mm}\hrule}
+		%\newcommand{\petitepub}[3]{\vspace{3mm}{\color{Gray}\rule{\linewidth}{1.5mm}}\\[1mm]\begin{minipage}{1.2cm}\includegraphics[width=1.2cm, height=1.2cm]{#1}\end{minipage}\hspace{2mm}\begin{minipage}{4.5cm}\textbf{#2}#3\end{minipage}\nopagebreak\vspace{1mm}\hrule}
+
+%Mises en exergue
+		%mises en exergue au début d'un article
+		\newcommand{\exerguedebutarticle}[2][]{{\fontfamily{phv}\selectfont\textbf{{\color{DarkGray}\textsc{#1}}}}\vspace*{-2mm}\\{\color{Gray}\rule{\linewidth}{.6mm}}\\\vspace*{-1mm}{\fontfamily{iwona}\selectfont\large{\textbf{{\color{Gray}\pgfornament[anchor=south, width=4mm]{18} }\vspace*{1mm}#2}}}\vspace*{1mm}\vspace*{-2mm}\\{\color{Gray}\rule{\linewidth}{.6mm}}}
+		
+		%mise en exergue au début d'un article à deux colonnes
+		\newcommand{\exerguedebutarticledeuxcolonnes}[2][]{{\fontfamily{phv}\selectfont\textbf{{\color{DarkGray}\textsc{#1}}}}\vspace*{-2mm}\\{\color{Gray}\rule{\linewidth}{.6mm}}\\\vspace*{1mm}{\fontfamily{iwona}\selectfont\large{\textbf{{\color{Gray}\pgfornament[anchor=south, width=4mm]{18} }\vspace*{-1mm}#2}}}\\{\color{Gray}\rule{\linewidth}{.6mm}}}
+
+		%exergue de début d'article à une colonne
+		\newcommand{\exerguedebutarticleunecolonne}[2][]{\vspace*{2.5ex}\\{\fontfamily{phv}\selectfont\textbf{{\color{DarkGray}\textsc{#1}}}}\vspace*{-2mm}\\{\color{Gray}\rule{\linewidth}{.6mm}}\\\vspace*{-2ex}\begin{flushleft}{\fontfamily{iwona}\selectfont\large{\textbf{{\color{Gray}\pgfornament[width=4mm]{18} }\vspace*{1mm}#2}}}\end{flushleft}\vspace*{-1mm}\\{\color{Gray}\rule{\linewidth}{.6mm}}\vspace*{1ex}}
+
+		%nouveau paragraphe dans l'environnement exerguedebutarticle
+		\newcommand{\newpar}{\\[0.8ex]{\color{Gray}\raisebox{1.5mm}{\pgfornament[width=4mm]{18}} }}
+
+		%mise en exergue au milieu des articles
+		\newcommand{\exerguemilieuarticle}[1]{{\color{Gray}\rule{\linewidth}{.6mm}}\\[1mm]\textsc{{\raggedright{}{\fontfamily{phv}\selectfont\large{#1}}}}\\[-1mm]{\color{Gray}\rule{\linewidth}{.6mm}}\vspace*{1ex}}
+
+%Résumés d'articles
+		%résumé d'articles à mettre sur la page de garde pour attirer les lecteurs
+		\newenvironment{essentiel}[1][2]{\rubrique{L'essentiel...}\vspace*{-2ex}\begin{multicols*}{#1}}{\end{multicols*}}
+
+		%résumé de chaque article dans l'anvironement essentiel
+		\newcommand{\resume}[4]{
+		\pgfornament[width=\linewidth]{88}\\
+		\begin{center}\vspace*{-8mm}{\large\textbf{#2}}\\
+		\vspace*{-2mm}\pgfornament[width=\linewidth]{88}
+		\end{center}
+		\begin{flushleft}\vspace*{-4mm}\small{\color{DarkGray}#1}\\
+		\normalsize{#3}\hfill{\small\textbf{Page #4}}\end{flushleft}
+		\begin{center}
+		\vspace*{-.4cm}
+		\pgfornament[width=.8\linewidth]{75}
+		%\pgfornament[height=5mm]{1}
+		\end{center}}
+
+%Jeux
+		%définitions du mot croisé
+		\newcommand{\maDef}[2]{\printDef{#1}{\hspace{-2ex}\textbf{.} #2}}
+
+%Soulignement et url
+		%url
+		\newcommand{\myurl}[1]{{\color{blue}\uline{\url{#1}}}}
+		
+		%souligner avec des points
+		\newcommand{\udensdot}[1]{\tikz[baseline=(todotted.base)]{\node[inner sep=1pt,outer sep=0pt] (todotted) {#1};\draw[densely dotted] (todotted.south west) -- (todotted.south east);}}
+
+		%souligner avec des traits tillés
+		\newcommand{\udensdash}[1]{\tikz[baseline=(todotted.base)]{\node[inner sep=1pt,outer sep=0pt] (todotted) {#1};\draw[densely dashed] (todotted.south west) -- (todotted.south east);}}
+
+
+		%%%%%%%% Modification des sudokus
+\renewcommand{\SudokuLinethickness}{1pt} %Change la largeur de la ligne des sudokus
+
+
+		%%%%%%%% Modification des encadrés
+\setlength{\fboxsep}{1.5ex} %augmente l'espace entre le texte et les encadrés
+
+
+		%%%%%%% Package ulem(soulignage)
+\renewcommand{\ULdepth}{2pt} %Soulignage pour les url (la ligne est plus proche du texte que pour un soulignage normal)
+
+
+		%%%%%%%% Package url
+\urlstyle{sf} %tt, rm, sf, same
+
+
+		%%%%%%%% Package Lettrines
+\setlength{\DefaultNindent}{0.5mm}
+\setcounter{DefaultLines}{2}
+\renewcommand{\DefaultLraise}{0} %Elevation de la lettrine par rapport à la basline
+\renewcommand{\DefaultLoversize}{0.3} %facteur de grossissement de la lettrine vers le haut
+			%Les deux commandes suivantes sont à utiliser si on veut utiliser une police spéciale pour les lettrines
+			%\newcommand*\initfamily{\usefont{U}{Konanur}{xl}{n}}
+			%\renewcommand{\LettrineFontHook}{\initfamily}
+
+
+		%%%%%%%% Colonnes
+\setlength{\columnsep}{0.5cm} %longueur de l'espacement entre les colonnes
+
+
+		%%%%%%%% Les longueurs du document
+%les longueurs de la feuille
+\setlength{\topmargin}{-.54cm} %marge à ajouter en haut en plus de l'inch deja present
+\setlength{\oddsidemargin}{-.1cm} %distance entre le texte et l'inch de marge du bord des pages impaires
+\setlength{\evensidemargin}{-.1cm} %distance entre le texte et l'inch de marge du bord des pages paires
+\setlength{\headsep}{.7cm} %Distance entre le header et le texte
+\setlength{\headheight}{13.6pt} %hauteur du header
+\setlength{\marginparsep}{0mm}
+\setlength{\marginparwidth}{0mm}
+\setlength{\textwidth}{16.56cm}
+\setlength{\textheight}{23.7cm}
+\setlength{\footskip}{1.3cm}
+
+% Les longueurs des paragraphes
+\setlength{\parskip}{1em} %espace en dessus du paragraphe (entre paragraphes)
+\setlength{\parindent}{0pt}  %la longeur de l'alinéa au début des paragraphes
+
+
+
+		%%%%%%%% Le header
+\pagestyle{fancy}
+ \lhead{{\bf Le Parchemin}}
+	\cfoot{\thepage} %enlever le numéro de page qui est au milieu du footer

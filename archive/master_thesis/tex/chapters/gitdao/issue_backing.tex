@@ -1,0 +1,91 @@
+\chapter{Issue Backing}
+\label{sec:issue_backing}
+
+In this chapter, we propose an additional mechanism for GitDAO.
+The goal of this mechanism is to provide funding for issues.
+
+\section{Issues}
+
+\emph{Issues} are inherited from GitHub.
+The word describes a forum-like text-based thread that users can use to report bugs, or ask for new features.
+Discussions often happen in those issues, to request additional details, about the best way to solve the bug or the best implementation of the requested feature.
+
+However, issues today do not incentivize developers in any way.
+So whether the issue is solved depends on developers taking up some of their free time to do it.
+We propose a system to incentivize the solving of issues.
+
+\section{Mechanism}
+
+Assume that some user opens an issue.
+In the issue, the user describes the bug that they want to be fixed or the feature they want to be added.
+Then, the user backs the issue with some amount $\alpha$ of money.
+If and when the issue is solved, the project will get the stacked money \emph{discounted by time}.
+So the longer an issue awaits unsolved, the less money a project will obtain from solving the issue.
+The specific function used to describe the discount can be any decreasing function.
+We propose that only functions with non-negative second derivatives be used.
+Linear functions are simple and easy to understand.
+Functions with strictly positive second derivatives might be better suited though.
+Indeed, once an issue is opened, the project developer will need some time to solve the issue, so it makes no sense that the issue loses too much value in the beginning.
+On the opposite side, issues should either be treated rapidly or discarded.
+Issues that linger for months are probably not so important.
+Using functions with positive second derivatives ensures that the decrease of value is not too fast at first, but increases speed after.
+In a way, this creates a form of \enquote{continuous deadline} (as opposed to a discrete deadline).
+
+We propose that issue backers can choose the parameters of the decreasing function.
+This way, they can choose more specifically the incentives that they want to create.
+For example, some users might only be interested in the solving of an issue if it happens before a given date.
+For them, it would make sense to use functions that almost do not decrease before the deadline, but decrease very rapidly around the deadline to reach zero.
+
+Developers can tag pull requests as solving some specific issues.
+If the merge request is accepted, then the money backing the issue, discounted by time, is awarded to the project.
+
+If developer rewards are enabled, there are multiple ways that the money can be awarded:
+
+\begin{description}
+  \item[Everything Goes to Those That Solved the Issue]
+    The strategy incentivizes people directly to solve issues.
+    However, it might also lead to competition inside a project to solve the issue.
+    This leads to duplication of efforts, and we prefer incentivizing cooperation.
+
+    Another issue with this approach is that it might lead to a situation in which people only solve backed issues, and never solve issues that are not backed (this might be fine if we trust capitalism to be a good coordination scheme), \emph{nor build new features}.
+    Indeed, why build new features that are not backed, if you can wait for someone to ask for the issue and back it?
+
+  \item[Everything Goes to the Project]
+    With this strategy, the money goes to the project and is distributed like any other donation.
+    Assuming that the project uses the money distribution from \cref{sec:dev_rewards}, then all the members of the project benefit.
+    This leads to smaller incentives for developers to solve issues, as they get less money, than if they obtained the whole of it.
+
+    Yet, assume that the project uses decreasing power tokens, and assume that, upon acceptance of a merge request tagged as solving some backed issues, first the decreasing power tokens rewarding the contributors are minted, then the project receives the money.
+    Those that implemented the issue are advantaged over the other members of the project, because their tokens are the most recent, and have not started decreasing.
+    This means that they obtain a large percentage of the rewards.
+\end{description}
+
+Hybrid approaches, i.e.\ a strategy somewhere between the two extremes described above, are also possible.
+
+\section{Analysis}
+
+Issue backing allows the users to provide some feedback to the project's developers.
+It enables the project to evaluate better what the users value.
+
+By using rewards that decrease in time, developers are incentivized to solve issues rapidly which is good from the user perspective.
+Indeed, we propose that this mechanism reflects well the fact that users are generally ready to pay more if the problem they face is solved faster.
+This is also good for the project, as it incentivizes a faster development speed.
+
+By using the rewarding strategy in which the money is distributed to all the project contributors, the incentives to solve the issues for each developer are not too big, which might preserve the equilibrium that open source maintains today, i.e.\ zero incentive to solve issues, yet many are.
+
+\section{Ensuring the Issue is Solved}
+
+We now look at this mechanism from the perspective of users that back issues.
+What guarantees do they have that the project will not mark their issue as solved as soon as possible, to get the most money, without in fact solving the issue?
+
+There is a clear conflict of interest in asking the project members to evaluate whether an issue is solved.
+Similarly, asking users when their issue is solved also exhibits a conflict of interest: the user will always have an incentive to say that the issue is not solved, to lower the amount of money they pay.
+
+Users might interact only once with the project, so they are not staking their reputation, especially given that new blockchain accounts are so easy to create.
+On the other hand, the project members will interact several times with various users on various issues.
+So they have a reputation that they stake, and they are probably interested in getting as many issues backed as possible (to make the project, and themselves, win more money in the long run).
+In this regard, asking project members when an issue is solved is more reasonable.
+
+Some further recourse mechanisms could be implemented for users to recourse against the decision that an issue is solved.
+Building such functionalities requires the presence of a third party that decides about such questions.
+An potential choice is to use Kleros, the on-chain court.

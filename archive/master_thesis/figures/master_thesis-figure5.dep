@@ -1,0 +1,4 @@
+figures/master_thesis-figure5.pdf: data/less_power_later/linear_decay_constant_dt/absolute/a.dat
+figures/master_thesis-figure5.pdf: data/less_power_later/linear_decay_constant_dt/absolute/b.dat
+figures/master_thesis-figure5.pdf: data/less_power_later/linear_decay_constant_dt/relative/a.dat
+figures/master_thesis-figure5.pdf: data/less_power_later/linear_decay_constant_dt/relative/b.dat

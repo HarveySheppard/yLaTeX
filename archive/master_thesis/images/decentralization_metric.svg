@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="465.61435"
+   height="461.76025"
+   version="1.1"
+   id="svg30"
+   sodipodi:docname="decentralization_metric.svg"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview32"
+     pagecolor="#505050"
+     bordercolor="#eeeeee"
+     borderopacity="1"
+     inkscape:pageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     showgrid="false"
+     inkscape:zoom="2.2244565"
+     inkscape:cx="236.9118"
+     inkscape:cy="287.71073"
+     inkscape:window-width="2684"
+     inkscape:window-height="2136"
+     inkscape:window-x="0"
+     inkscape:window-y="22"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg30"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     showguides="true"
+     inkscape:guide-bbox="true">
+    <sodipodi:guide
+       position="369.07892,52.222014"
+       orientation="1,0"
+       id="guide30016" />
+  </sodipodi:namedview>
+  <style
+     type="text/css"
+     id="style2">
+	text {
+		font-family: 'Liberation Sans', sans-serif;
+		font-size: 15px;
+		fill: black;
+		stroke: none;
+		text-anchor:middle;
+		}
+		
+	path, line {stroke:black;stroke-width:2;}
+	
+	.axis {marker-end:url(#arrow);}
+</style>
+  <defs
+     id="defs7">
+    <marker
+       id="arrow"
+       markerWidth="8"
+       markerHeight="6"
+       refX="5"
+       refY="3"
+       orient="auto">
+      <polygon
+         points="0,0 2,3 0,6 8,3 "
+         style="fill:#000000;stroke:none"
+         id="polygon4" />
+    </marker>
+  </defs>
+  <polygon
+     id="B"
+     points="450,50 450,450 50,450 "
+     style="fill:#80b3ff"
+     transform="translate(-20.634766,-31.352539)" />
+  <path
+     id="A"
+     d="M 29.365234,418.64746 429.36523,18.647461 A 400,400 0 0 1 29.365234,418.64746 Z"
+     style="fill:#b0c4d6" />
+  <line
+     class="axis"
+     x1="29.365234"
+     y1="418.64746"
+     x2="425.36523"
+     y2="418.64746"
+     id="line11" />
+  <line
+     class="axis"
+     x1="429.36523"
+     y1="418.64746"
+     x2="429.36523"
+     y2="22.647461"
+     id="line13" />
+  <!-- Axis labels -->
+  <text
+     x="229.36523"
+     y="458.64746"
+     id="text15">Cumulative share of people from lowest to highest governance power</text>
+  <text
+     x="429.36523"
+     y="438.64746"
+     id="text17">100%</text>
+  <text
+     x="-218.64746"
+     y="458.36523"
+     dominant-baseline="central"
+     transform="rotate(-90)"
+     id="text19">Cumulative share of governance power</text>
+  <text
+     x="-18.647461"
+     y="446.36523"
+     dominant-baseline="central"
+     transform="rotate(-90)"
+     id="text21">100%</text>
+  <!-- Other Labels -->
+  <text
+     x="7.5786104"
+     y="296.79282"
+     dominant-baseline="central"
+     transform="rotate(-45)"
+     id="text23">Line of equality at 45$^\circ$</text>
+  <text
+     x="6.8033438"
+     y="416.0506"
+     dominant-baseline="central"
+     transform="rotate(-45)"
+     id="text23-3"
+     style="font-size:15px;font-family:'Liberation Sans', sans-serif;text-anchor:middle;fill:#000000;stroke:none"><tspan
+       sodipodi:role="line"
+       id="tspan22263"
+       x="6.8033438"
+       y="416.0506">$P_u(t)$</tspan></text>
+  <text
+     style="font-weight:bold;font-size:22px"
+     x="369.36523"
+     y="138.64746"
+     id="text2397"><tspan
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Liberation Sans', sans-serif;-inkscape-font-specification:'Liberation Sans, sans-serif'"
+       id="tspan2768">$A$</tspan></text>
+  <text
+     style="font-weight:bold;font-size:22px"
+     x="369.12674"
+     y="341.34784"
+     id="text28"><tspan
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Liberation Sans', sans-serif;-inkscape-font-specification:'Liberation Sans, sans-serif'"
+       id="tspan4804">$B$</tspan></text>
+</svg>

@@ -1,0 +1,4 @@
+figures/master_thesis-figure10.pdf: data/less_power_later/exponential_decay_30_0/absolute/a.dat
+figures/master_thesis-figure10.pdf: data/less_power_later/exponential_decay_30_0/absolute/b.dat
+figures/master_thesis-figure10.pdf: data/less_power_later/exponential_decay_30_0/relative/a.dat
+figures/master_thesis-figure10.pdf: data/less_power_later/exponential_decay_30_0/relative/b.dat

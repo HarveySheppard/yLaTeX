@@ -1,0 +1,73 @@
+\input{./config.tex}
+
+
+\typeout{For commercial use of this Work or a Derived or Compiled Work (as defined in the LPPL v1.3c), contact me before at thib1235[at]gmail.com}
+
+
+% Couverture
+\begin{tikzpicture}[remember picture, overlay]
+	\node at (current page.center) {\includegraphics{images/couverture.png}};
+\end{tikzpicture}
+
+
+\input{./chapter/000_FrontMatter.tex}
+
+
+{\hypersetup{linkcolor=black}
+	\setcounter{tocdepth}{0}
+	\tableofcontents
+}
+\newpage
+
+
+
+\titleformat{name=\chapter, numberless}[display]
+{}
+{\titleBackground\thispagestyle{empty}}
+{0pt}
+{
+	\hspace*{4.4cm}\fontsize{2cm}{1em}\selectfont\chapterfont
+}
+\titlespacing*{name=\chapter,numberless}{0pt}{10pt}{2cm} %starred version of chapter default: 0pt, 50pt, 40pt
+
+
+\chapter{Introduction}
+\input{./chapter/00_Introduction.tex}
+
+
+\chapter{Création d'un univers}
+\input{./chapter/01_Monde.tex}
+
+
+\chapter[Gameplay, ou la façon de jouer]{Gameplay,\\ou la façon\\de jouer}
+\input{./chapter/02_Gameplay.tex}
+
+\chapter[Scénario et level design]{Scénario\\et level design}
+\input{./chapter/03_Scenario.tex}
+
+%\chapter{Musique maestro!}
+%\input{./chapter/04_Son.tex}
+
+\includepdf[pages={1,2}]{./images/typoNature_sansMarges.pdf}
+
+\chapter{Réalisation technique}
+\input{./chapter/04_Technique.tex}
+
+
+%\chapter{Diffuser un jeu libre}
+%\input{./chapter/05_Diffusion.tex}
+
+
+\chapter{Pour conclure}
+\input{./chapter/06_Conclusion.tex}
+
+
+
+
+\appendices
+\renewcommand{\thecontentspage}{Annexe}
+\input{./chapter/999_BackMatter}
+
+\end{document}
+
+

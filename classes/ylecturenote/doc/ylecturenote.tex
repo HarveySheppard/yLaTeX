@@ -1,0 +1,300 @@
+% !TeX spellcheck = en_GB
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Basic configuration
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[a4paper, 11pt, oneside, fleqn]{article}
+\usepackage[no-math]{fontspec}
+
+\usepackage{polyglossia}
+\setdefaultlanguage{french}
+\setotherlanguages{english}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Various packages
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{metalogo}
+\usepackage{microtype}
+\usepackage{graphicx}
+\usepackage{wrapfig}
+\usepackage[german=swiss]{csquotes}
+\usepackage{calc}
+\usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
+\usepackage{amsmath, amsfonts, amssymb}
+\usepackage{appendix}
+\usepackage{setspace}
+\usepackage{multicol}
+\usepackage{listings}
+\lstset{
+	basicstyle=\ttfamily,
+	columns=fullflexible,
+	keepspaces=true,
+	basicstyle=\ttfamily\small,
+}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Colors
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\definecolor{mainColor}{RGB}{211, 47, 47}
+
+\newcommand{\inColor}[1]{{\bfseries\color{mainColor}#1}}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Layout
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[
+	xetex,
+	a4paper,
+	ignoreheadfoot,
+	left=2cm,
+	right=2cm,
+	top=2cm,
+	bottom=2cm,
+	nohead,
+	marginparwidth=0cm,
+	marginparsep=0mm
+]{geometry}
+\setlength{\skip\footins}{1cm}
+\setlength{\footnotesep}{2mm}
+\setlength{\parskip}{1ex}
+\setlength{\parindent}{0ex}
+\setlength{\columnsep}{15mm}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Tables
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{array}
+\usepackage{tabu}
+\usepackage{longtable}
+
+\definecolor{tableLineOne}{RGB}{245, 245, 245}
+\definecolor{tableLineTwo}{RGB}{224, 224, 224}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Links
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{hyperref}
+\hypersetup{
+	pdftoolbar=false,
+	pdfmenubar=true,
+	pdffitwindow=false,
+	pdfborder={1 1 0},
+	pdfcreator=LaTeX,
+	colorlinks=true,
+	linkcolor=blue,
+	linktoc=all,
+	urlcolor=blue,
+	citecolor=blue,
+	filecolor=blue
+}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Itemize and consort
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\labelitemi{---}
+\usepackage{enumitem}
+\setlist[itemize]{nosep}
+\setlist[description]{nosep}
+\setlist[enumerate]{nosep}
+
+
+
+\newcommand{\myTitle}{\inColor{\fontsize{1.3cm}{1em}\selectfont yLectureNote}}
+
+
+
+\begin{document}
+	\everyrow{\tabucline[.4mm  white]{}}
+	\taburowcolors[2] 2{tableLineOne .. tableLineTwo}
+	\tabulinesep = ^4mm_3mm
+	
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Title
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+	\begin{flushleft}
+		\begin{minipage}{\widthof{\myTitle}}
+			{\fontsize{.6cm}{1em}\selectfont\color{mainColor}
+				Documentation
+			}
+			\begin{spacing}{3}
+				\myTitle
+			\end{spacing}
+			\vspace*{-10mm}
+			\begin{flushright}
+				Yves Zumbach
+			\end{flushright}
+		\end{minipage}
+	\end{flushleft}
+	
+%	\begin{minipage}[b]{\textwidth}
+%		\begin{multicols}{2}
+%			{
+%				\hypersetup{linkcolor=black}
+%				\tableofcontents
+%			}
+%		\end{multicols}
+%	\end{minipage}
+	
+	\vspace*{2cm}
+	
+	
+	\begin{multicols}{2}
+		\section{Class Options}
+		\begin{itemize}
+			\item french change the document settings to be in French (it is by default in English)
+			\item german change the document settings to be in German
+			\item printSerie prints the Serie number in the footer if you used the \lstinline|\nextSerie| command
+		\end{itemize}
+		
+		
+		\section{Layout}
+		Page without margin paragraph are created using \lstinline|\nomarginparpage|. You restore margin paragraph with \lstinline|\marginparpage|.
+		
+		To add white space (for taking note afterward using a pen or making a summary of the page as in the cornell method) at the bottom of all the pages you can issue the \lstinline|\makePlaceForBottomNotes| command in the preambule.
+		
+		
+		\section{Title Page}
+		Use following commands in the preamble to define the title page's content: \lstinline[breaklines]|\title{<class title>} \date{<semester and year>} (\author{<student>}) (\professor{<professor>}) (\yLanguage{<language>})|. The commands in parenthesis are not mandatory.
+		
+		Inside the document body, issue \lstinline|\titleOne[<additional rubber content>]|.
+		
+		
+		\section{Table of Content}
+		\lstinline[breaklines]|\yTableOfContent[<additional content before new page>]|. One could put an authorBlock in the additional content.
+		
+		\lstinline[breaklines]|\printMarginPartialToc| prints a chapter partial table of content in the margin.
+		
+		
+		\section{Margin Elements}
+		\lstinline[breaklines]|\sideNote{<content>}| should be used whenever possible. It adds a note number. You can use \lstinline[breaklines]|\sideTitle{<title>}| inside.
+		
+		Inside floats or buggy environments: \lstinline[breaklines]|\forcedSideNote{}|. It appears at the exact same height it is declared without checking if it overlaps with other sideNotes.
+		
+		\lstinline[breaklines]|\marginElement{<content>}| is a simple margin par with no numbers.
+		
+		
+		\section{Theorem, axiom, etc.}
+		\begin{lstlisting}[breaklines]
+\begin{theorem}[<title>]
+	<theorem>
+\end{theorem}
+		\end{lstlisting}
+		
+		Following environments are also defined with the same set of arguments: lemma, corollary, definition, axiom, proposition.
+		
+		
+		\section{InfoBulles}
+		\verb|\infoInfo{<Title>}{<Text>}|
+		
+		With the exact same arguments: \verb|\tipsInfo|, \verb|\warningInfo|, \verb|\criticalInfo|,
+		\verb|\checkInfo|, \verb|\questionInfo|.
+		
+		
+		\section{Side InfoBulles}
+		\lstinline[breaklines]|\sideInfo[<title>]{content}|. With the same arguments: \lstinline[breaklines]|\sideTips \sideCritical|
+		
+		
+		\section{Class Date}
+		\lstinline[breaklines]|\classDate{<day>}{<month>}{<year>}|
+		
+		
+		\section{Exercises Set}
+		\lstinline[breaklines]|\nextExerciseSet|. Use also this command to \enquote{activate} the first set and make \LaTeX\ display the set number in the footer.
+		
+		\lstinline[breaklines]|\stopPrintingExerciseSet \printExerciseSet| to stop or reactivate printing of the set number.
+		
+		
+		\section{Lists}
+		In the margin par, use \lstinline[breaklines]|sideDescription, sideItemize, sideEnumerate| instead of the normals.
+		
+		
+		\section{Tables}
+		Body tables:
+		\begin{lstlisting}
+(\blockmargin)
+\begin{SCtable}[][ht!]
+\begin{tabu}{<cols>}
+   \tableHeaderStyle
+   first & line & of & the table\\
+   other & lines & of & the & table\\
+\end{tabu}
+\caption{<caption text>}
+\end{SCtable}
+(\unblockmargin)
+		\end{lstlisting}
+		
+		Side Tables: \lstinline[breaklines]|\sideTable[<caption>]{\begin{tabu}...\end{tabu}}|
+		
+		
+		\section{Figures}
+		Side figures: \lstinline[breaklines]|\sideFigure[<caption>]{\includegraphics{path.jpg}}|
+		
+		
+		\section{Code Listings}
+\begin{lstlisting}
+\begin{CodeInfo}{<Title>}[<caption>]
+	\begin{CodeInfoLst}[<language>]
+		var test = "my Code"
+	\end{CodeInfoLst}
+\end{CodeInfo}
+\end{lstlisting}
+
+		With <language> a string like: \enquote{Python}, \enquote{C++}, etc.
+		
+		
+		\section{Full Width Elements}
+		\lstinline[breaklines]|\begin{whole}...\end{whole}|
+		
+		
+		\section{End of Chapter Ornaments}
+		\lstinline[breaklines]|\yOrnament|
+		
+		
+		\section{Author Block}
+		\begin{lstlisting}[breaklines]
+\authorBlock{
+	\authorName{<your name>}
+	\authorAdressLineOne{<adress line one>}
+	\authorAdressLineTwo{<adress line two>}
+	\authorAdressLineThree{<adress line three>}
+	\authorPhone{<phone number>}
+	\authorMail{<mail>}
+	\authorWebsite{<website>}
+}
+		\end{lstlisting}
+		
+		
+		\section{Numbers typesetting}
+		\lstinline[breaklines]|\bigNumber{<number>}| Write the number in big in the text. For side numbers: \lstinline[breaklines]|\sideNumber{<number>}{<text>}|
+		
+		
+		\section{Metadata}
+		\begin{lstlisting}[breaklines]
+\hypersetup{
+	pdftitle={<Title>},
+	pdfsubject={<Subject>},
+	pdfauthor={<Your name>},
+	pdfkeywords={{<keyword 1>}{<keyword 2>}},
+}
+		\end{lstlisting}
+		
+		
+		\section{Quotation}
+		\lstinline[breaklines]|\blockQuote[<author>]{<text>} \sideQuote[]{} \fullQuote[]{}|
+	\end{multicols}
+	
+	
+\end{document}

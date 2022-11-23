@@ -1,0 +1,477 @@
+\chapter{Governance Systems}
+\label{sec:theoretical_governance_system}
+
+\section{Definitions}
+
+We start with a few useful definitions and notations.
+
+\begin{definition}[Decision]
+  A decision is an event that must have an outcome fixed by a voting system.
+  Decisions are indexed by a counter $i$.
+\end{definition}
+
+\begin{definition}[Possible Outcomes]
+  The set of possible outcomes for a given decision $i$ is denoted $O_i$.
+\end{definition}
+
+\begin{definition}[Users]
+  The set of users is denoted $U$.
+\end{definition}
+
+\begin{definition}[Votes]
+  Let $\Theta_u(i)$ be the vote of user $u$ on decision $i$.
+  This is expressed as the preferences of user $u$ over the possible outcomes $O_i$ of decision $i$.
+  How preferences are expressed is defined per type of governance system.
+\end{definition}
+
+\begin{definition}[Power]
+  Let $p_u(t)$ be the absolute power that user $u$ has over the governance system at time $t$, expressed as a floating point number.
+\end{definition}
+
+We now define a voting system.
+
+\subsection{Voting Systems}
+
+\begin{definition}[Voting System]
+  \label{def:voting_system}
+  A voting system is a function $F(\Theta, p, i)$.
+  It is applied to the preferences of the users of the system, the power that each user has on the system, and the decision for which to produce an outcome.
+  The function returns one outcome from the set of possible outcomes $O_i$.
+\end{definition}
+
+Little is specified about how participants should specify their preferences $\Theta$ over the outcomes, and this can be done in different ways: through an ordering (\textit{ranked voting systems}%
+\marginNote{%
+  In a ranked voting system with three options, a participant might provide the preference $A > C > B$.
+}), by assigning some score to each outcome(\textit{cardinal voting system}%
+\marginNote{%
+  In a cardinal system with three options and where scores are in the range $[-1, 1]$, given that you hate both options $A$ and $B$, but are very much in favor of option $C$, you could submit a preference similar to $\lbrace A: -0.98, B: -0.97, C: 0.85\rbrace$.
+}), by distributing a set amount of points among the outcomes, etc.
+
+The power of each user is an important metric.
+The power distribution $p$ is defined in absolute terms, yet what interests us is the power that each user has normalized to one, i.e.\ its relative power over the system.
+
+\begin{definition}[Relative Power]
+  The relative power of a user $u$ of a voting system on this system at time $t$, denoted $q_u(t)$, is the amount of influence that a particular member can have on an outcome of the system at time $t$ compared to the power of the others, normalized to $1$.
+  Mathematically speaking, the relative power is defined as:
+
+  \begin{equation}
+    \label{eqn:relative_power}
+    q_u(t) = \frac{p_u(t)}{\sum_{v\in U}p_v(t)}
+  \end{equation}
+\end{definition}
+
+And it holds that $\forall t,\sum_{u\in U} q_u(t) = 1$.
+
+In essence, someone with relative power $1$ has full power over the system, having relative power $0$ means you have no power, and having power $\sfrac{1}{n}$ means that the power is distributed equally among all members.
+
+The definition above can be applied to many real-life examples.
+\textit{Binary voting systems} impose $\forall i, |O_i| = 2$.
+In most democracies today $\forall u\forall t, p_u(t) = 1$.
+In essence, all users have the same, time-independent power over the outcomes of the decision function.
+A dictatorship is a voting system in which one user, the dictator, has a power equal to $1$ and all others have a power equal to $0$.
+When considering DAOs and token-based voting, evaluating $p_u(t)$ amounts to counting the amount of \textsc{erc20} tokens owned by each participant (or sum the power of the \textsc{erc721} token owned).
+Let us denote the set of token owned by user $u$ at time $t$ as $T_u(t)$.
+In \textsc{erc20} token-based voting systems, the power of each participant is equal to the number of \textsc{erc20} token owned by the user: $p_u(t) := |T_u(t)|$.
+In \textsc{erc721} token-based voting, the \textsc{erc721} token will generally provide a way to evaluate the power that a given token provides.
+For example, each token might have a property called \texttt{power}\\in which case:
+
+\begin{equation}
+  \label{eqn:power_in_token_based_voting_systems}
+  p_u(t) := \sum_{\tau\in T_u(t)}\tau\mathtt{.power}
+\end{equation}
+
+These examples highlight the versatility of the definition of a voting system.
+
+Yet, does this definition encompasses governance systems that we know like states?
+How can we formalize indirect democracy, also called representative democracy, which can be seen as a two-stage voting process?
+What about specifying how the executive and legislative branches work?
+Can we describe referendums with the above definition of a voting system?
+No.
+A voting system only applies once there is a clear decision to make, a fixed set of outcomes, a fixed set of users, a defined way to express preferences, and a fixed power distribution.
+Coming up with a good voting system, e.g.\ one that takes into account the preferences of the users, is already a hard problem (see \cref{sec:arrow_impossibility_theorem}).
+But a good voting system is not enough.
+Take for example the presidential elections in the United States, even if we assume that the voting process of the Electoral College is perfect, gerrymandering makes it possible to end up with Electoral Colleges that do not represent the opinion of the population, and thus to elect a president that lost the popular vote%
+\marginNote{This happened five times in history \cite{noauthor_list_2022}.}.
+We need to consider more aspects, so we define a broader concept: \emph{governance processes}.
+
+\subsection{Governance Systems}
+
+\begin{definition}[Governance System]
+  \label{def:governance_systems}
+  We define a governance system to be any system that uses at least one voting system as a subroutine.
+\end{definition}
+
+Note that the outcomes of a governance system might be plural and take many forms, from laws to executive decisions, to judiciary decisions.
+Also, the voting system used for each of these domains can vary a lot.
+
+Many systems of interest are \emph{governance systems}, not \emph{voting systems}; a human government is a governance system for example.
+Defining the power that a user has over a governance system can be a complex, or even intractable, task.
+Take a direct democracy for example.
+In such a system, a user, i.e.\ a citizen, will have a power equal to that of every other citizen to decide the laws of the country, but how do we account for the executive and judiciary decisions made using some other systems?
+In an \emph{indirect} democracy, what is the power that a user has over laws?
+More complex even, consider the Swiss governance system and the ability to start referendums on laws voted by Parlament: once a law is voted by our representatives, a subset of the population can come together to challenge the law.
+Not being able to evaluate the power of a user over a governance system is an issue, especially when we try to formalize what democracies are.
+Do you remember the \enquote{most undemocratic decision} taken by the American supreme court when it overturned \textit{Roe v. Wade}?
+What does it mean to be undemocratic in this case?
+Most blockchain-based systems are much simpler, because their scope is a lot more limited, and so they are easier to analyze.
+Happily enough, this work focuses on creating a blockchain system.
+
+Let's consider for a brief moment what we mean by democracies.
+What does it mean to give power to the people?
+Most people define a democratic system as a majority system, where the majority opinion is computed using the same weight for each citizen.
+This explains well the \enquote{undemocratic} aspect of \textit{Roe v. Wade}.
+But how does this definition integrate with the rule of law?
+Laws evolve rather slowly; can a law \emph{become} undemocratic if citizen change their mind about a topic?
+And what about giving a lot more power to some individuals that can use it to influence the system without having strong accountability (think \enquote{Affaire Maudet}, the executive branch and the legal immunity that it grants, or any judge in the legal system)?
+Are those undemocratic ways of conducting a state?
+Is democracy the ultimate goal?
+We leave it Open to find a more satisfying definition of \emph{democratic}, and to define then whether it is a goal worth pursuing.
+
+\section{Properties}
+
+In the next sections, we look at desirable properties, or on the contrary, that we would like to avoid for voting systems and governance systems.
+
+\subsection{ Arrow's Impossibility Theorem}
+\label{sec:arrow_impossibility_theorem}
+
+Let's first come back to voting systems.
+Many functions fulfill the requirements of \cref{def:voting_system}.
+For example, the function that always returns the first outcome in $O$ is a valid voting system that does not take user preferences into account.
+Of course, this is not so interesting, so we define a few additional properties that we want our voting system to fulfill.
+
+\begin{property}[Pareto Efficiency]
+  \label{prop:pareto_efficiency}
+  If every participant prefers option $A$ over option $B$, then the system should prefer option $A$ to option $B$.
+\end{property}
+
+\begin{property}[Nondictatorship]
+  \label{prop:non_dictatorship}
+  The system must take the preferences of multiple participants into account.
+  It cannot mimic the preferences of a single user, called the dictator.
+\end{property}
+
+\begin{property}[Independence of Irrelevant Alternatives]
+  \label{prop:independence_irrelevant_alternatives}
+  Adding irrelevant outcomes to a decision, i.e.\ outcomes that no one like, should not change the outcome of the system.
+\end{property}
+
+All the properties above seem rather reasonable to expect.
+Unfortunately, Arrow's Impossibility Theorem \cite{noauthor_arrows_2022} proves that there exists no ranked voting system that can fulfill all three when there are more than two options to vote on.
+So coming up with good voting systems, we are \emph{not} even talking about governance systems, might be harder than expected.
+
+\subsection{Tyranny of the Majority}
+\label{sec:tyranny_of_the_majority}
+
+This is a problem that any majority voting system has.
+By performing majority votes, up to 50\% of the participants may be left unsatisfied.
+If there are 50\% of people that always agree, then the remainder of the population can end up being tyrannized, and live under a set of rules it disagrees with.
+
+In the specific case of binary votes, i.e.\ votes in which there are only two possible outcomes, which do not suffer from Arrow's impossibility theorem, you can require different thresholds to accept a proposal while preserving nondictatorship, Pareto efficiency, and independence of irrelevant alternative.
+For example, you can request that at least 60\%\\of votes are in favor to accept a proposal.
+Any percentage preserves the three properties above.
+Which should we use?
+We now show that any percentage different than 50\% can potentially lead to a situation with even more unsatisfied people.
+If you use a 60\% threshold---or, by symmetry, a 40\% threshold---, then you can have up to 60\% of people that are dissatisfied with the vote outcome.
+Plus, the formulation of the question, i.e.\ \enquote{Are you in favor of adopting law $x$?} or \enquote{Are you in favor of \emph{not} adopting law $x$?}, now has an impact on the outcome.
+Who decides how questions are formulated?
+Those will have more power than the others.
+So the 50\% threshold is the one that maximizes the guaranteed number of satisfied people and avoids introducing more unfairness in the system.
+
+But having potentially 50\% of totally unsatisfied people is a bad situation to be in.
+Can we do better?
+Maybe voting systems are not well suited to coordinate humans?
+Can we find an alternative system that has better properties?
+To find an answer to this question we propose to explore a few existing systems in sections \cref{sec:consensus} and \ref{sec:bicameral_systems}.
+
+\subsection{Making Informed Decisions}
+\label{sec:making_informed_decisions}
+
+How can we make sure that people vote based on informed, rational judgments and not just some biased preconceptions?
+This is of value if we want the outcomes of the governance system to lead its users to an optimal situation.
+To distinguish between a good and a bad decision, people need at least to be knowledgeable about the topic they are voting on.
+One will generally need to invest time and effort into a topic to become knowledgeable about it.
+
+If votes are held frequently, then it is probably not realistic to expect everyone to invest the time and energy necessary to become knowledgeable about the topics voted on.
+This is a problem well known in Switzerland, where votations are held approximately four times a year and where topics can be varied.
+So people often resort to not voting at all, or voting along the lines of a party they feel close to.
+
+Are there alternatives to ensuring that the voting users are well informed about the topic?
+Here are a few proposals:
+
+\begin{description}
+  \item[Expert Groups]
+    Each participant is assigned to one or multiple topical groups based on their competencies.
+    When a decision is required, a first vote about which expert group should decide for the matter at hand is held, then the selected expert group vote on the question.
+    
+    Getting this approach right is hard as the process can be attacked in various ways.
+    For example, you can vote to assign questions to expert groups that you expect to be of your opinion, or you can join expert groups that get assigned to questions you have opinions about, even if you are not an expert.
+    Further, this approach mostly makes sense when there is an unambiguous answer to a technical question for which experts are best suited to answer.
+    But there are questions to which there are no optimal answers, either because a lack of data makes it impossible to know \textit{a priori} what the best outcome is, or because it is fundamentally a question of values.
+  \item[Liquid Democracies]
+    See \cref{sec:liquid_democracy}.
+    
+    The problem with this strategy is that entities with popular opinions will probably centralize a lot of power, even though those opinions might be ill-informed.
+    So it does not increase the chances of the outcome of a vote to be informed.
+  \item[Educated Direct Democracies]
+    In this system, people vote directly, but before the voting period, a debate period is created, with various experts that come and share their point of view so that every participant can build their opinion.
+    This is somewhat similar to what the Swiss system does with its red booklets distributed before each votation and with the debates held on television.
+    But unless people are incentivized to inform themselves, for example by paying them to do so, this approach does not solve voter fatigue, and so might have limited results.
+  \item[Sortition]
+    Elect a group of people that will handle a specific question at random in the population.
+    By electing voters at random in the population, less bias is introduced, than when using expert groups for example.
+    If the chosen voters are incentivized to inform themselves well, for example by enforcing that the time used for\\this purpose be considered as paid vacations (not deducted from the amount of vacation you are entitled to per year), then this is a reasonable approach.
+
+    Additionally, the number of people to include in the vote might be decided proportionally to the importance of the vote.
+    The underlying idea is that your incentive to vote on a topic is proportional to the importance of the vote and the influence you have over the outcome.
+    For important votes, more people can be included, and vice-versa, unimportant topics will be voted upon by a few people.
+    That way, if you are selected to vote on something somewhat unimportant, you still have an interest to vote, because you have a lot of power over the outcome.
+
+    This approach provides a lot of benefits, unfortunately, many people are against the idea of leaving it to chance to select who can vote on a topic.
+    Also, while it is not a big issue to have absentees in a vote that includes every user of a system (for example, participation rates in Switzerland are often close to 50\%), it is a bigger problem to have absentees when using sortition.
+    An efficient means to contact the selected voters is desirable, but not always reasonable to assume.
+    Indeed, while states might have little issue contacting randomly selected citizens, this might be more of a challenge on pseudonymous blockchains.
+\end{description}
+
+\subsection{Coordinating At Various Scales}
+\marginElement{
+  \enquote{%
+    If you want to go fast, go alone.
+    If you want to go far, go together.
+  }
+  \\\null\hfill--- African proverb.
+}
+
+The systems required to coordinate groups might vary a lot based on the size of the group.
+When there are only a few people, no system at all might work perfectly, and coordination emerges organically.
+If a system is introduced it should add as little friction as possible, because the friction it generates is probably not worth the benefits it brings, and people might stop using it.
+
+But when groups start to grow, a more formal coordination scheme is generally required to ensure a fair distribution of the power, accountability, etc.
+Finding a good balance, using a system that provides more valuable guarantees, than adds friction, is a difficult search.
+
+\subsection{Voter Fatigue}
+\label{sec:voter_fatigue}
+
+Voters are fatigued when they stop voting in a system they are a member of.
+Voter fatigue is generally caused by voting systems requiring more work from its participant than the value that voters draw from participating in the system.
+This includes voting too often, voting on topics too complex or technical, and not having an impact big enough on the outcomes of the system.
+Voter fatigue is of course bad for systems that aim to be decentralized, as a system can only be decentralized if there are many participants.
+
+\subsection{Plutocracy}
+\label{sec:plutocracy}
+
+A plutocracy is a governance system in which the wealthiest have the most power.
+
+The reasons why you might end up with a plutocracy are diverse, but a common one is that wealth grants its owner more means to \emph{do}, more economical power.
+Economical power can sometimes be translated into political power in a way that was not specifically intended by the governance system, e.g.\ lobbying, and sometimes systems are designed to give political power to the wealthy.
+This works like a reinforcement circle: the richer you are, the more power you will get, which in turn allows you to get richer.
+
+Many plutocracies have existed throughout history, for example, the Ro\-man Empire, the Japan empire before the Second World War, or modern days Russia \cite{noauthor_plutocracy_2022}.
+Most democracies today try to prevent plutocratic forms of governance.
+
+Is it desirable to use plutocracies as governance systems?
+Some might argue that if people are rich, it is because they provide a lot of value to society, which might be a good proxy to find good leaders.
+
+We see some problems with the statement that people are rich because they provide a lot of value.
+There is a difference between producing value, and extracting value.
+Multiple examples highlight that both are not always identical, like open source software.
+They provide billions of dollars in value (e.g. Python, Linux, and the C programming language combined).
+Yet, the developers behind those pieces of code have not received billions of dollars.
+We further do not think that extracting a lot of economical value, i.e.\ being rich, is a good proxy for being a good leader, but are interested in any argument in favor of this theory.
+
+Some studies showed that power corrupts \autocite{antonakis_does_2014}, whatever the character of a person that is bestowed with power (men, women, smart, corrupt, honest, etc.).
+In this case, corruption means taking decisions that benefit oneself and preterit the common good.
+So centralizing power likely produces bad results when it comes to creating common goods.
+For these reasons, we will consider that creating a plutocracy is an anti-goal in this work.
+
+\subsection{Decentralization}
+\label{sec:decentralization}
+
+We can generalize from the previous section, and define \emph{decentralization}.
+
+\begin{definition}[Decentralization]
+  \label{def:decentralization}
+  Decentralization is a metric that measures how distributed the voting power is in a given system.
+  Informally, decentralization is the Gini coefficient of voting power (as opposed to wealth).
+  Formally, the decentralization at time $t$ of a governance system marked $D(t)$ is:
+  \begin{equation*}
+    \begin{split}
+      D(t) &= 1 - \frac{\sum_{u\in U}\sum_{v\in U}|p_u(t) - p_v(t)|}{2\sum_{u\in U}\sum_{v\in U}p_v(t)}\\
+        &= 1 - \frac{\sum_{u\in U}\sum_{v\in U}|p_u(t) - p_v(t)|}{2n^2\bar p(t)}
+    \end{split}
+  \end{equation*}
+\end{definition}
+
+A visualization of decentralization is given in \autoref{fig:decentralization_metric}.
+
+\begin{figure}[ht]
+  \includesvg[pretex=\small, width=0.75\linewidth]{images/decentralization_metric.svg}
+  \caption{%
+		\label{fig:decentralization_metric}
+		Graphical representation of the decentralization metric.
+  }
+  \floatfoot{%
+		The decentralization metric is equal to the ratio between area $B$ and area $A+B$.
+		The $45^\circ$ line is the cumulative distribution of governance power representing perfect equality between all members.
+    The $P_u(t)$ line is the cumulative distribution of power in the system whose decentralization is being evaluated.
+		\textit{This graph is a modification on} \cite{noauthor_fileeconomics_2012}
+  }
+\end{figure}
+
+As the power of any individual can only be nonnegative, the decentralization metric can take values between $0$ and $1$ included, $0$ indicates a fully centralized state, i.e.\ one individual owns all the power, everyone else has none; $1$ means that every member of the system has the same governance power.
+
+\subsection{Progressive Decentralization}
+
+\begin{property}[Progressive Decentralization]
+  \label{prop:progressive_decentralization}
+  A governance system that features progressive decentralization is a system that creates incentives or mechanisms to distribute power evenly to its member.
+\end{property}
+
+The difference between being decentralized and being progressive decentralization is that the former concerns itself with how decentralized the governance power of a system \emph{is} at a given point in time, while the latter regards the \emph{dynamic} of the governance power, its evolution.
+This is similar to talking about a value and its derivative.
+A system that is decentralized, but not progressive decentralization might end up centralized if the power distribution changes for some reason.
+A centralized system that features progressive decentralization will end up decentralized if you wait for long enough.
+Generally speaking, a system that is progressive decentralization provides stronger guarantees about\\the decentralization of a system over time, than creating a decentralized system and hoping that it remains so.
+
+Progressively decentralizing the voting power can happen in multiple ways.
+It can be that the governance system tries to correct inequalities intrinsically, e.g.\ through a tax on voting power to limit disparities.
+We will call a governance system featuring such a decentralization mechanism \textit{intrinsically progressive decentralization}.
+It can also be that the governance system creates external incentives for participants to distribute the power of their own volition.
+Such a system depends on user actions to become more decentralized.
+We will call them \textit{extrinsically progressive decentralization}.
+
+\subsection{Achieving Decentralization}
+
+Open source projects almost always start in a centralized configuration: there is generally one or a few people that initiate a project.
+So the project begins with a dictator or a few oligarchs, then the project might attract other contributors.
+The goal is to progressively decentralize the control as new contributors take part.
+This highlights the importance of creating \emph{progressive decentralization} governance systems for open source, as there is no hope anyways for a system that is decentralized from the start.
+
+There are two aspects of progressive decentralization.
+One is to attract new members.
+The second is to decentralize the power over these users.
+When discussing decentralization, we often forget the first aspect, and indeed, for many systems, attracting new members is not required.
+A state, for example, does not need to attract new members: its users are clear from the start and include the population living on its territory.
+But this is not the case in the open source world, and so the first step is to make it as easy as possible, or even better, advantageous, for people to onboard a project.
+
+The second step is to decentralize power over the set of users.
+Previous users might not desire to lose their relative power over the project or see the rewards they get grow smaller if developer rewards are enabled.
+And so they will have an incentive to prevent the decentralization of power, so power decentralization might be hard to achieve.
+Setting up a system that decentralizes power from the start, so that any new member joining the project knows that power decentralization is an explicit goal, which might make it more acceptable.
+
+Note that Governance does not scale well, i.e.\ it is hard for a large number of humans to govern a single project, because it is hard to make many humans agree, and similarly, it is hard for a single human to take part in multiple governance processes because it takes a lot of time and energy.
+
+\section{Examples}
+
+\subsection{Bicameral Systems}
+\label{sec:bicameral_systems}
+
+Is there any other solution that prevents minorities from being left behind too much?
+Bicameralism is a type of system composed of two independent organs that must find a consensus.
+Bicameral systems are rather widespread in the legislative organs of governments: they represent approximately 40\% of them (the rest being mostly comprised of unicameral systems) \cite{noauthor_ipu_2022}.
+But how are those two chambers generally constituted?
+And what are the tasks, responsibilities, and powers of each organ?
+
+If both chambers are constituted in identical ways, then there is no point in having two chambers; one is enough.
+So, generally, each chamber represents the interest of different entities of the state.
+Most countries have at least one of their chambers that represents the people of the country.
+But how should the other chamber be constituted?
+Who should it represent?
+
+In Switzerland for example, the National Council represents the people\\(if canton $A$ contains 50\% of the population of Switzerland, then 50\% of the member of the National Council will come from canton $A$), while the Council of States represents the various cantons (two representatives per canton).
+This provides for an overrepresentation of the people living in cantons with smaller populations: from the National Council, they get the same power as the rest of the population; but from the Council of State, they get more power per head than people living in highly populated cantons.
+The Swiss decided to represent cantons in the second chamber, an idea taken from the American constitution from which the Swiss one is inspired.
+Some other countries, with older constitutions, have decided to elect aristocrats.
+For example, the House\\of Lords in the United Kingdom is constituted of individuals that are appointed by the Queen upon a recommendation from the Prime Minister or that have a hereditary right to sit there.
+
+But many kinds of minorities could be represented.
+We could choose the various skin colors, religions, diets (vegan, keto, carnal, etc), or social classes.
+Why choose one over another?
+
+\subsection{Liquid Democracies}
+\label{sec:liquid_democracy}
+
+Democracies often are systems that give equal power to all citizens when it comes to certain decision raking systems.
+They are often divided into two categories:
+
+\begin{description}
+  \item[Direct Democracies]
+    The people decide its laws.
+  \item[Indirect Democracies]
+    The people elect representatives that decide the laws.
+    In essence, people delegate their power to a subset of the people.
+    Note that the rules describing how the subset is selected vary from country to country.
+\end{description}
+
+Liquid democracy is a variant of democracy featured by some projects on the blockchain in which participants are allowed to delegate their vote to any other participant.
+In turn, this participant can further delegate their vote and all the votes that were delegated to them to some other participant.
+Delegation is not restricted to a single level anymore.
+Participants can revoke their delegation at any time, they can also vote on specific instances which will override any delegated vote.
+
+This strategy lowers voter fatigue because people can delegate by default their vote to someone that votes in a similar way to them.
+There is full transparency on what the vote is used for as this is a blockchain system.
+Also, there is full accountability: as soon as the person you delegated your vote to behaves in a way you do not agree with, you can override their vote in the specific instance by voting yourself, and you can revoke the delegation altogether.
+
+However, liquid democracies are still voting systems, so they suffer from the tyranny of the majority (see \cref{sec:tyranny_of_the_majority}).
+
+Also, it might be hard to find entities to delegate to, because you might need to form an opinion about many topics in the first place to know which entities have similar opinions to yours, which defeats the purpose of delegating (if you have an opinion on everything, then you are better off voting).
+Are there efficient ways to discover entities that have similar opinions?
+In Switzerland, the Easyvote app proposes, during votation, to measure your opinion about eight values and to show the politicians that have given answers similar to yours.
+Even in the likely case that this approach is a good way to find people with similar opinions, it remains that answering the many questions takes a lot of time, so people might go back to simpler approaches like picking a party.
+
+Because of voter fatigue, we do not expect people to change their delegated vote often, even when their opinion might have been different than that of the entity they delegated to.
+So there are fewer guarantees that the outcome of a vote represents the opinion of the people.
+
+Multilevel delegation can lead to a lot of centralization.
+In the case of the blockchain called the Internet Computer which invented this system, the vast majority of all votes ended up being delegated to the foundation that created the Internet Computer.
+And centralization is a problem: you have fewer nodes to hack to change the outcome of the vote.
+Or a few nodes pretending to vote in a certain way to attract voters can vote the opposite as a way to steal votes from natural opponents.
+Or even a well-intentioned, non-hacked entity can end up voting a suboptimal outcome because it is not well informed on the specific topic, i.e.\ centralization leads to more bias (see also \cref{sec:making_informed_decisions}).
+
+\subsection{Consensus}
+\label{sec:consensus}
+
+We now turn our attention to consensus-based systems.
+By definition of consensus%
+\marginNote{
+  \marginTitle{Consensus}
+  Reaching a consensus means making decisions once \emph{every} participant agrees with the decision.
+  \marginPar
+  This is different from a middle ground, which means adopting an intermediate solution.
+  Middle grounds tend to prevent taking extreme decisions.
+  Also, when the outcome of a decision is a middle ground, the more extreme your position is the more impact you potentially have on the outcome, i.e.\ the system might not be resistant to outliers.
+}, 100\% of the participants must be satisfied with the decisions taken.
+If we use such a system, can we guarantee that the system makes progress, i.e.\ that decisions can still be made?
+Being only able to make a decision when everyone agrees implies that every single participant has a veto right.
+Any individual can prevent all progress.
+Those are rather adversarial conditions to provide progress guarantees of any form.
+Let's now consider a few historical examples.
+
+At the international politics level, there are a few systems that feature consensus like various bodies of the European Union \cite{boffey_eu_2020} and \textsc{nato} \cite{nato_consensus_2022}.
+Those systems have recently been rather criticized because even only one country could block all decisions.
+Such cases happened when Poland and Hungary vetoed the \textcquote{boffey_eu_2020}{€1.8tn budget and coronavirus recovery plan over attempts to link funding to respect for democratic norms.}
+This also happened when Turkey vetoed the applications of Finland and Sweden to \textsc{nato}.
+So we might cast some doubt about whether consensus is the best-suited system when there are no clear incentives to find a common ground.
+
+Some examples of successful consensus-based governance exist, for ex\-ample, the Northwest Territories in Canada use a consensus government.
+Civil disobedience movements often organize themselves using consensus and manage to reach consensus regularly.
+In such groups, the interests of the participants are likely more aligned than those of different countries.
+We remark that in all the examples above, whether working or not, the set of users was always small: either a few hundred countries or a few hundred humans.
+What if we want to coordinate thousands or millions of individuals?
+We postulate that consensus systems provide fewer progress guarantees when the number of parti\-ci\-pants scales.
+
+This leaves us with at least two important aspects to consider when deciding if consensus is appropriate for a decision system:
+
+\begin{enumerate}
+  \item Having participants with aligned incentives.
+  \item Having a limited number of participants.
+\end{enumerate}
+
+In the context of coordinating open source projects on the blockchain, the nature of the participants is important to determine if incentives are aligned.
+If we restrict the participants to the developers of the project, then maybe using the consensus rule can yield satisfactory results.
+But including other stakeholders, like users of the program and investors/donors, might be of interest: a program is not created for its own sake; it is created to provide value to users.
+At this point, it becomes less clear that all these individuals might ever reach a consensus.
+
+What is the number of users of governance systems of open source projects?
+Developers can range from a few to several hundred (for example for the Linux kernel).
+When it comes to users, the number can range from a few to billions (think Wikipedia or users of the C standard library).
+So, the scale of open source might rapidly make it impractical to use consensus-based systems.

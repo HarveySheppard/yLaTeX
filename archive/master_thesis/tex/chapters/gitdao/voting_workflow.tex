@@ -1,0 +1,305 @@
+\chapter{Voting Workflow}
+\label{sec:governance_system_voting_workflow}
+
+Defining some tokenomics is only the first step toward building a token-based voting system.
+We now need to define, in a more detailed way, the voting procedure.
+This procedure is important because we can embed more security (or, on the contrary, flaws) in the system.
+
+The trust model underlying the \textsc{dpt}s is that if you have some, then you are trustworthy and have the project at heart.
+This probably holds for most contributors as getting a contribution accepted requires investing time and effort.
+This might not hold for powerful/rich/motivated actors, however.
+
+On-chain governance systems have an interesting property: as long as the proposal's \emph{outcome} only has \emph{on-chain} impacts, then it can be enforced in a \emph{trustless} way.
+The on-chain consequences of the vote can be applied directly by the smart-contract.
+This is trustless because the blockchain on which the smart contract is executed is trustless too.
+For example, assume that an on-chain voting system is used to decide whether some payment should be done.
+If the vote passes, then the smart contract can execute the payment automatically.
+Such a strategy is rather common on the blockchain, e.g.\ Maker\textsc{dao} uses such a system to vote and apply in a trustless way modification of some protocol parameters of the DAI stablecoin.
+On the contrary, when a trustful governance system is used to decide something, e.g.\ the voting system in Switzerland, the participants of the system must trust that the system will respect the decision and apply it (which has not always been the case, e.g.\ in Switzerland, the Parlament ignored the opinion of the people when it voted on the highly controversial initiative on mass immigration).
+Such functionality can also be used for Git\textsc{dao}, for example, to set some parameter of the decreasing power functions, or to accept a merge request.
+
+Consider proposals to make payments.
+Being trustless is positive overall, but proposals can also thus become attack vectors.
+Adversarial agents can create proposals that would send them all the funds owned by a project, or change some parameters in a way that would damage the community.
+Of course, such a blatant attack would surely get voted down, right?
+This is where voter fatigue becomes important: how many people are there watching over the project and making sure that accepted proposals are beneficial?
+
+We propose hereafter a voting workflow, based on the \enquote{don't trust, verify} moto.
+This workflow applies to binary proposals only.
+
+\section{Proposal Creation}
+
+Only token-holders can start proposals.
+We propose that, depending on what the proposal applies to, the creation of such proposals be limited to token holders.
+
+Merge request proposals should be open to anyone, including accounts that do not hold tokens.
+Otherwise, If merge requests are limited to people owning tokens, there can never be new contributors.
+
+Proposals that apply to payments or changing parameters of the decreasing function used for the tokens should be restricted to token holders.
+This limits Denial of Service attacks, where attackers would create huge amounts of proposals to prevent the project from making any progress.
+It also increases security guarantees: some sensible properties of the project can only be modified by members.
+
+\section{Complete Workflow}
+
+Each proposal has two properties: a \textit{trust level} and a \textit{state}.
+The trust level indicates how much people trust the content of the proposal to be non-adversarial for the project.
+The state property denotes how far in the voting process the proposal is.
+The workflow that each proposal follows is described in \cref{fig:governance_system_chamber_721_voting_workflow}.
+
+\begin{figure*}[ht!]
+  \centering%
+  \scalebox{.65}{%
+    \setlength{\x}{3cm}%
+    \setlength{\y}{3cm}%
+    \begin{tikzpicture}[
+      action/.style = {
+        ultra thick,
+      },
+      action label/.style = {
+        font=\ttfamily,
+        %						fill = white,
+        text width = 2.5cm,
+        align = center,
+      },
+      final/.style = {
+%					font = \bfseries,
+%					text = white,
+        fill = lightgray,
+        draw = none,
+      },
+      node distance = 3cm,
+      state/.style = {
+        rectangle,
+        draw,
+        ultra thick,
+        text width = 2cm,
+        align = center,
+        inner sep = 2mm,
+      },
+      time based/.style = {
+        dashed
+      },
+      trust/.style = {
+        draw,
+        ultra thick,
+        inner sep = 4mm,
+      },
+      trust label/.style = {
+        font=\itshape,
+      },
+    ]
+      \node [] (start) at (0\x, 1\y) {Start};
+      \node [state] (pending) at (0\x, 0\y) {Pending};
+      \node [state] (voting opened) at (0\x, -1\y) {Voting Opened};
+      \node [state, final] (canceled) at (-1\x, -1\y) {Canceled};
+      \node [state] (voting elapsed) at (0\x, -2\y) {Voting Elapsed};
+      \node [state] (finishable) at (0\x, -3\y) {Finishable};
+      \node [state, final] (succeeded) at (-0.5\x, -4\y) {Succeeded};
+      \node [state, final] (defeated) at (0.5\x, -4\y) {Defeated};
+      
+      \path [->] (start) edge [action] node [action label, right] {create proposal} (pending);
+      \path [->] (pending) edge [action] node [action label, left] {cancel proposal} (canceled);
+      \path [->] (pending) edge [action, time based] (voting opened);
+      \path [->] (voting opened) edge [action, time based] (voting elapsed);
+      \path [->] (voting elapsed) edge [action, time based] (finishable);
+      \path [->] (finishable) edge [action] node [action label, left] {finish\\yes $\ge$ no} (succeeded);
+      \path [->] (finishable) edge [action] node [action label, right] {finish\\yes $<$ no} (defeated);
+      
+      \node [trust, fit = (pending) (canceled) (defeated) (succeeded)] (optimistically trusted) {};
+      \node [trust label, anchor = south west] at (optimistically trusted.north west) {Optimistically Trusted};
+      
+      \node (challenged 1) at (1.8\x, 0\y) {};
+      \node (challenged 2) at (1.8\x, -1\y) {};
+      \node (challenged) at (1.8\x, -1.5\y) [trust label] {Challenged};
+      \node (challenged 3) at (1.8\x, -2\y) {};
+      \node (challenged 4) at (1.8\x, -3\y) {};
+      \node [trust, fit = (challenged) (challenged 1) (challenged 2) (challenged 3) (challenged 4)] (challenged) {};
+      
+      \path let
+      \p1 = (challenged.west),
+      \p2 = (challenged 1)
+      in [->] (pending) edge [action] (\x1, \y2);
+      \path let
+      \p1 = (challenged.west),
+      \p2 = (challenged 2)
+      in [->] (voting opened) edge [action] (\x1, \y2);
+      \path let
+      \p1 = (challenged.west),
+      \p2 = (challenged 3)
+      in [->] (voting elapsed) edge [action] node [action label, above=1cm] {challenge} (\x1, \y2);
+      \path let
+      \p1 = (challenged.west),
+      \p2 = (challenged 4)
+      in [->] (finishable) edge [action] (\x1, \y2);
+      
+      \node (challenge elapsed 1) at (3\x, 0\y) {};
+      \node (challenge elapsed 2) at (3\x, -1\y) {};
+      \node (challenge elapsed) [trust label, align=center] at (3\x, -1.5\y) {Challenge\\Elapsed};
+      \node (challenge elapsed 3) at (3\x, -2\y) {};
+      \node (challenge elapsed 4) at (3\x, -3\y) {};
+      \node [trust, fit = (challenge elapsed) (challenge elapsed 1) (challenge elapsed 2) (challenge elapsed 3) (challenge elapsed 4)] (challenge elapsed) {};
+      
+      \path let
+      \p1 = (challenged.east),
+      \p2 = (challenged 1),
+      \p3 = (challenge elapsed.west),
+      \p4 = (challenge elapsed 1)
+      in [->] (\x1, \y2) edge [action, time based] (\x3, \y4);
+      \path let
+      \p1 = (challenged.east),
+      \p2 = (challenged 2),
+      \p3 = (challenge elapsed.west),
+      \p4 = (challenge elapsed 2)
+      in [->] (\x1, \y2) edge [action, time based] (\x3, \y4);
+      \path let
+      \p1 = (challenged.east),
+      \p2 = (challenged 3),
+      \p3 = (challenge elapsed.west),
+      \p4 = (challenge elapsed 3)
+      in [->] (\x1, \y2) edge [action, time based] (\x3, \y4);
+      \path let
+      \p1 = (challenged.east),
+      \p2 = (challenged 4),
+      \p3 = (challenge elapsed.west),
+      \p4 = (challenge elapsed 4)
+      in [->] (\x1, \y2) edge [action, time based] (\x3, \y4);
+      
+      \node [trust, final, trust label] (blacklisted) at (3\x, -4\y) {Blacklisted};
+      
+      \path [->] (challenge elapsed.south) edge [action] node [action label, left] {finish challenge\\yes $\ge$ no} (blacklisted);
+      
+      \node [state] (pending 2) at (4.8\x, 0\y) {Pending};
+      \node [state] (voting opened 2) at (4.8\x, -1\y) {Voting Opened};
+      \node [state, final] (canceled 2) at (5.8\x, -1\y) {Canceled};
+      \node [state] (voting elapsed 2) at (4.8\x, -2\y) {Voting Elapsed};
+      \node [state] (finishable 2) at (4.8\x, -3\y) {Finishable};
+      \node [state, final] (succeeded 2) at (4.3\x, -4\y) {Succeeded};
+      \node [state, final] (defeated 2) at (5.3\x, -4\y) {Defeated};
+      
+      \path [->] (pending 2) edge [action] node [action label, right] {cancel proposal} (canceled 2);
+      \path [->] (pending 2) edge [action, time based] (voting opened 2);
+      \path [->] (voting opened 2) edge [action, time based] (voting elapsed 2);
+      \path [->] (voting elapsed 2) edge [action, time based] (finishable 2);
+      \path [->] (finishable 2) edge [action] node [action label, left] {finish\\yes $\ge$ no} (succeeded 2);
+      \path [->] (finishable 2) edge [action] node [action label, right] {finish\\yes $<$ no} (defeated 2);
+      
+      \node [trust, fit = (pending 2) (canceled 2) (defeated 2) (succeeded 2)] (whitelisted) {};
+      \node [trust label, anchor = south west] at (whitelisted.north west) {Whitelisted};
+      
+      \path let
+      \p1 = (challenge elapsed.east),
+      \p2 = (challenge elapsed 1)
+      in [->] (\x1, \y2) edge [action] (pending 2);
+      \path let
+      \p1 = (challenge elapsed.east),
+      \p2 = (challenge elapsed 2)
+      in [->] (\x1, \y2) edge [action] (voting opened 2);
+      \path let
+      \p1 = (challenge elapsed.east),
+      \p2 = (challenge elapsed 3)
+      in [->] (\x1, \y2) edge [action] node [action label, above=7mm] {finish challenge\\no $\ge$ yes} (voting elapsed 2);
+      \path let
+      \p1 = (challenge elapsed.east),
+      \p2 = (challenge elapsed 4)
+      in [->] (\x1, \y2) edge [action] (finishable 2);
+    \end{tikzpicture}
+  }
+  \caption{%
+    \label{fig:governance_system_chamber_721_voting_workflow}%
+    State machine of proposals on Git\textsc{dao}.
+  }
+  \floatfoot{%
+    Dashed transition lines mean that the transition occurs automatically after some predefined amount of time.
+    Plain lines represent possible transitions, with their name and required conditions if any.
+    Italicized state names represent values that the \textit{trust} property can take.
+    Normal text state names represent values that the \textit{state} property can take.
+    Grayed states are final states.
+  }
+\end{figure*}
+
+\subsection{Regular Voting Process}
+
+Upon creation, a proposal starts with its trust level set to \texttt{Optimistically Trusted}.
+As long as it remains optimistically trusted, the proposal will undergo the following pipeline.
+
+It starts in state \texttt{Pending}.
+This period exists to let users read about the proposal, maybe discuss it offline, etc.
+As long as it is pending, the proposer can \texttt{cancel} it at no other cost than the transaction costs.
+It might make sense for proposers to cancel their proposal, for example, if some better alternative is found or if a bug/security issue is detected in case the proposal is a merge request.
+
+Once the \texttt{Pending} period ends, the proposal will automatically%
+\marginNote{%
+	On the blockchain, nothing can happen \textit{automatically}.
+	In this case, we mean that whatever write transaction is performed on the proposal, e.g. calling the voting function of the contract, the state will first be updated according to the predefined state timeouts.
+	Thus, whatever transaction the user performs, the proposition will always be in the correct state.
+	This comes at the cost of additional gas consumption for each transaction.
+} enter the \texttt{Voting Opened} state.
+At this point, a proposal cannot be canceled anymore and token holders are allowed to vote on the proposal.
+A token can be used zero or one time to vote on each proposal.
+Token holders have three possible actions:
+
+\begin{description}
+  \item[Vote in favor] of the proposal if they think the proposal is beneficial for the project.
+  \item[Vote against] the proposal if they think it does not benefit the project, but was well intended.
+  \item[Challenge] the proposal if they think that the proposal is adversarial, i.e.\ that the proposal was created by someone actively trying to harm the project or its users.
+\end{description}
+
+After a predefined duration, the proposal will enter the \texttt{Voting Elapsed} state.
+During this period, no state-modifying action on the proposal is allowed anymore.
+This gives time to \textsc{dao} members to review passed proposals and potentially challenge them if they deem that they are adversarial.
+
+This \texttt{Voting Elapsed} state prevents attacks in which someone creates an adversarial proposal, hopes that it flies under the radar of the other members of the \textsc{dao}, waits until the last second to vote in favor of the proposal, and finishes the proposal immediately.
+
+When the \texttt{Voting Elapsed} duration is elapsed, the proposal will enter the \texttt{Finishable} state in which anyone can call the \texttt{finish} function which results in the proposal being \texttt{Succeeded} if there is more power assigned to \enquote{yes}, or the proposal being considered \texttt{Defeated} if there is more power assigned to \enquote{no}.
+If the proposal is \texttt{Defeated}, then nothing happens.
+If a proposal is \texttt{Succeeded}, then the proposal is executed.
+
+The semantic of the votes on proposals is that anyone can hold any opinion without any negative consequences, i.e.\ you can vote with or against the majority.
+
+\section{Challenges}
+
+In any of the non-final proposal states, any token holder can trigger a \enquote{challenge}.
+Challenges are a defense mechanism of the \textsc{dao} against adversarial proposals.
+The semantics of such votes are however very different: anyone voting against the majority will suffer negative consequences.
+Let's first describe how they work.
+
+Once a challenge is triggered, then the proposal enters the trust level \texttt{Challenged} which pauses any regular voting process and opens another voting procedure: the challenge vote.
+Token holders can participate in the challenge vote using their governance tokens to indicate whether they consider the challenged proposition to be adversarial (in which case they would vote \enquote{yes}) or not (\enquote{no} votes).
+Once the \texttt{Challenged} period times out, the proposal will automatically enter the \texttt{Challenge Elapsed} trust level.
+In this state, no action other than calling the \texttt{finish challenge} function is allowed.
+
+If the power assigned in the challenge vote to \enquote{yes} is greater than that assigned to \enquote{no}, then the proposal ends up with the trust level \texttt{Blacklisted}.
+This has the following consequences:
+
+\begin{itemize}
+  \item 
+    All tokens used to vote \enquote{no}, i.e.\ that the proposal was not adversarial, are slashed.
+    The idea is that people that say that the proposal is \emph{not} adversarial, while the greater community thinks it is, are probably rogue.
+    Only the token used to vote on the proposal are slashed, not all the tokens of the people that voted against the challenge, to provide a little bit of leeway.
+    Maybe the people that voted against the challenge did not read the challenge carefully enough, or the interface was confusing and they voted the opposite of what they wanted to vote.
+
+  \item 
+    The account that initiated the proposal---\textit{not} the challenge---is blacklisted%
+    \marginNote{%
+      Banning an account is not much of a punishment: you can simply create a new one.
+      The real deterrent is having your token slashed.
+    }.
+    All its tokens are destroyed and the account is banned from ever interacting again with the \textsc{dao}.
+    This is a defense mechanism from the \textsc{dao}: it found a rogue agent, and so it prevents the agent from ever interacting which the \textsc{dao} again in the future.
+\end{itemize}
+
+On the other hand, if the power assigned to \enquote{no} is greater than that assigned to \enquote{yes}, i.e.\ the challenge fails, then the proposal reaches the \texttt{Whitelisted} trust level, and the regular voting procedure resumes exactly where it left off.
+No further challenge can be requested on the given proposal, to prevent Denial of Service kind of attacks in which a proposal is repeatedly challenged, to prevent it from reaching the \texttt{Voting Elapsed} state.
+Additionally, the tokens assigned to \enquote{yes} are slashed.
+This creates the incentives necessary to avoid having members use challenges as a second chance to prevent a proposal from being accepted.
+Challenges should only be used to flag adversarial behaviors.
+
+Whatever the outcome of the challenge, some tokens might get slashed, and some accounts banned: this is a high-stakes subroutine of the regular voting procedure.
+
+\section{Trust Guarantees}
+
+Some \textsc{dao}s feature systems to increase trust in the outcomes, like quorum.
+Why not use one in this voting workflow?
+Voter fatigue is a problem for \textsc{dao}s, especially given that voting is generally not rewarded.
+Quorums require a lot of effort from \textsc{dao} managers to be achieved.
+We want to keep the work overhead induced by GitDAO as low as possible so that it remains valuable even for small projects.

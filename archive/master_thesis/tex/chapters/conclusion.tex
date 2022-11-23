@@ -1,0 +1,77 @@
+\nomargintoc
+\nomarginimagecaption%
+\chapter{Conclusion}
+\label{sec:conclusion}
+
+\leavevmode\marginElement{Open source represents critical infrastructure for today's societies, yet we fail to protect it accordingly.}%
+\marginElement{\input{images/sectioning/horizontal/\arabic{image_sectioning_horizontal}/readme.tex}}%
+It is a rather undisputed fact that the world runs on open source.
+To give only one example, it is estimated that WordPress, an open source website framework, ran approximately 42\% of all the websites in October 2021 \cite{noauthor_wordpress_2022}.
+Any software today, somewhere in its dependencies, uses a piece of open source code, if only because the very majority of the most used programming languages are open source.
+Nevertheless, as a society, we do not yet act accordingly; we fail to acknowledge how critical the infrastructure that powers our societies is, and so we do not protect it enough.
+\textcquote{filippo_valsorda_professional_2021}{The status quo is unmaintainable.}
+We need a mentality shift, we need to inject more money into the open source, and we need to build incentive systems that provide us with more guarantees.
+
+\leavevmode\marginElement{The goal of this work: improve open source \emph{trustlessness} by designing new, blockchain-based coordination systems.}%
+This is what we call \emph{making open source trustless}: being able to trust open source to create only positive outputs, without having to trust any individual contributors.
+If open source becomes trustless, then society is better off.
+To improve the trustlessness of open source, we proposed in this work to focus on designing new coordination systems.
+We used blockchain as the technological foundation because it is trustless itself.
+Using any trustful technology instead would prevent us from achieving trustlessness.
+
+\leavevmode\marginElement{Coordination systems are hard.}%
+Unfortunately, designing good coordination systems is difficult.
+This research field needs to combine math, game theory, psychology, philosophy, economics, and computer science.
+There are a great variety of properties that we wish these systems to offer: security in the face of adversarial agents, Pareto efficiency, minimum friction, etc.
+And we know that we cannot have it all: nature imposes some fundamental limitations, like Arrow's impossibility theorem; some properties conflict with one another, like privacy and transparency; and we must design those systems around human limitations, like the recency bias.
+
+\leavevmode\marginElement{Decentralization is a key to trustlessness.}%
+Bringing \emph{trustlessness} to open source, our ultimate goal, requires at least \emph{decentralization}; indeed, a system cannot be trustless if it is centralized.
+We proposed that there are two key components to being decentralized.
+First, there need to be many actors involved; second, each actor needs to have the same power as the others.
+We also put forward, that building systems that naturally revert to a decentralized state, i.e.\ what we defined as \emph{progressive decentralization}, is an approach more resilient, than building a system that is decentralized to begin with, and hoping that it remains so afterward.
+Especially knowing that power often acts as a reinforcement loop, i.e.\ having power enables getting more power.
+
+\leavevmode\marginElement{Decentralization and open source.}%
+Open source projects always begin in a centralized state anyways, because they are initiated by at most a few individuals.
+So building initially decentralized systems is hopeless, and only progressive decentralization can bring decentralization about.
+Through the core/halo categorization, it is understood that most open source projects today never managed to decentralize: the power is in the hands of a few core developers.
+There is much that can be improved.
+
+\leavevmode\marginElement{Importance of \textit{proof of personhood}.}%
+In this work, we proposed that an intrinsic progressive decentralization system, so a system in which the power distribution reverts to the uniform distribution unless power differences are continuously maintained over time, through repeated, valuable contributions, can only be built, if a satisfying answer to \textit{proof of personhood} is found.
+
+\leavevmode\marginElement{Proposed blockchain primitives.}%
+While intrinsic progressive decentralization is currently not achievable, this work proposed primitives that improve various aspects of trustlessness:
+
+\begin{description}
+  \item[Decreasing Power Governance Tokens]
+    provide incentives for newcomers to participate, and for members to contribute regularly.
+    This improves the first aspect of decentralization: widening the community of a project and shrinking the gap between highly active and less active members, by incentivizing regular contributions.
+    By distributing the power to all those that participate, the system is an improvement over the Benevolent Dicta\-tor for Life model that most open source projects use today.
+  \item[The Voting Workflow]
+    specifically suited to merge requests improves the security guarantees over the code accepted.
+    The challenge mechanism further deters adversarial behaviors.
+  \item[The Rewarding Scheme]
+    to award tokens in compensation for the value provided to a project realigns value creation and value extraction.
+    This creates incentives to provide more value.
+  \item[The Money Distribution Process]
+    rewards developers in a fair way.
+    Paying developers can transform contributing to open source into a sustainable activity, thus it improves projects' longevity.
+    We also discussed the possibility of using Radicle Drips to split part of the received money and donate it to the dependencies of a project.
+    This creates a funding graph through the open source ecosystem, thus even the most hidden, but fundamental, open source libraries could receive money.
+  \item[Issue Backing]
+    provides a way for users to communicate preferences to developers, which makes it possible for open source projects to provide more value to society.
+    It also increases the amount of money sent to open source projects and their developers.
+\end{description}
+
+\leavevmode\marginElement{Solving cooperation issues at large.}%
+The 21\textsuperscript{st} century will be one of many challenges.
+The human population is larger than ever, and problems scale accordingly.
+Technological developments have made us more powerful than ever and the consequences of our actions scale accordingly.
+This is why coordination failures today have more dramatic consequences: wars are more destructive, economical crises impact more humans.
+Climate change is the embodiment of the impacts that failing to coordinate around a public good yield.
+We need to improve our governance systems if we are to solve these issues.
+We need governments and companies that are more representative, more transparent, more efficient, more aligned with humanity's shared goals, and more cooperative among themselves.
+We hope that the primitives listed above contribute to making open source more \emph{trustless}.
+We hope that they improve human coordination.
