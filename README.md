@@ -4,7 +4,7 @@ Over the years I used LaTeX a lot for various purposes and documents.
 This repository contains some documents, packages and classes that I have created.
 Feel free to use and change my code.
 
-## Archive
+## [Archive](./archive)
 
 ### [Master Thesis](./archive/master_thesis/)
 
@@ -16,7 +16,7 @@ Feel free to use and change my code.
 
 ![chapter](./archive/master_thesis/screenshots/chapter.png)
 
-### Article on Cybersecurity
+### [Article on Cybersecurity](./archive/article_on_cybersecurity/)
 
 ![page_0](./archive/article_on_cybersecurity/screenshots/page_0.png)
 
@@ -24,7 +24,7 @@ Feel free to use and change my code.
 
 ![page_3_4](./archive/article_on_cybersecurity/screenshots/page_3_4.png)
 
-### End of Highschool Work
+### [End of Highschool Work](./archive/end_of_highschool_work/)
 
 ![table of content](./archive/end_of_highschool_work/screenshots/toc.png)
 
@@ -32,7 +32,7 @@ Feel free to use and change my code.
 
 ![text page](./archive/end_of_highschool_work/screenshots/text.png)
 
-### Highschool Newspaper
+### [Highschool Newspaper](./archive/highschool_newspaper/)
 
 ![2014-12](./archive/highschool_newspaper/screenshots/2014-12.png)
 
@@ -44,9 +44,9 @@ Feel free to use and change my code.
 
 ![2015-12](./archive/highschool_newspaper/screenshots/2015-12.png)
 
-## Classes
+## [Classes](./classes/)
 
-### RVTM
+### [RVTM](./classes/rvtm/)
 
 ![table of content](./classes/rvtm/screenshots/toc.png)
 
@@ -54,11 +54,11 @@ Feel free to use and change my code.
 
 ![quote](./classes/rvtm/screenshots/quote.png)
 
-### yInvoice
+### [yInvoice](./classes/yinvoice/)
 
 ![yinvoice main page](./classes/yinvoice/screenshots/main.png)
 
-### yLectureNote
+### [yLectureNote](./classes/ylecturenote/)
 
 ![title page](./classes/ylecturenote/screenshots/title.png)
 
@@ -66,27 +66,27 @@ Feel free to use and change my code.
 
 ![chapter](./classes/ylecturenote/screenshots/chapter.png)
 
-### yReport
+### [yReport](./classes/yreport/)
 
 ![chapter](./classes/yreport/screenshots/chapter.png)
 
-## Packages
+## [Packages](./pkgs/)
 
-### infoBulle
+### [infoBulle](./pkgs/infoBulle/)
 
 ![page 1](./pkgs/infoBulle/screenshots/1.png)
 
 ![page 2](./pkgs/infoBulle/screenshots/2.png)
 
-### marginInfoBulle
+### [marginInfoBulle](./pkgs/marginInfoBulle/)
 
 ![page 1](./pkgs/marginInfoBulle/screenshots/1.png)
 
-### yBanner
+### [yBanner](./pkgs/ybanner/)
 
 ![page 1](./pkgs/ybanner/screenshots/1.png)
 
-### yCards
+### [yCards](./pkgs/ycards/)
 
 ![page 1](./pkgs/ycards/screenshots/1.png)
 
